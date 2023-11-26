@@ -17,4 +17,26 @@ class TranslationService extends Translations {
 
 class StrRes {
   static get welcomeUse => 'welcomeUse'.tr;
+
+  static get welcomeUseContent => 'welcomeUseContent'.tr;
+
+  static get contactMe => 'contactMe'.tr;
+
+  static get enterChatCraft => 'enterChatCraft'.tr;
+
+  static get login => 'login'.tr;
+
+  static get loginContent => 'loginContent'.tr;
+
+  static get username => 'username'.tr;
+
+  static get usernameInputHintText => 'usernameInputHintText'.tr;
+
+  static get password => 'password'.tr;
+
+  static get passwordInputHintText => 'passwordInputHintText'.tr;
+
+  static get forgetPassword => "forgetPassword".tr;
+
+  static get loginContinue => "loginContinue".tr;
 }

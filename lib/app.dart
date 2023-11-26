@@ -1,5 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'core/permission_controller.dart';
 import 'res/strings.dart';
@@ -32,13 +33,16 @@ class ChatCraftApp extends StatelessWidget {
           Get.locale ??= locale;
           return locale;
         },
+        theme: ThemeData(
+          fontFamily: "bahnschrift"
+        ),
         supportedLocales: const [
           Locale('zh', 'CN'),
           Locale('en', 'US'),
         ],
         getPages: AppPages.routes,
         initialBinding: InitBinding(),
-        initialRoute: AppRoutes.SPLASH,
+        initialRoute: AppRoutes.splash,
       ),
     );
   }

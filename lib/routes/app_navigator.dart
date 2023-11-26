@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'app_routes.dart';
 
 abstract class AppNavigator {
   static void startLogin() {
-    // Get.offAllNamed(AppRoutes.LOGIN);
+    Get.toNamed(AppRoutes.login);
   }
 }
