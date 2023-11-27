@@ -76,6 +76,7 @@ loginInput({
         cursorColor: inputSelectedColor,
         textAlign: TextAlign.start,
         obscureText: obscureText,
+        style: TextStyle(fontSize: 16.sp),
         decoration: InputDecoration(
           // contentPadding: const EdgeInsets.all(0.0),
           border: InputBorder.none,

@@ -39,4 +39,26 @@ class StrRes {
   static get forgetPassword => "forgetPassword".tr;
 
   static get loginContinue => "loginContinue".tr;
+
+  static get loginWithEmail => "loginWithEmail".tr;
+
+  static get havenNotRegistered => "havenNotRegistered".tr;
+
+  static get register => "register".tr;
+
+  static get email => "email".tr;
+
+  static get emailInputHintText => 'emailInputHintText'.tr;
+
+  static get haveAccount => 'haveAccount'.tr;
+
+  static get createAccount => 'createAccount'.tr;
+
+  static get confirmPasswordInputHintText => 'confirmPasswordInputHintText'.tr;
+
+  static get confirmPassword => 'confirmPassword'.tr;
+
+  static get termsService => 'termsService'.tr;
+
+
 }

@@ -11,4 +11,14 @@ const Map<String, String> zh_CN = {
   "passwordInputHintText": "请输入您的密码",
   "forgetPassword": "忘记密码？",
   "loginContinue": "登录",
+  "loginWithEmail": "邮箱登录",
+  "havenNotRegistered": "还没有注册吗？",
+  "register": "注册",
+  "email": "邮箱",
+  "emailInputHintText": "请输入您的邮箱",
+  "haveAccount": "已经有账号了吗？",
+  "createAccount": "创建账号",
+  "confirmPasswordInputHintText": "请确认您的密码",
+  "confirmPassword":"重复密码",
+  "termsService":"确认同意这些条款，与服务提供商签订具有法律约束力的合同"
 };

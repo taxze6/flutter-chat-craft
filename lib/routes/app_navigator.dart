@@ -5,4 +5,12 @@ abstract class AppNavigator {
   static void startLogin() {
     Get.toNamed(AppRoutes.login);
   }
+
+  static void startLoginEmail() {
+    Get.toNamed(AppRoutes.loginEmail);
+  }
+
+  static void startRegister() {
+    Get.toNamed(AppRoutes.register);
+  }
 }

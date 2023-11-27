@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -102,17 +103,116 @@ class _LoginPageState extends State<LoginPage> {
                   onTap: () => loginLogic.forgetPassword,
                   child: Text(
                     StrRes.forgetPassword,
-                    style: TextStyle(
-                      fontSize: 12.sp
-                    ),
+                    style: TextStyle(fontSize: 12.sp),
                   ),
                 ),
               ),
               SizedBox(
                 height: 16.w,
               ),
-              loginButton(
-                  text: StrRes.loginContinue, onTap: () {}, isClick: false),
+              Obx(
+                () => loginButton(
+                    text: StrRes.loginContinue,
+                    onTap: () {},
+                    isClick: loginLogic.isClick.value),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 32.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        height: 1,
+                        color: const Color(0xFFE5E5E5),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.w),
+                      child: Text(
+                        "OR",
+                        style: TextStyle(
+                            fontSize: 14.sp, color: const Color(0xFF8F8F8F)),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        height: 1,
+                        color: const Color(0xFFE5E5E5),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                  onPressed: loginLogic.loginEmail,
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    side: MaterialStateProperty.all<BorderSide>(
+                      const BorderSide(color: Color(0xFFDFDFDF)),
+                    ),
+                    // elevation: MaterialStateProperty.all<double>(0),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.w),
+                      ),
+                    ),
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(vertical: 8.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(ImagesRes.icEmail),
+                        SizedBox(
+                          width: 9.w,
+                        ),
+                        Text(
+                          StrRes.loginWithEmail,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+              SizedBox(
+                height: 14.w,
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14.sp,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: StrRes.havenNotRegistered,
+                        style: const TextStyle(
+                          color: Color(0xFF707070),
+                        ),
+                      ),
+                      TextSpan(
+                        text: " ${StrRes.register}",
+                        style: const TextStyle(
+                          color: Color(0xFFFCC604),
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = loginLogic.register,
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ]),
           ),
         ),
