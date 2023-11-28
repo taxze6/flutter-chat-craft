@@ -44,7 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     title: StrRes.username,
                   ),
                   SizedBox(
-                    height: 13.w,
+                    height: 13.w ,
                   ),
                   GetBuilder<RegisterLogic>(
                     id: "usernameInput",
