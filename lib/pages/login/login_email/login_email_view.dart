@@ -56,11 +56,10 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
               ),
               Obx(
                 () => loginButton(
-                    text: StrRes.loginContinue,
-                    onTap: () {},
+                    text: StrRes.sendCode,
+                    onTap: emailLogic.sendCode,
                     isClick: emailLogic.isClick.value),
               ),
-
             ],
           ),
         ),

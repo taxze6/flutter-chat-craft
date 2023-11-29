@@ -1,7 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_chat_craft/res/strings.dart';
+import 'package:flutter_chat_craft/utils/sp/data_persistence.dart';
+import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:get/get.dart';
 
+import '../../common/apis.dart';
+import '../../models/user_info.dart';
 import '../../routes/app_navigator.dart';
+import '../../utils/app_utils.dart';
+import '../../widget/loading_view.dart';
 
 class LoginLogic extends GetxController {
   TextEditingController userNameCtr = TextEditingController();
@@ -57,6 +64,30 @@ class LoginLogic extends GetxController {
   void isShowPwdFunc() {
     isShowPwd = !isShowPwd;
     update(["passwordInput"]);
+  }
+
+  Future<bool> login() async {
+    if (isClick.value) {
+      var password = await AppUtils.encodeString(passWordCtr.text);
+      var data = await LoadingView.singleton.wrap(
+          asyncFunction: () => Apis.login(
+                username: userNameCtr.text,
+                password: password,
+              ));
+      if (data == false) {
+        ToastUtils.toastText(StrRes.loginError);
+      } else {
+        String token = data["token"];
+        await DataPersistence.putToken(token);
+        UserInfo res = UserInfo.fromJson(data["user"]);
+        await DataPersistence.putUserInfo(res);
+        ToastUtils.toastText(StrRes.loginSuccess);
+      }
+      return false;
+    } else {
+      ToastUtils.toastText(StrRes.inputEmptyReminder);
+      return false;
+    }
   }
 
   void forgetPassword() {}

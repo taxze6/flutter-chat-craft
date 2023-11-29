@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
-                  onTap: () => loginLogic.forgetPassword,
+                  onTap: loginLogic.forgetPassword,
                   child: Text(
                     StrRes.forgetPassword,
                     style: TextStyle(fontSize: 12.sp),
@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
               Obx(
                 () => loginButton(
                     text: StrRes.loginContinue,
-                    onTap: () {},
+                    onTap: () => loginLogic.login(),
                     isClick: loginLogic.isClick.value),
               ),
               Padding(

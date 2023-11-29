@@ -19,6 +19,13 @@ const Map<String, String> zh_CN = {
   "haveAccount": "已经有账号了吗？",
   "createAccount": "创建账号",
   "confirmPasswordInputHintText": "请确认您的密码",
-  "confirmPassword":"重复密码",
-  "termsService":"确认同意这些条款，与服务提供商签订具有法律约束力的合同"
+  "confirmPassword": "重复密码",
+  "termsService": "确认同意这些条款，与服务提供商签订具有法律约束力的合同",
+  "networkException": "网络异常",
+  "loginError": "登录错误，请检查您的账号密码！",
+  "inputEmptyReminder": "请输入完整的内容！",
+  "loginSuccess": "登录成功！",
+  "sendCode": "发送验证码",
+  "sendCodeSuccess":"Verification code sent successfully. Please check your email!",
+  "sendCodeError":"发送验证码异常，请检查网络！",
 };

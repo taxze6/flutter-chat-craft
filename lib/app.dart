@@ -34,7 +34,7 @@ class ChatCraftApp extends StatelessWidget {
           return locale;
         },
         theme: ThemeData(
-          fontFamily: "bahnschrift"
+          fontFamily: "bahnschrift",
         ),
         supportedLocales: const [
           Locale('zh', 'CN'),

@@ -92,11 +92,11 @@ loginInput({
 
 loginButton({
   required String text,
-  required Function onTap,
+  required Function() onTap,
   required bool isClick,
 }) {
   return ElevatedButton(
-      onPressed: () => onTap,
+      onPressed: onTap,
       style: ButtonStyle(
         backgroundColor: MaterialStateColor.resolveWith(
           (states) => isClick ? inputSelectedColor : inputUnSelectedColor,

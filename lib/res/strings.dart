@@ -60,5 +60,17 @@ class StrRes {
 
   static get termsService => 'termsService'.tr;
 
+  static get networkException => 'networkException'.tr;
 
+  static get loginError => "loginError".tr;
+
+  static get inputEmptyReminder => 'inputEmptyReminder'.tr;
+
+  static get loginSuccess => 'loginSuccess'.tr;
+
+  static get sendCode => 'sendCode'.tr;
+
+  static get sendCodeSuccess => 'sendCodeSuccess'.tr;
+
+  static get sendCodeError => 'sendCodeError'.tr;
 }

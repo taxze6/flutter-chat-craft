@@ -24,4 +24,10 @@ const Map<String, String> en_US = {
   "confirmPassword": "Confirm Password",
   "termsService":
       "By agreeing to the terms and conditions, you are entering into a legally binding contract with the service provider.",
+  "networkException": "Network exception.",
+  "loginError": "Login error, please check your account password!",
+  "inputEmptyReminder": "Please enter the complete content!",
+  "loginSuccess": "Login Success!",
+  "sendCode": "Send verification code",
+  "sendCodeError": "Send Verification Code Error",
 };
