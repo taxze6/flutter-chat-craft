@@ -30,4 +30,15 @@ const Map<String, String> en_US = {
   "loginSuccess": "Login Success!",
   "sendCode": "Send verification code",
   "sendCodeError": "Send Verification Code Error",
+  "confirmYourNumber": "Confirm your number",
+  "confirmYourNumberHint": "Enter the 6-digit code sent to ",
+  "sendCodeAgain": "Send code again",
+  "checkCodeError": "Incorrect verification code.",
+  "checkCodeSuccess": "The verification code is correct.",
+  "usernameRegistrationRules":
+      "The username should consist of letters with more than 3 characters.",
+  "passwordRegistrationRules":
+      "The password should consist of letters and numbers with more than 8 characters.",
+  "newChat": "New Chat",
+  "cancel": "Cancel",
 };

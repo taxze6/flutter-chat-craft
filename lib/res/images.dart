@@ -6,4 +6,10 @@ class ImagesRes {
   static const icNotShowPwd = "${_dir}ic_not_show_pwd.svg";
   static const icEmail = "${_dir}ic_email.svg";
   static const icCheck = "${_dir}ic_check.svg";
+  static const icHome = "${_dir}ic_home.svg";
+  static const icMe = "${_dir}ic_me.svg";
+  static const icAdd = "${_dir}ic_add.svg";
+  static const icNewChatIcon = "${_dir}ic_new_chat_icon.svg";
+  static const icNewContactIcon = "${_dir}ic_new_contact_icon.svg";
+  static const icNewGroupIcon = "${_dir}ic_new_group_icon.svg";
 }

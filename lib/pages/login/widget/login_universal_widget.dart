@@ -31,7 +31,7 @@ loginAppBar() {
   );
 }
 
-titleText({required String title, String? content}) {
+titleText({required String title, String? content, String? contentImportant}) {
   return content != null
       ? Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -44,10 +44,25 @@ titleText({required String title, String? content}) {
             SizedBox(
               height: 6.w,
             ),
-            Text(
-              content,
-              style: TextStyle(fontSize: 14.sp, color: const Color(0xFF707070)),
-            )
+            contentImportant == null
+                ? Text(
+                    content,
+                    style: TextStyle(
+                        fontSize: 14.sp, color: const Color(0xFF707070)),
+                  )
+                : RichText(
+                    text: TextSpan(children: [
+                    TextSpan(
+                      text: content,
+                      style: TextStyle(
+                          fontSize: 14.sp, color: const Color(0xFF707070)),
+                    ),
+                    TextSpan(
+                      text: contentImportant,
+                      style: TextStyle(
+                          fontSize: 14.sp, color: const Color(0xFF383838)),
+                    )
+                  ]))
           ],
         )
       : Text(
@@ -68,24 +83,26 @@ loginInput({
               color: focusNode.hasFocus
                   ? inputSelectedColor
                   : inputUnSelectedColor),
-          borderRadius: BorderRadius.circular(20.w)),
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 2.w),
+          borderRadius: BorderRadius.circular(30.w)),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.w),
       child: TextField(
         focusNode: focusNode,
         controller: controller,
         cursorColor: inputSelectedColor,
         textAlign: TextAlign.start,
         obscureText: obscureText,
-        style: TextStyle(fontSize: 16.sp),
+        style: TextStyle(
+          fontSize: 16.sp,
+        ),
         decoration: InputDecoration(
-          // contentPadding: const EdgeInsets.all(0.0),
           border: InputBorder.none,
           hintText: hintText,
+          isCollapsed: true,
           hintStyle: TextStyle(
             fontSize: 14.sp,
             color: const Color(0xFF5F5F5F),
           ),
-          isDense: true,
+          isDense: false,
         ),
       ));
 }

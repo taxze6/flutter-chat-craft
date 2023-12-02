@@ -42,9 +42,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   titleText(
                     title: StrRes.username,
+                    content: StrRes.usernameRegistrationRules,
                   ),
                   SizedBox(
-                    height: 13.w ,
+                    height: 13.w,
                   ),
                   GetBuilder<RegisterLogic>(
                     id: "usernameInput",
@@ -76,6 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   titleText(
                     title: StrRes.password,
+                    content: StrRes.passwordRegistrationRules,
                   ),
                   SizedBox(
                     height: 10.w,
@@ -129,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       return Stack(
                         children: [
                           loginInput(
-                            controller: logic.cPassWordCtr,
+                            controller: logic.rePassWordCtr,
                             focusNode: logic.cPassWordFn,
                             hintText: StrRes.confirmPasswordInputHintText,
                             obscureText: logic.isShowCPwd,
@@ -190,8 +192,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   Obx(
                     () => loginButton(
-                        text: StrRes.loginContinue,
-                        onTap: () {},
+                        text: StrRes.register,
+                        onTap: () => registerLogic.register(),
                         isClick: registerLogic.isClick.value),
                   ),
                   SizedBox(

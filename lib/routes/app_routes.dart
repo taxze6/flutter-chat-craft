@@ -3,4 +3,7 @@ abstract class AppRoutes {
   static const login = '/login';
   static const loginEmail = '/loginEmail';
   static const register = '/register';
+  static const checkCode = '/checkCode';
+  static const home = '/home';
+  static const conversation = '/conversation';
 }

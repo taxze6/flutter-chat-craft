@@ -6,4 +6,7 @@ class Urls {
   static var emailLogin = "${Config.apiUrl}/user/email_login";
   static var emailLoginCodeCheck =
       "${Config.apiUrl}/user/email_login_code_check";
+  static var register = "${Config.apiUrl}/user/register";
+  static var emailRegisterCodeCheck =
+      "${Config.apiUrl}/user/register_email_code_check";
 }

@@ -23,6 +23,10 @@ class DataPersistence {
     return SpUtil.getString(_token) ?? "";
   }
 
+  static Future<bool>? removeToken(String token) {
+    return SpUtil.remove(_token);
+  }
+
   static Future<bool>? putUserInfo(UserInfo user) {
     return SpUtil.putObject(_user, user);
   }

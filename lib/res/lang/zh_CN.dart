@@ -26,6 +26,16 @@ const Map<String, String> zh_CN = {
   "inputEmptyReminder": "请输入完整的内容！",
   "loginSuccess": "登录成功！",
   "sendCode": "发送验证码",
-  "sendCodeSuccess":"Verification code sent successfully. Please check your email!",
-  "sendCodeError":"发送验证码异常，请检查网络！",
+  "sendCodeSuccess":
+      "Verification code sent successfully. Please check your email!",
+  "sendCodeError": "发送验证码异常，请检查网络！",
+  "confirmYourNumber": "请输入收到的验证码",
+  "confirmYourNumberHint": "输入6位验证码，已发送到：",
+  "sendCodeAgain": "重新发送验证码",
+  "checkCodeError": "验证码错误",
+  "checkCodeSuccess": "验证码正确",
+  "usernameRegistrationRules": "用户名应由超过3个字符的字母组成。",
+  "passwordRegistrationRules": "密码应由超过8位的字母、数字组成。",
+  "newChat": "新的对话",
+  "cancel": "关闭",
 };

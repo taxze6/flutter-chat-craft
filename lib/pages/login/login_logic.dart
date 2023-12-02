@@ -23,6 +23,14 @@ class LoginLogic extends GetxController {
   void onInit() {
     super.onReady();
     listenFocus();
+    // printData();
+  }
+
+  void printData() {
+    String token = DataPersistence.getToken();
+    UserInfo res = DataPersistence.getUserInfo();
+    print(token);
+    print(res.toString());
   }
 
   @override
@@ -50,7 +58,7 @@ class LoginLogic extends GetxController {
     passWordCtr.addListener(() {
       if (passWordCtr.text.isNotEmpty) {
         isShowPwdBtn.value = true;
-        if (passWordCtr.text.length >= 6 && userNameCtr.text.length >= 2) {
+        if (passWordCtr.text.length > 8 && userNameCtr.text.length > 3) {
           isClick.value = true;
         } else {
           isClick.value = false;
@@ -82,6 +90,7 @@ class LoginLogic extends GetxController {
         UserInfo res = UserInfo.fromJson(data["user"]);
         await DataPersistence.putUserInfo(res);
         ToastUtils.toastText(StrRes.loginSuccess);
+        toHome();
       }
       return false;
     } else {
@@ -95,4 +104,6 @@ class LoginLogic extends GetxController {
   void loginEmail() => AppNavigator.startLoginEmail();
 
   void register() => AppNavigator.startRegister();
+
+  void toHome() => AppNavigator.startHome();
 }

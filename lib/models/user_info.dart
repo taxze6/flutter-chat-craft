@@ -41,4 +41,9 @@ class UserInfo {
       'client_port': clientPort,
     };
   }
+
+  @override
+  String toString() {
+    return 'UserInfo{userID: $userID, userName: $userName, email: $email, phone: $phone, avatar: $avatar, motto: $motto, clientIp: $clientIp, clientPort: $clientPort}';
+  }
 }

@@ -73,4 +73,22 @@ class StrRes {
   static get sendCodeSuccess => 'sendCodeSuccess'.tr;
 
   static get sendCodeError => 'sendCodeError'.tr;
+
+  static get confirmYourNumber => 'confirmYourNumber'.tr;
+
+  static get confirmYourNumberHint => 'confirmYourNumberHint'.tr;
+
+  static get sendCodeAgain => 'sendCodeAgain'.tr;
+
+  static get checkCodeError => 'checkCodeError'.tr;
+
+  static get checkCodeSuccess => 'checkCodeSuccess'.tr;
+
+  static get usernameRegistrationRules => 'usernameRegistrationRules'.tr;
+
+  static get passwordRegistrationRules => 'passwordRegistrationRules'.tr;
+
+  static get newChat => 'newChat'.tr;
+
+  static get cancel => 'cancel'.tr;
 }

@@ -1,3 +1,9 @@
+import 'package:flutter_chat_craft/pages/chat/conversation_binding.dart';
+import 'package:flutter_chat_craft/pages/chat/conversation_view.dart';
+import 'package:flutter_chat_craft/pages/common/check_code/check_code_binding.dart';
+import 'package:flutter_chat_craft/pages/common/check_code/check_code_view.dart';
+import 'package:flutter_chat_craft/pages/home/home_binding.dart';
+import 'package:flutter_chat_craft/pages/home/home_view.dart';
 import 'package:flutter_chat_craft/pages/login/login_binding.dart';
 import 'package:flutter_chat_craft/pages/login/login_email/login_email_binding.dart';
 import 'package:flutter_chat_craft/pages/login/login_view.dart';
@@ -31,5 +37,20 @@ class AppPages {
         transition: Transition.rightToLeft,
         page: () => RegisterPage(),
         binding: RegisterBinding()),
+    GetPage(
+        name: AppRoutes.checkCode,
+        transition: Transition.rightToLeft,
+        page: () => CheckCodeView(),
+        binding: CheckCodeBinding()),
+    GetPage(
+        name: AppRoutes.home,
+        transition: Transition.fadeIn,
+        page: () => HomePage(),
+        binding: HomeBinding()),
+    GetPage(
+        name: AppRoutes.conversation,
+        transition: Transition.fadeIn,
+        page: () => ConversationPage(),
+        binding: ConversationBinding()),
   ];
 }

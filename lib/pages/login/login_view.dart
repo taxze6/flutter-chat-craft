@@ -112,9 +112,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Obx(
                 () => loginButton(
-                    text: StrRes.loginContinue,
-                    onTap: () => loginLogic.login(),
-                    isClick: loginLogic.isClick.value),
+                  text: StrRes.loginContinue,
+                  // onTap: () => loginLogic.login(),
+                  onTap: () => loginLogic.toHome(),
+                  isClick: loginLogic.isClick.value,
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 32.w),
