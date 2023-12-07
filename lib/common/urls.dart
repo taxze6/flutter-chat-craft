@@ -9,4 +9,7 @@ class Urls {
   static var register = "${Config.apiUrl}/user/register";
   static var emailRegisterCodeCheck =
       "${Config.apiUrl}/user/register_email_code_check";
+  static var findUserWithName = "${Config.apiUrl}/user/find_user_with_name";
+  static var searchAddFriendWithUserName =
+      "${Config.apiUrl}/relation/add_username";
 }

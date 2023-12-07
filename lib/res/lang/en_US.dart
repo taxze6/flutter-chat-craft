@@ -1,4 +1,5 @@
 const Map<String, String> en_US = {
+  "chatCraft": "Chat Craft",
   'welcomeUse': "Welcome to Chat Craft",
   "welcomeUseContent":
       "If you think the project is good, please give me a star and share it. Thank you. ",
@@ -40,5 +41,15 @@ const Map<String, String> en_US = {
   "passwordRegistrationRules":
       "The password should consist of letters and numbers with more than 8 characters.",
   "newChat": "New Chat",
+  "newChatContent": "Send a message to your contact",
   "cancel": "Cancel",
+  "newGroup": "New Group",
+  "newGroupContent": "Join the group around you",
+  "newContact": "New Contact",
+  "newContactContent": "Add a new contact",
+  "addFriend": "Add Friend",
+  "searchAddFriendInputHint": "Please enter the user's nickname",
+  "shareAdd": "Share Add",
+  "scan": "Scan",
+  "userNotFound": "User not found.",
 };

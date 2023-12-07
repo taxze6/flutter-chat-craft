@@ -1,3 +1,5 @@
+import 'package:flutter_chat_craft/pages/chat/add_friend/add_friend_binding.dart';
+import 'package:flutter_chat_craft/pages/chat/add_friend/add_friend_view.dart';
 import 'package:flutter_chat_craft/pages/chat/conversation_binding.dart';
 import 'package:flutter_chat_craft/pages/chat/conversation_view.dart';
 import 'package:flutter_chat_craft/pages/common/check_code/check_code_binding.dart';
@@ -52,5 +54,10 @@ class AppPages {
         transition: Transition.fadeIn,
         page: () => ConversationPage(),
         binding: ConversationBinding()),
+    GetPage(
+        name: AppRoutes.addFriend,
+        transition: Transition.rightToLeft,
+        page: () => AddFriendPage(),
+        binding: AddFriendBinding()),
   ];
 }

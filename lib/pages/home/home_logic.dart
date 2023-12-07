@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_craft/routes/app_navigator.dart';
 import 'package:get/get.dart';
 import '../../res/images.dart';
 import '../chat/conversation_view.dart';
@@ -18,6 +19,7 @@ class HomeLogic extends GetxController {
       ),
     )
   ];
+
   List<BottomMenu> bottomMenu = [
     BottomMenu(0, ImagesRes.icHome),
     BottomMenu(1, ImagesRes.icMe),
@@ -30,7 +32,9 @@ class HomeLogic extends GetxController {
       context: context,
       barrierColor: const Color(0x573D3D3D),
       builder: (BuildContext context) {
-        return HomeDialog();
+        return HomeDialog(
+          toAddFriend: () => toAddFriendPage(),
+        );
       },
     ).then((value) {
       isShowDialog = false;
@@ -47,5 +51,9 @@ class HomeLogic extends GetxController {
     pageController.jumpToPage(index);
     selectIndex = index;
     update(["bottomMenu"]);
+  }
+
+  void toAddFriendPage() {
+    AppNavigator.startAddFriend();
   }
 }

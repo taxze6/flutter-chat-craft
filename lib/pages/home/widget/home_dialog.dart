@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_craft/pages/login/widget/login_universal_widget.dart';
 import 'package:flutter_chat_craft/res/images.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,7 +6,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../res/strings.dart';
 
 class HomeDialog extends StatefulWidget {
-  const HomeDialog({super.key});
+  const HomeDialog({super.key, required this.toAddFriend});
+
+  final GestureTapCallback toAddFriend;
 
   @override
   State<HomeDialog> createState() => _HomeDialogState();
@@ -60,6 +61,7 @@ class _HomeDialogState extends State<HomeDialog>
 
   @override
   Widget build(BuildContext context) {
+    final w = widget;
     return GestureDetector(
       onTap: () {
         _closeDialogWithAnimation();
@@ -89,20 +91,23 @@ class _HomeDialogState extends State<HomeDialog>
                             homeItem(
                               imagePath: ImagesRes.icNewChatIcon,
                               title: StrRes.newChat,
-                              content: 'Send a message to your contact',
+                              content: StrRes.newChatContent,
+                              onTap: w.toAddFriend,
                             ),
                             homeDivider(),
                             homeItem(
                               imagePath: ImagesRes.icNewGroupIcon,
-                              title: StrRes.newChat,
-                              content: 'Send a message to your contact',
+                              title: StrRes.newGroup,
+                              content: StrRes.newGroupContent,
+                              onTap: w.toAddFriend,
                             ),
                             homeDivider(),
                             homeItem(
                               imagePath: ImagesRes.icNewContactIcon,
-                              title: StrRes.newChat,
-                              content: 'Send a message to your contact',
-                            )
+                              title: StrRes.newContact,
+                              content: StrRes.newContactContent,
+                              onTap: w.toAddFriend,
+                            ),
                           ],
                         )),
                   )),
@@ -145,40 +150,46 @@ class _HomeDialogState extends State<HomeDialog>
     super.dispose();
   }
 
-  Widget homeItem(
-      {required String imagePath,
-      required String title,
-      required String content}) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.w),
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            imagePath,
-            width: 32.w,
-          ),
-          SizedBox(
-            width: 14.w,
-          ),
-          Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style:
-                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 4.w,
-                ),
-                Text(
-                  content,
-                  style: TextStyle(
-                      fontSize: 14.sp, color: const Color(0xFF707070)),
-                )
-              ]),
-        ],
+  Widget homeItem({
+    required String imagePath,
+    required String title,
+    required String content,
+    required GestureTapCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        color: Colors.transparent,
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              imagePath,
+              width: 32.w,
+            ),
+            SizedBox(
+              width: 14.w,
+            ),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style:
+                        TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 4.w,
+                  ),
+                  Text(
+                    content,
+                    style: TextStyle(
+                        fontSize: 14.sp, color: const Color(0xFF707070)),
+                  )
+                ]),
+          ],
+        ),
       ),
     );
   }

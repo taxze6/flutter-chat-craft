@@ -2,7 +2,10 @@ import 'package:dio/dio.dart';
 
 import '../models/user_info.dart';
 import '../utils/http_util.dart';
+import '../utils/sp/data_persistence.dart';
 import 'urls.dart';
+
+String token = DataPersistence.getToken();
 
 class Apis {
   /// login
@@ -96,6 +99,44 @@ class Apis {
           "password": password,
           "code": code,
         });
+    if (data == null) {
+      return false;
+    }
+    return data;
+  }
+
+  static Future<dynamic> findWithUserName({
+    String name = "",
+  }) async {
+    UserInfo res = DataPersistence.getUserInfo();
+    var data = await HttpUtil.post(Urls.findUserWithName,
+        options: Options(
+          headers: {
+            "Authorization": token,
+            "UserId": res.userID,
+          },
+          contentType: 'application/json',
+        ),
+        data: {"name": name});
+    if (data == null) {
+      return false;
+    }
+    return data;
+  }
+
+  static Future<dynamic> searchAddFriendWithUserName({
+    String targetName = "",
+  }) async {
+    UserInfo res = DataPersistence.getUserInfo();
+    var data = await HttpUtil.post(Urls.searchAddFriendWithUserName,
+        options: Options(
+          headers: {
+            "Authorization": token,
+            "UserId": res.userID,
+          },
+          contentType: 'application/json',
+        ),
+        data: {"targetName": targetName});
     if (data == null) {
       return false;
     }

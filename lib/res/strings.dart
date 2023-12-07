@@ -16,6 +16,8 @@ class TranslationService extends Translations {
 }
 
 class StrRes {
+  static get chatCraft => 'chatCraft'.tr;
+
   static get welcomeUse => 'welcomeUse'.tr;
 
   static get welcomeUseContent => 'welcomeUseContent'.tr;
@@ -90,5 +92,25 @@ class StrRes {
 
   static get newChat => 'newChat'.tr;
 
+  static get newChatContent => 'newChatContent'.tr;
+
   static get cancel => 'cancel'.tr;
+
+  static get newGroup => 'newGroup'.tr;
+
+  static get newGroupContent => 'newGroupContent'.tr;
+
+  static get newContact => 'newContact'.tr;
+
+  static get newContactContent => 'newContactContent'.tr;
+
+  static get addFriend => 'addFriend'.tr;
+
+  static get searchAddFriendInputHint => 'searchAddFriendInputHint'.tr;
+
+  static get shareAdd => 'shareAdd'.tr;
+
+  static get scan => 'scan'.tr;
+
+  static get userNotFound => "userNotFound".tr;
 }

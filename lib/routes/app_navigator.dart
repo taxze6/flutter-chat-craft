@@ -39,4 +39,8 @@ abstract class AppNavigator {
   static void startHome() {
     Get.offAllNamed(AppRoutes.home);
   }
+
+  static void startAddFriend() {
+    Get.toNamed(AppRoutes.addFriend);
+  }
 }

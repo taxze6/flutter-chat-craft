@@ -6,4 +6,5 @@ abstract class AppRoutes {
   static const checkCode = '/checkCode';
   static const home = '/home';
   static const conversation = '/conversation';
+  static const addFriend = '/addFriend';
 }

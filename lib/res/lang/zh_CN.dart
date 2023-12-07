@@ -1,4 +1,5 @@
 const Map<String, String> zh_CN = {
+  "chatCraft": "Chat Craft",
   "welcomeUse": "欢迎来到ChatCraft",
   "welcomeUseContent": "如果您认为这个项目有意思，请给我一个star并将它分享给你的朋友，谢谢。",
   "contactMe": "联系我",
@@ -37,5 +38,15 @@ const Map<String, String> zh_CN = {
   "usernameRegistrationRules": "用户名应由超过3个字符的字母组成。",
   "passwordRegistrationRules": "密码应由超过8位的字母、数字组成。",
   "newChat": "新的对话",
+  "newChatContent": "给你的联系人发送一条消息吧~",
   "cancel": "关闭",
+  "newGroup": "新的群组",
+  "newGroupContent": "加入你周围的群组吧~",
+  "newContact": "新的联系人",
+  "newContactContent": "添加一个新的联系人~",
+  "addFriend": "添加好友",
+  "searchAddFriendInputHint": "请输入用户的昵称",
+  "shareAdd": "分享添加",
+  "scan": "扫码",
+  "userNotFound":"未找到该用户"
 };

@@ -75,7 +75,10 @@ loginInput({
   required TextEditingController controller,
   required FocusNode focusNode,
   required String hintText,
+  TextInputAction textInputAction = TextInputAction.none,
+  bool centerInput = false,
   bool obscureText = false,
+  ValueChanged<String>? onSubmitted,
 }) {
   return Container(
       decoration: BoxDecoration(
@@ -86,10 +89,11 @@ loginInput({
           borderRadius: BorderRadius.circular(30.w)),
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.w),
       child: TextField(
+        textInputAction: textInputAction,
         focusNode: focusNode,
         controller: controller,
         cursorColor: inputSelectedColor,
-        textAlign: TextAlign.start,
+        textAlign: centerInput ? TextAlign.center : TextAlign.start,
         obscureText: obscureText,
         style: TextStyle(
           fontSize: 16.sp,
@@ -104,6 +108,7 @@ loginInput({
           ),
           isDense: false,
         ),
+        onSubmitted: onSubmitted,
       ));
 }
 

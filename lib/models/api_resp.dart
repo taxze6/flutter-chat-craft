@@ -6,15 +6,15 @@ class ApiResp {
   ApiResp({required this.code, required this.message, required this.data});
 
   ApiResp.fromJson(Map<String, dynamic> map)
-      : code = map["code"],
-        message = map["message"],
-        data = map["data"];
+      : code = map["Code"],
+        message = map["Message"],
+        data = map["Data"];
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['code'] = code;
-    data['message'] = message;
-    data['data'] = data;
+    data['Code'] = code;
+    data['Message'] = message;
+    data['Data'] = data;
     return data;
   }
 }
