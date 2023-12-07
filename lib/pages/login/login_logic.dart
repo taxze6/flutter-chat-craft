@@ -105,5 +105,7 @@ class LoginLogic extends GetxController {
 
   void register() => AppNavigator.startRegister();
 
-  void toHome() => AppNavigator.startHome();
+  void toHome() {
+    AppNavigator.startHome();
+  }
 }
