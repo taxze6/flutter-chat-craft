@@ -48,5 +48,6 @@ const Map<String, String> zh_CN = {
   "searchAddFriendInputHint": "请输入用户的昵称",
   "shareAdd": "分享添加",
   "scan": "扫码",
-  "userNotFound":"未找到该用户"
+  "userNotFound": "未找到该用户",
+  "canNotAddSelf": "不能添加自己",
 };

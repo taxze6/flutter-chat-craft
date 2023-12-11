@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_chat_craft/utils/sp/data_persistence.dart';
 import 'package:flutter_chat_craft/widget/toast_utils.dart';
@@ -89,6 +90,7 @@ class LoginLogic extends GetxController {
         await DataPersistence.putToken(token);
         UserInfo res = UserInfo.fromJson(data["user"]);
         await DataPersistence.putUserInfo(res);
+        GlobalData.userInfo = res;
         ToastUtils.toastText(StrRes.loginSuccess);
         toHome();
       }

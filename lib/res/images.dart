@@ -16,4 +16,5 @@ class ImagesRes {
   static const icBackLeft = "${_dir}ic_back_left.svg";
   static const icShareAdd = "${_dir}ic_share_add.svg";
   static const icScan = "${_dir}ic_scan.svg";
+  static const icBrowser = '${_dir}ic_browser.png';
 }

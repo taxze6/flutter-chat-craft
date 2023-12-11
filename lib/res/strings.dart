@@ -113,4 +113,6 @@ class StrRes {
   static get scan => 'scan'.tr;
 
   static get userNotFound => "userNotFound".tr;
+
+  static get canNotAddSelf => "canNotAddSelf".tr;
 }

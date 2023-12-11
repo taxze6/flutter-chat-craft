@@ -3,6 +3,7 @@ import 'package:flutter_chat_craft/models/user_info.dart';
 import 'package:get/get.dart';
 
 import '../../../common/apis.dart';
+import '../../../common/global_data.dart';
 import '../../../res/strings.dart';
 import '../../../utils/app_utils.dart';
 import '../../../widget/loading_view.dart';
@@ -53,12 +54,16 @@ class AddFriendLogic extends GetxController
 
   void changeShowBody(String value) {
     if (value.isNotEmpty) {
-      controller.reverse().then((v) {
-        showSearchUserInfo = !showSearchUserInfo;
-        searchUser(value);
-        update(["bodyItem"]);
-        controller.forward();
-      });
+      if (value != GlobalData.userInfo.userName) {
+        controller.reverse().then((v) {
+          showSearchUserInfo = !showSearchUserInfo;
+          searchUser(value);
+          update(["bodyItem"]);
+          controller.forward();
+        });
+      } else {
+        ToastUtils.toastText(StrRes.canNotAddSelf);
+      }
     } else {
       ToastUtils.toastText(StrRes.inputEmptyReminder);
     }

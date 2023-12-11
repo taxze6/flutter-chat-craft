@@ -7,7 +7,9 @@ import 'package:get/get.dart';
 
 import '../../../res/images.dart';
 import '../../../utils/touch_close_keyboard.dart';
+import '../../../widget/avatar_widget.dart';
 import '../../../widget/my_appbar.dart';
+import '../../../widget/photo_browser.dart';
 import '../../login/widget/login_universal_widget.dart';
 
 class AddFriendPage extends StatefulWidget {
@@ -60,19 +62,10 @@ class _AddFriendPageState extends State<AddFriendPage> {
                                       padding: const EdgeInsets.all(8),
                                       child: Row(
                                         children: [
-                                          Container(
-                                            width: 64.w,
-                                            height: 64.w,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                  logic.searchResultsInfo!
-                                                      .avatar,
-                                                ),
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
+                                          AvatarWidget(
+                                            imageUrl:
+                                                logic.searchResultsInfo!.avatar,
+                                            imageSize: Size(64.w, 64.w),
                                           ),
                                           SizedBox(
                                             width: 12.w,

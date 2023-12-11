@@ -47,6 +47,7 @@ dependencies:
   encrypt: 5.0.1
   flutter_spinkit: 5.2.0
   pin_code_fields: 7.4.0
+  photo_view: 0.14.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

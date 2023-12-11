@@ -52,4 +52,5 @@ const Map<String, String> en_US = {
   "shareAdd": "Share Add",
   "scan": "Scan",
   "userNotFound": "User not found.",
+  "canNotAddSelf": "You can't add yourself."
 };
