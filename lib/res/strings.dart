@@ -115,4 +115,14 @@ class StrRes {
   static get userNotFound => "userNotFound".tr;
 
   static get canNotAddSelf => "canNotAddSelf".tr;
+
+  static get addSuccess => 'addSuccess'.tr;
+
+  static get chats => 'chats'.tr;
+
+  static get remove => 'remove'.tr;
+
+  static get top => 'top'.tr;
+
+  static get cancelTop => 'cancelTop'.tr;
 }

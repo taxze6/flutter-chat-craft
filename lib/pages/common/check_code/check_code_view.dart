@@ -76,17 +76,12 @@ class _CheckCodeViewState extends State<CheckCodeView> {
                   controller: logic.pinTextEditingController,
                   keyboardType: TextInputType.number,
                   onCompleted: (v) => logic.checkVerifyCode(v),
-                  // onTap: () {
-                  //   print("Pressed");
-                  // },
+                  onTap: () {
+                  },
                   onChanged: (value) {
-                    print(value);
                   },
                   beforeTextPaste: (text) {
-                    print("Allowing to paste $text");
-                    //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                    //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                    return true;
+                   return true;
                   },
                 ),
                 GetBuilder<CheckCodeLogic>(builder: (c) {

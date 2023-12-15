@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/pages/chat/add_friend/add_friend_logic.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../res/images.dart';
+import '../../../res/styles.dart';
 import '../../../utils/touch_close_keyboard.dart';
 import '../../../widget/avatar_widget.dart';
 import '../../../widget/my_appbar.dart';
@@ -60,34 +63,76 @@ class _AddFriendPageState extends State<AddFriendPage> {
                                 ? Card(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8),
-                                      child: Row(
+                                      child: Column(
                                         children: [
-                                          AvatarWidget(
-                                            imageUrl:
-                                                logic.searchResultsInfo!.avatar,
-                                            imageSize: Size(64.w, 64.w),
+                                          Row(
+                                            children: [
+                                              AvatarWidget(
+                                                imageUrl: logic
+                                                    .searchResultsInfo!.avatar,
+                                                imageSize: Size(64.w, 64.w),
+                                              ),
+                                              SizedBox(
+                                                width: 12.w,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      logic.searchResultsInfo!
+                                                          .userName,
+                                                      style: TextStyle(
+                                                        fontSize: 18.sp,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      logic.searchResultsInfo!
+                                                          .motto,
+                                                      style: TextStyle(
+                                                        fontSize: 12.sp,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                          SizedBox(
-                                            width: 12.w,
-                                          ),
-                                          Column(
+                                          Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                logic.searchResultsInfo!
-                                                    .userName,
-                                                style: TextStyle(
-                                                  fontSize: 18.sp,
+                                              const SizedBox(),
+                                              ElevatedButton(
+                                                style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateColor
+                                                          .resolveWith(
+                                                    (states) =>
+                                                        PageStyle.mainColor,
+                                                  ),
+                                                  shape:
+                                                      MaterialStateProperty.all<
+                                                          RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.w),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                logic.searchResultsInfo!.motto,
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color: Colors.grey,
+                                                onPressed: () =>
+                                                    logic.addUser(),
+                                                child: Text(
+                                                  StrRes.addFriend,
+                                                  style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                  ),
                                                 ),
                                               )
                                             ],

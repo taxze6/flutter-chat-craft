@@ -81,4 +81,17 @@ class AddFriendLogic extends GetxController
     }
     return false;
   }
+
+  Future<bool> addUser() async {
+    var data = await LoadingView.singleton.wrap(
+        asyncFunction: () => Apis.addFriendWithUserName(
+            targetName: searchResultsInfo!.userName));
+    if (data == false) {
+      ToastUtils.toastText(StrRes.userNotFound);
+    } else {
+      ToastUtils.toastText(StrRes.addSuccess);
+      Get.back();
+    }
+    return false;
+  }
 }

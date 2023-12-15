@@ -7,19 +7,23 @@ class AvatarWidget extends StatelessWidget {
     Key? key,
     required this.imageUrl,
     this.imageSize = const Size(64, 64),
+    this.radius = 8,
     this.onLongPress,
+    this.onTap,
   }) : super(key: key);
 
   final String imageUrl;
   final Size imageSize;
+  final double radius;
+  final GestureTapCallback? onTap;
   final GestureTapCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => clickItemCell(context, 0),
+      onTap: onTap ?? () => clickItemCell(context, 0),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(radius),
         child: FadeInImage(
           width: imageSize.width,
           height: imageSize.height,

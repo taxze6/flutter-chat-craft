@@ -50,4 +50,9 @@ const Map<String, String> zh_CN = {
   "scan": "扫码",
   "userNotFound": "未找到该用户",
   "canNotAddSelf": "不能添加自己",
+  "addSuccess": "添加成功",
+  "chats": "聊天",
+  "remove": "删除",
+  "top": "置顶",
+  "cancelTop": "取消置顶",
 };

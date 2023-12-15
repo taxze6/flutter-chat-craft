@@ -124,11 +124,11 @@ class Apis {
     return data;
   }
 
-  static Future<dynamic> searchAddFriendWithUserName({
+  static Future<dynamic> addFriendWithUserName({
     String targetName = "",
   }) async {
     UserInfo res = DataPersistence.getUserInfo();
-    var data = await HttpUtil.post(Urls.searchAddFriendWithUserName,
+    var data = await HttpUtil.post(Urls.addFriendWithUserName,
         options: Options(
           headers: {
             "Authorization": token,
