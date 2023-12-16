@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_chat_craft/common/global_data.dart';
 
 import '../models/user_info.dart';
 import '../utils/http_util.dart';
@@ -108,12 +109,11 @@ class Apis {
   static Future<dynamic> findWithUserName({
     String name = "",
   }) async {
-    UserInfo res = DataPersistence.getUserInfo();
     var data = await HttpUtil.post(Urls.findUserWithName,
         options: Options(
           headers: {
             "Authorization": token,
-            "UserId": res.userID,
+            "UserId": GlobalData.userInfo.userID,
           },
           contentType: 'application/json',
         ),
@@ -127,16 +127,33 @@ class Apis {
   static Future<dynamic> addFriendWithUserName({
     String targetName = "",
   }) async {
-    UserInfo res = DataPersistence.getUserInfo();
     var data = await HttpUtil.post(Urls.addFriendWithUserName,
         options: Options(
           headers: {
             "Authorization": token,
-            "UserId": res.userID,
+            "UserId": GlobalData.userInfo.userID,
           },
           contentType: 'application/json',
         ),
         data: {"targetName": targetName});
+    if (data == null) {
+      return false;
+    }
+    return data;
+  }
+
+  static Future<dynamic> getFriends() async {
+    var data = await HttpUtil.post(
+      Urls.loadFriends,
+      options: Options(
+        headers: {
+          "Authorization": token,
+          "UserId": GlobalData.userInfo.userID,
+        },
+        contentType: 'application/json',
+      ),
+      data: {},
+    );
     if (data == null) {
       return false;
     }

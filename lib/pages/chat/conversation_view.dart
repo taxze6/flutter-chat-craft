@@ -112,12 +112,16 @@ class _ConversationPageState extends State<ConversationPage> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: 10,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext c, int index) =>
-                  userChat(GlobalData.userInfo),
-            ),
+            child: GetBuilder<ConversationLogic>(
+                id: "friendList",
+                builder: (logic) {
+                  return ListView.builder(
+                    itemCount: logic.friendsInfo.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext ctx, int index) =>
+                        userChat(logic.friendsInfo[index]),
+                  );
+                }),
           ),
         ],
       ),
