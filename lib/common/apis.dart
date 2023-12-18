@@ -6,8 +6,6 @@ import '../utils/http_util.dart';
 import '../utils/sp/data_persistence.dart';
 import 'urls.dart';
 
-String token = DataPersistence.getToken();
-
 class Apis {
   /// login
   static Future<dynamic> login({
@@ -112,7 +110,7 @@ class Apis {
     var data = await HttpUtil.post(Urls.findUserWithName,
         options: Options(
           headers: {
-            "Authorization": token,
+            "Authorization": GlobalData.token,
             "UserId": GlobalData.userInfo.userID,
           },
           contentType: 'application/json',
@@ -130,7 +128,7 @@ class Apis {
     var data = await HttpUtil.post(Urls.addFriendWithUserName,
         options: Options(
           headers: {
-            "Authorization": token,
+            "Authorization": GlobalData.token,
             "UserId": GlobalData.userInfo.userID,
           },
           contentType: 'application/json',
@@ -147,7 +145,7 @@ class Apis {
       Urls.loadFriends,
       options: Options(
         headers: {
-          "Authorization": token,
+          "Authorization": GlobalData.token,
           "UserId": GlobalData.userInfo.userID,
         },
         contentType: 'application/json',

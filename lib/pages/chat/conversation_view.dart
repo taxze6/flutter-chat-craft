@@ -11,6 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../models/message.dart';
 import '../../res/images.dart';
 import '../../utils/touch_close_keyboard.dart';
 import '../../widget/avatar_widget.dart';
@@ -31,6 +32,19 @@ class _ConversationPageState extends State<ConversationPage> {
     return TouchCloseSoftKeyboard(
         child: Scaffold(
             appBar: titleAppBar(),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Message testA = Message.fromJson({
+                  "userId": 9,
+                  "targetId": 10,
+                  "type": ConversationType.single,
+                  "content": "This is a test message"
+                });
+                conversationLogic.socketChannel.sink.add(testA.toJsonString());
+                print(testA.toJsonString());
+              },
+              // child:,
+            ),
             body: Stack(
               alignment: Alignment.center,
               children: [

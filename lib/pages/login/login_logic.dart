@@ -91,6 +91,7 @@ class LoginLogic extends GetxController {
         UserInfo res = UserInfo.fromJson(data["user"]);
         await DataPersistence.putUserInfo(res);
         GlobalData.userInfo = res;
+        GlobalData.token = token;
         ToastUtils.toastText(StrRes.loginSuccess);
         toHome();
       }

@@ -1,5 +1,7 @@
 import 'config.dart';
 
+String webSocketUrl = "ws://";
+
 class Urls {
   //user
   static var login = "${Config.apiUrl}/user/login";
@@ -10,7 +12,11 @@ class Urls {
   static var emailRegisterCodeCheck =
       "${Config.apiUrl}/user/register_email_code_check";
   static var findUserWithName = "${Config.apiUrl}/user/find_user_with_name";
-  static var addFriendWithUserName = "${Config.apiUrl}/relation/add_username";
 
+  //relation
+  static var addFriendWithUserName = "${Config.apiUrl}/relation/add_username";
   static var loadFriends = "${Config.apiUrl}/relation/list";
+
+  //message
+  static var sendUserMsg = "$webSocketUrl${Config.ip}:8889/v1/message/send_user_msg";
 }
