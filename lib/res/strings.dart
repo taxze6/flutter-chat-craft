@@ -125,4 +125,10 @@ class StrRes {
   static get top => 'top'.tr;
 
   static get cancelTop => 'cancelTop'.tr;
+
+  static get picture => 'picture'.tr;
+
+  static get video => 'video'.tr;
+
+  static get voice => 'voice'.tr;
 }

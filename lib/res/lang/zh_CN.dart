@@ -55,4 +55,7 @@ const Map<String, String> zh_CN = {
   "remove": "删除",
   "top": "置顶",
   "cancelTop": "取消置顶",
+  "picture": "图片",
+  "video": "视频",
+  "voice": "语音",
 };

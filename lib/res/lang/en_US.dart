@@ -58,4 +58,7 @@ const Map<String, String> en_US = {
   "remove": "Remove",
   "top": "Top",
   "cancelTop": "Cancel top",
+  "picture": "Picture",
+  "video": "Video",
+  "voice": "Voice",
 };

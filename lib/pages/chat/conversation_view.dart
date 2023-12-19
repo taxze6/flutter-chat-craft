@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/user_info.dart';
 import 'package:flutter_chat_craft/pages/chat/conversation_logic.dart';
 import 'package:flutter_chat_craft/pages/chat/widget/conversation_item_view.dart';
@@ -32,19 +31,6 @@ class _ConversationPageState extends State<ConversationPage> {
     return TouchCloseSoftKeyboard(
         child: Scaffold(
             appBar: titleAppBar(),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                Message testA = Message.fromJson({
-                  "userId": 9,
-                  "targetId": 10,
-                  "type": ConversationType.single,
-                  "content": "This is a test message"
-                });
-                conversationLogic.socketChannel.sink.add(testA.toJsonString());
-                print(testA.toJsonString());
-              },
-              // child:,
-            ),
             body: Stack(
               alignment: Alignment.center,
               children: [
@@ -179,33 +165,35 @@ class _ConversationPageState extends State<ConversationPage> {
   }
 
   Widget friendConversationList() {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => ConversationItemView(
-          userInfo: GlobalData.userInfo,
-          content: 'when life gets you down, just keep moving.',
-          timeStr: '09:26',
-          slideActions: [
-            SlideItemInfo(
-              flex: conversationLogic.isPinned(index) ? 3 : 2,
-              text: conversationLogic.isPinned(index)
-                  ? StrRes.cancelTop
-                  : StrRes.top,
-              colors: pinColors,
-              width: 77.w,
-              onTap: () {},
+    return Obx(() => SliverList(
+          delegate: SliverChildBuilderDelegate(
+            childCount: conversationLogic.conversationsInfo.length,
+            (context, index) => ConversationItemView(
+              userInfo: conversationLogic.conversationsInfo[index].userInfo,
+              content: conversationLogic.conversationsInfo[index].previewText,
+              timeStr:
+                  conversationLogic.conversationsInfo[index].message.sendTime ??
+                      "",
+              slideActions: [
+                SlideItemInfo(
+                  flex: conversationLogic.isPinned(index) ? 3 : 2,
+                  text: conversationLogic.isPinned(index)
+                      ? StrRes.cancelTop
+                      : StrRes.top,
+                  colors: pinColors,
+                  width: 77.w,
+                  onTap: () {},
+                ),
+                SlideItemInfo(
+                  flex: 2,
+                  text: StrRes.remove,
+                  colors: deleteColors,
+                  width: 77.w,
+                  onTap: () {},
+                ),
+              ],
             ),
-            SlideItemInfo(
-              flex: 2,
-              text: StrRes.remove,
-              colors: deleteColors,
-              width: 77.w,
-              onTap: () {},
-            ),
-          ],
-        ),
-        childCount: 10,
-      ),
-    );
+          ),
+        ));
   }
 }

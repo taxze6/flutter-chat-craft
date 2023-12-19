@@ -85,6 +85,8 @@ class LoginLogic extends GetxController {
               ));
       if (data == false) {
         ToastUtils.toastText(StrRes.loginError);
+
+        return false;
       } else {
         String token = data["token"];
         await DataPersistence.putToken(token);
@@ -93,13 +95,19 @@ class LoginLogic extends GetxController {
         GlobalData.userInfo = res;
         GlobalData.token = token;
         ToastUtils.toastText(StrRes.loginSuccess);
-        toHome();
+        return true;
       }
-      return false;
     } else {
       ToastUtils.toastText(StrRes.inputEmptyReminder);
       return false;
     }
+  }
+
+  void startLogin() async {
+    bool isLogin = await login();
+    if (isLogin) {
+      toHome();
+    } else {}
   }
 
   void forgetPassword() {}

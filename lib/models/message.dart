@@ -5,11 +5,13 @@ import 'user_info.dart';
 class ConversationInfo {
   UserInfo userInfo;
   Message message;
+  String previewText;
   int messageLength;
 
   ConversationInfo({
     required this.userInfo,
     required this.message,
+    required this.previewText,
     this.messageLength = 0,
   });
 }
@@ -19,8 +21,7 @@ class Message {
   int? formId;
   int? targetId;
   int? type;
-
-  // MessageType? contentType;
+  int? contentType;
   String? content;
 
   Message({
@@ -28,6 +29,7 @@ class Message {
     this.formId,
     this.targetId,
     this.type,
+    this.contentType,
     this.content,
   });
 
@@ -35,6 +37,7 @@ class Message {
       : formId = json['userId'],
         targetId = json['targetId'],
         type = json['type'],
+        contentType = json['contentType'],
         content = json['content'];
 
   factory Message.fromHeartbeat() {
@@ -42,6 +45,7 @@ class Message {
       targetId: -1,
       type: ConversationType.heart,
       formId: GlobalData.userInfo.userID,
+      contentType: MessageType.text,
       content: "heart",
     );
   }
@@ -51,6 +55,7 @@ class Message {
       "userId": formId,
       "targetId": targetId,
       "type": type,
+      "contentType": contentType,
       "content": content,
     };
   }

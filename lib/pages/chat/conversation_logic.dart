@@ -1,15 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/common/urls.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
+import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/status.dart' as status;
 import '../../common/apis.dart';
 import '../../common/global_data.dart';
 import '../../models/user_info.dart';
+import '../../utils/web_socket_manager.dart';
 import '../../widget/loading_view.dart';
 
 class ConversationLogic extends GetxController
@@ -17,15 +19,18 @@ class ConversationLogic extends GetxController
   String appText = StrRes.chatCraft;
   final refreshController = RefreshController(initialRefresh: false);
   List<UserInfo> friendsInfo = [];
-  late IOWebSocketChannel socketChannel;
+  final WebSocketManager webSocketManager = WebSocketManager();
   late Timer heartBeatTimer;
-  List<ConversationInfo> conversationInfo = [];
+  RxList<ConversationInfo> conversationsInfo = <ConversationInfo>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    loadFriends();
-    initWebSocket();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      LoadingView.singleton.wrap(
+        asyncFunction: loadFriends,
+      );
+    });
   }
 
   @override
@@ -34,13 +39,12 @@ class ConversationLogic extends GetxController
   }
 
   Future<void> loadFriends() async {
-    var data = await LoadingView.singleton.wrap(
-      asyncFunction: () => Apis.getFriends(),
-    );
+    var data = await Apis.getFriends();
     if (data != false) {
       for (var info in data) {
         friendsInfo.add(UserInfo.fromJson(info));
       }
+      initWebSocket();
       update(["friendList"]);
     }
   }
@@ -83,18 +87,23 @@ class ConversationLogic extends GetxController
   }
 
   Future<void> initWebSocket() async {
-    socketChannel = IOWebSocketChannel.connect(
-      Urls.sendUserMsg,
-      headers: {
-        "Authorization": GlobalData.token,
-        "UserId": GlobalData.userInfo.userID,
-      },
-    );
-
-    socketChannel.stream.listen((message) {
-      print('Received: $message');
-      // channel.sink.close(status.goingAway);
+    webSocketManager.connect(Urls.sendUserMsg).then((isConnect) {
+      //连接成功，监听消息
+      if (isConnect) {
+        webSocketManager.listen((msg) {
+          //添加消息到列表中
+          print('Received: $msg');
+          onMessage(
+            Message.fromJson(
+              json.decode(msg),
+            ),
+          );
+        }, onError: (error) {
+          ToastUtils.toastText(error.toString());
+        });
+      }
     });
+
     heartBeatTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       heartbeat();
     });
@@ -106,9 +115,54 @@ class ConversationLogic extends GetxController
     // });
   }
 
-  heartbeat() {
+  void heartbeat() {
     var msg = Message.fromHeartbeat();
-    socketChannel.sink.add(msg.toJsonString());
+    webSocketManager.sendMsg(msg.toJsonString());
+  }
+
+  // void testMessage() {
+  //   var msg = Message(
+  //     targetId: friendsInfo[0].userID,
+  //     type: ConversationType.single,
+  //     formId: GlobalData.userInfo.userID,
+  //     contentType: MessageType.text,
+  //     content: "测试数据111",
+  //   );
+  //   webSocketManager.sendMsg(msg.toJsonString());
+  // }
+
+  void onMessage(Message message) {
+    print("userID${friendsInfo[0].userID}");
+    print("formId${message.formId}");
+    print("targetId${message.targetId}");
+    UserInfo userInfo = friendsInfo.firstWhere(
+      (element) => element.userID == message.formId,
+    );
+    String content = "";
+    if (message.contentType == MessageType.text) {
+      content = message.content ?? "";
+    } else if (message.contentType == MessageType.picture) {
+      content = "[${StrRes.picture}]";
+    } else if (message.contentType == MessageType.video) {
+      content = "[${StrRes.video}]";
+    } else if (message.contentType == MessageType.voice) {
+      content = "[${StrRes.voice}]";
+    }
+
+    ConversationInfo info = ConversationInfo(
+      userInfo: userInfo,
+      message: message,
+      previewText: content,
+    );
+    bool containsValue =
+        conversationsInfo.any((info) => info.userInfo.userID == message.formId);
+    if (containsValue) {
+      int index = conversationsInfo
+          .indexWhere((info) => info.userInfo.userID == message.formId);
+      conversationsInfo[index] = info;
+    } else {
+      conversationsInfo.add(info);
+    }
   }
 
   /// Determine the top.
