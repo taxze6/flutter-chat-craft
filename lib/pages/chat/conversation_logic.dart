@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/common/urls.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
+import 'package:flutter_chat_craft/routes/app_navigator.dart';
 import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -88,10 +89,10 @@ class ConversationLogic extends GetxController
 
   Future<void> initWebSocket() async {
     webSocketManager.connect(Urls.sendUserMsg).then((isConnect) {
-      //连接成功，监听消息
+      //Connection successful, listening for messages.
       if (isConnect) {
         webSocketManager.listen((msg) {
-          //添加消息到列表中
+          //Add message to the list.
           print('Received: $msg');
           onMessage(
             Message.fromJson(
@@ -120,21 +121,18 @@ class ConversationLogic extends GetxController
     webSocketManager.sendMsg(msg.toJsonString());
   }
 
-  // void testMessage() {
-  //   var msg = Message(
-  //     targetId: friendsInfo[0].userID,
-  //     type: ConversationType.single,
-  //     formId: GlobalData.userInfo.userID,
-  //     contentType: MessageType.text,
-  //     content: "测试数据111",
-  //   );
-  //   webSocketManager.sendMsg(msg.toJsonString());
-  // }
+  void testMessage() {
+    var msg = Message(
+      targetId: friendsInfo[0].userID,
+      type: ConversationType.single,
+      formId: GlobalData.userInfo.userID,
+      contentType: MessageType.picture,
+      content: "测试数据111",
+    );
+    webSocketManager.sendMsg(msg.toJsonString());
+  }
 
   void onMessage(Message message) {
-    print("userID${friendsInfo[0].userID}");
-    print("formId${message.formId}");
-    print("targetId${message.targetId}");
     UserInfo userInfo = friendsInfo.firstWhere(
       (element) => element.userID == message.formId,
     );
@@ -163,6 +161,11 @@ class ConversationLogic extends GetxController
     } else {
       conversationsInfo.add(info);
     }
+  }
+
+  void toChat(int index) {
+    AppNavigator.startChat(
+        userInfo: conversationsInfo[index].userInfo, groupId: 0);
   }
 
   /// Determine the top.

@@ -58,4 +58,6 @@ const Map<String, String> zh_CN = {
   "picture": "图片",
   "video": "视频",
   "voice": "语音",
+  "online": "在线",
+  "offline": "离线",
 };

@@ -17,4 +17,9 @@ class ImagesRes {
   static const icShareAdd = "${_dir}ic_share_add.svg";
   static const icScan = "${_dir}ic_scan.svg";
   static const icBrowser = '${_dir}ic_browser.png';
+  static const icMore = '${_dir}ic_more.svg';
+  static const icPhone = '${_dir}ic_phone.svg';
+  static const icVoice = '${_dir}ic_voice.svg';
+  static const icKeyboard = '${_dir}ic_keyboard.svg';
+  static const icChatTools = '${_dir}ic_chat_tools.svg';
 }

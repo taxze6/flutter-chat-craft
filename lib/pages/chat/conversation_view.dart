@@ -31,6 +31,11 @@ class _ConversationPageState extends State<ConversationPage> {
     return TouchCloseSoftKeyboard(
         child: Scaffold(
             appBar: titleAppBar(),
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () {
+            //     conversationLogic.testMessage();
+            //   },
+            // ),
             body: Stack(
               alignment: Alignment.center,
               children: [
@@ -174,6 +179,7 @@ class _ConversationPageState extends State<ConversationPage> {
               timeStr:
                   conversationLogic.conversationsInfo[index].message.sendTime ??
                       "",
+              onTap: () => conversationLogic.toChat(index),
               slideActions: [
                 SlideItemInfo(
                   flex: conversationLogic.isPinned(index) ? 3 : 2,

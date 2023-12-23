@@ -40,6 +40,7 @@ class ConversationItemView extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: 62.w,
+          color: Colors.transparent,
           margin: EdgeInsets.symmetric(horizontal: 18.w, vertical: 6.w),
           padding: EdgeInsets.symmetric(vertical: 4.w),
           child: Row(
@@ -48,7 +49,7 @@ class ConversationItemView extends StatelessWidget {
                 imageSize: Size(52.w, 52.w),
                 radius: 52.w,
                 imageUrl: userInfo.avatar,
-                onTap: () {},
+                onTap: () => onTap?.call(),
               ),
               SizedBox(
                 width: 10.w,

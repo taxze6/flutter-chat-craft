@@ -18,5 +18,5 @@ class Urls {
   static var loadFriends = "${Config.apiUrl}/relation/list";
 
   //message
-  static var sendUserMsg = "$webSocketUrl${Config.ip}:8889/v1/message/send_user_msg";
+  static var sendUserMsg = "$webSocketUrl${Config.ip}/message/send_user_msg";
 }

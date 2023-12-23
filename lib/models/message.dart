@@ -34,7 +34,8 @@ class Message {
   });
 
   Message.fromJson(Map<String, dynamic> json)
-      : formId = json['userId'],
+      : sendTime = json['createAt'],
+        formId = json['userId'],
         targetId = json['targetId'],
         type = json['type'],
         contentType = json['contentType'],

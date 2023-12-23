@@ -61,4 +61,6 @@ const Map<String, String> en_US = {
   "picture": "Picture",
   "video": "Video",
   "voice": "Voice",
+  "online": "Online",
+  "offline": "Offline",
 };

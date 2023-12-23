@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_chat_craft/models/user_info.dart';
 import 'package:get/get.dart';
 
 import 'app_routes.dart';
@@ -42,5 +43,15 @@ abstract class AppNavigator {
 
   static void startAddFriend() {
     Get.toNamed(AppRoutes.addFriend);
+  }
+
+  static void startChat({
+    UserInfo? userInfo,
+    int? groupId,
+  }) {
+    Get.toNamed(AppRoutes.chat, arguments: {
+      'userInfo': userInfo,
+      'groupId': groupId,
+    });
   }
 }

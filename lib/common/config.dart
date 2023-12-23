@@ -11,8 +11,8 @@ class Config {
   static const UI_W = 375.0;
   static const UI_H = 812.0;
 
-  static const ip = "192.168.31.135";
-  static const apiUrl = "http://$ip:8889/v1";
+  static const ip = "192.168.31.62:8889/v1";
+  static const apiUrl = "http://$ip";
 
   static Future init(Function() runApp) async {
     // Initialize a WidgetsBinding to ensure that the Flutter framework has been initialized

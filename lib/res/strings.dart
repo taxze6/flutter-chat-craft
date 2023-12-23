@@ -131,4 +131,8 @@ class StrRes {
   static get video => 'video'.tr;
 
   static get voice => 'voice'.tr;
+
+  static get online => 'online'.tr;
+
+  static get offline => 'offline'.tr;
 }
