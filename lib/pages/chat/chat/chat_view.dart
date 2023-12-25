@@ -29,6 +29,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return PopScope(
         child: Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: singleChatAppBar(
           title: chatLogic.userInfo.userName,
           userImage: chatLogic.userInfo.avatar),
@@ -56,6 +57,7 @@ class _ChatPageState extends State<ChatPage> {
               ChatInputBoxView(
                 textEditingController: chatLogic.textEditingController,
                 textFocusNode: chatLogic.textFocusNode,
+                onSendTap: () => chatLogic.sendMessage(),
               ),
             ],
           ),

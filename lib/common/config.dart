@@ -11,7 +11,7 @@ class Config {
   static const UI_W = 375.0;
   static const UI_H = 812.0;
 
-  static const ip = "192.168.31.62:8889/v1";
+  static const ip = "192.168.14.33:8889/v1";
   static const apiUrl = "http://$ip";
 
   static Future init(Function() runApp) async {

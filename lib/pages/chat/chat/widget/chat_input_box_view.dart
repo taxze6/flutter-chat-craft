@@ -11,10 +11,12 @@ class ChatInputBoxView extends StatefulWidget {
     this.quoteContent,
     required this.textEditingController,
     required this.textFocusNode,
+    required this.onSendTap,
   }) : super(key: key);
   final String? quoteContent;
   final TextEditingController textEditingController;
   final FocusNode textFocusNode;
+  final GestureTapCallback onSendTap;
 
   @override
   State<ChatInputBoxView> createState() => _ChatInputBoxViewState();
@@ -171,6 +173,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget buildSendButton() {
     return GestureDetector(
+      onTap: widget.onSendTap,
       child: Container(
         height: 33.h,
         width: 60.w,
