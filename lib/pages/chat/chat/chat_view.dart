@@ -57,6 +57,7 @@ class _ChatPageState extends State<ChatPage> {
               ChatInputBoxView(
                 textEditingController: chatLogic.textEditingController,
                 textFocusNode: chatLogic.textFocusNode,
+                onToolsBtnTap: () => chatLogic.showToolsDialog(context),
                 onSendTap: () => chatLogic.sendMessage(),
               ),
             ],

@@ -11,11 +11,13 @@ class ChatInputBoxView extends StatefulWidget {
     this.quoteContent,
     required this.textEditingController,
     required this.textFocusNode,
+    required this.onToolsBtnTap,
     required this.onSendTap,
   }) : super(key: key);
   final String? quoteContent;
   final TextEditingController textEditingController;
   final FocusNode textFocusNode;
+  final GestureTapCallback onToolsBtnTap;
   final GestureTapCallback onSendTap;
 
   @override
@@ -158,7 +160,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget toolsBtn() {
     return IconButton(
-      onPressed: () {},
+      onPressed: widget.onToolsBtnTap,
       icon: SvgPicture.asset(ImagesRes.icChatTools),
     );
   }

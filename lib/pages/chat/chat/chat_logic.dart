@@ -2,14 +2,17 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/models/user_info.dart';
 import 'package:flutter_chat_craft/pages/chat/conversation_logic.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../common/apis.dart';
 import '../../../common/global_data.dart';
 import '../../../widget/toast_utils.dart';
+import '../../common/interactive_dialog/interactive_dialog.dart';
 
 class ChatLogic extends GetxController {
   final conversationLogic = Get.find<ConversationLogic>();
@@ -23,6 +26,8 @@ class ChatLogic extends GetxController {
   int chatStart = 0;
   int chatEnd = 30;
   int chatListSize = 30;
+
+  bool isShowToolsDialog = false;
 
   @override
   void onInit() {
@@ -92,6 +97,21 @@ class ChatLogic extends GetxController {
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
       );
+    });
+  }
+
+  void showToolsDialog(BuildContext context) {
+    isShowToolsDialog = true;
+    showDialog(
+      context: context,
+      barrierColor: const Color(0x573D3D3D),
+      builder: (BuildContext context) {
+        return InteractiveDialog(
+          height: 290.w,
+        );
+      },
+    ).then((value) {
+      isShowToolsDialog = false;
     });
   }
 }

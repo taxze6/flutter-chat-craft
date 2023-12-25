@@ -38,7 +38,7 @@ class ChatSingleLayout extends StatelessWidget {
       children: [
         Container(
           margin: EdgeInsets.only(bottom: 6.w),
-          constraints: BoxConstraints(maxWidth: 0.6.sw),
+          constraints: BoxConstraints(maxWidth: 0.7.sw),
           padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 12.w),
           decoration: BoxDecoration(
             color: bubbleColor,
