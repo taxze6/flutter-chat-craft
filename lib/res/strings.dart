@@ -135,4 +135,6 @@ class StrRes {
   static get online => 'online'.tr;
 
   static get offline => 'offline'.tr;
+
+  static get send => 'send'.tr;
 }

@@ -157,4 +157,30 @@ class Apis {
     }
     return data;
   }
+
+  static Future<dynamic> getRedisMsg({
+    required int targetId,
+    required int start,
+    required int end,
+    required bool isRev,
+  }) async {
+    var data = await HttpUtil.post(Urls.getRedisMsg,
+        options: Options(
+          headers: {
+            "Authorization": GlobalData.token,
+            "UserId": GlobalData.userInfo.userID,
+          },
+          contentType: 'application/json',
+        ),
+        data: {
+          "targetId": targetId,
+          "start": start,
+          "end": end,
+          "isRev": isRev,
+        });
+    if (data == null) {
+      return false;
+    }
+    return data;
+  }
 }

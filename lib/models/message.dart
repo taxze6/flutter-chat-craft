@@ -64,6 +64,18 @@ class Message {
   String toJsonString() {
     return jsonEncode(toJson());
   }
+
+  @override
+  String toString() {
+    return 'Message{'
+        'sendTime: $sendTime, '
+        'formId: $formId, '
+        'targetId: $targetId, '
+        'type: $type, '
+        'contentType: $contentType, '
+        'content: $content'
+        '}';
+  }
 }
 
 /// Session Type

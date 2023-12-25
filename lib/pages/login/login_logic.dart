@@ -85,7 +85,6 @@ class LoginLogic extends GetxController {
               ));
       if (data == false) {
         ToastUtils.toastText(StrRes.loginError);
-
         return false;
       } else {
         String token = data["token"];

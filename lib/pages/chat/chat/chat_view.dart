@@ -39,16 +39,20 @@ class _ChatPageState extends State<ChatPage> {
           child: Column(
             children: [
               Expanded(
-                  child: ChatListView(
-                // onTouch: () => chatLogic.closeToolbox(),
-                itemCount: chatLogic.messageList.length,
-                controller: chatLogic.scrollController,
-                onScrollDownLoad: () => chatLogic.getHistoryMsgList(),
-                itemBuilder: (_, index) => itemView(
-                  index,
-                  chatLogic.messageList[index],
-                ),
-              )),
+                  child: GetBuilder<ChatLogic>(
+                      id: "chatList",
+                      builder: (context) {
+                        return ChatListView(
+                          // onTouch: () => chatLogic.closeToolbox(),
+                          itemCount: chatLogic.messageList.length,
+                          controller: chatLogic.scrollController,
+                          onScrollDownLoad: () => chatLogic.getHistoryMsgList(),
+                          itemBuilder: (_, index) => itemView(
+                            index,
+                            chatLogic.messageList[index],
+                          ),
+                        );
+                      })),
               ChatInputBoxView(
                 textEditingController: chatLogic.textEditingController,
                 textFocusNode: chatLogic.textFocusNode,

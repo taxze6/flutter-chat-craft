@@ -31,11 +31,11 @@ class _ConversationPageState extends State<ConversationPage> {
     return TouchCloseSoftKeyboard(
         child: Scaffold(
             appBar: titleAppBar(),
-            // floatingActionButton: FloatingActionButton(
-            //   onPressed: () {
-            //     conversationLogic.testMessage();
-            //   },
-            // ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                conversationLogic.testMessage();
+              },
+            ),
             body: Stack(
               alignment: Alignment.center,
               children: [

@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/res/images.dart';
+import 'package:flutter_chat_craft/res/strings.dart';
+import 'package:flutter_chat_craft/res/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -44,6 +45,13 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       ..addListener(() {
         setState(() {});
       });
+    widget.textEditingController.addListener(() {
+      if (widget.textEditingController.text.isEmpty) {
+        controller.reverse();
+      } else {
+        controller.forward();
+      }
+    });
   }
 
   @override
@@ -85,17 +93,17 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                       offstage: !leftKeyboardButton,
                       child: voiceRecordBar(),
                     ),
-                    Visibility(
-                      visible: !leftKeyboardButton,
-                      child: SizedBox(
-                        width: 60.0.w * (1.0 - animation.value),
-                        child: buildSendButton(),
-                      ),
-                    ),
                   ],
                 ),
               ),
               toolsBtn(),
+              Visibility(
+                visible: !leftKeyboardButton,
+                child: SizedBox(
+                  width: 60.0.w * (1.0 - animation.value),
+                  child: buildSendButton(),
+                ),
+              ),
             ],
           ),
         ],
@@ -162,6 +170,26 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
   }
 
   Widget buildSendButton() {
-    return Container();
+    return GestureDetector(
+      child: Container(
+        height: 33.h,
+        width: 60.w,
+        // padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+        alignment: Alignment.center,
+        margin: EdgeInsets.only(right: 10.w),
+        decoration: BoxDecoration(
+          color: PageStyle.chatColor,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Text(
+          StrRes.send,
+          maxLines: 1,
+          style: TextStyle(
+            fontSize: 14.sp,
+            color: const Color(0xFF000000),
+          ),
+        ),
+      ),
+    );
   }
 }

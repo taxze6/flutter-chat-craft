@@ -63,4 +63,5 @@ const Map<String, String> en_US = {
   "voice": "Voice",
   "online": "Online",
   "offline": "Offline",
+  "send": "Send",
 };

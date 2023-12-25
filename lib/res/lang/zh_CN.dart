@@ -60,4 +60,5 @@ const Map<String, String> zh_CN = {
   "voice": "语音",
   "online": "在线",
   "offline": "离线",
+  "send": "发送",
 };

@@ -19,4 +19,5 @@ class Urls {
 
   //message
   static var sendUserMsg = "$webSocketUrl${Config.ip}/message/send_user_msg";
+  static var getRedisMsg = "${Config.apiUrl}/message/get_redis_msg";
 }
