@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/pages/login/login_email/login_email_logic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,8 +45,8 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
               GetBuilder<LoginEmailLogic>(
                 id: "emailInput",
                 builder: (logic) => loginInput(
-                  controller: logic.emailCtr,
-                  focusNode: logic.emailFn,
+                  controller: logic.emailController,
+                  focusNode: logic.emailFocusNode,
                   hintText: StrRes.emailInputHintText,
                 ),
               ),

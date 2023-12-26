@@ -22,4 +22,5 @@ class ImagesRes {
   static const icVoice = '${_dir}ic_voice.svg';
   static const icKeyboard = '${_dir}ic_keyboard.svg';
   static const icChatTools = '${_dir}ic_chat_tools.svg';
+  static const icDownArrow = '${_dir}ic_down_arrow.svg';
 }

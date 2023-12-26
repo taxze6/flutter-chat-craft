@@ -1,4 +1,4 @@
-//照片全屏显示处理
+//Full-screen Display Processing for Photos
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';

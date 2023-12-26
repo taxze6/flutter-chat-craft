@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../res/images.dart';
 import '../../../res/strings.dart';
+import 'list_meme_widget.dart';
 
 class InteractiveDialog extends StatefulWidget {
   const InteractiveDialog({Key? key, this.height}) : super(key: key);
@@ -57,6 +58,11 @@ class _InteractiveDialogState extends State<InteractiveDialog>
     });
   }
 
+  double listMemeHeight = 52.w;
+
+  //The default state for "meme" is not expanded.
+  bool expandMeme = false;
+
   @override
   Widget build(BuildContext context) {
     final w = widget;
@@ -75,7 +81,7 @@ class _InteractiveDialogState extends State<InteractiveDialog>
                   position: _offsetAnimation,
                   child: GestureDetector(
                     onTap: () {},
-                    child: Container(
+                    child: AnimatedContainer(
                         width: double.infinity,
                         padding: EdgeInsets.only(
                           top: 6.w,
@@ -84,6 +90,7 @@ class _InteractiveDialogState extends State<InteractiveDialog>
                           right: 20.w,
                         ),
                         height: dialogHeight,
+                        duration: const Duration(milliseconds: 200),
                         decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius:
@@ -143,19 +150,37 @@ class _InteractiveDialogState extends State<InteractiveDialog>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(StrRes.meMe,style: TextStyle(
-            fontSize: 14.sp
-        ),),
+        Text(
+          StrRes.meMe,
+          style: TextStyle(fontSize: 14.sp),
+        ),
         SizedBox(
           height: 6.w,
         ),
-        Container(
-          width: 42.w,
-          height: 42.w,
-          decoration: BoxDecoration(
-            color: const Color(0xFFF7F7F7),
-            borderRadius: BorderRadius.circular(10),
-          ),
+        ListMemeWidget(
+          imgUrls: [
+            "https://img2.baidu.com/it/u=1297740018,2772695612&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1703696400&t=be2473c04aa1bbb4692d1975d1156a6a",
+            "https://img1.baidu.com/it/u=2837426444,1036569200&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1703696400&t=2f9ffa9494eff6a665c0bf259dffa374",
+            "https://img1.baidu.com/it/u=639770068,2958922633&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1703696400&t=135c1498cdc8be27c7a101fcef1d751f",
+            "https://img0.baidu.com/it/u=2675956744,746307251&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1703696400&t=f0be222470ca827b6fcae86e10459c32",
+            "https://img2.baidu.com/it/u=444016934,3124738357&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1703696400&t=00ac06ff150b6d17325f1e94b3d730bf",
+            "https://img2.baidu.com/it/u=3339674241,1724389523&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1703696400&t=07ce7382a8bbfafa43e248a7411dbda9"
+            ],
+          addImg: () {},
+          onTapRightBtn: () {
+            if (expandMeme) {
+              dialogHeight -= 400.h;
+              listMemeHeight -= 400.h;
+              expandMeme = false;
+            } else {
+              dialogHeight += 400.h;
+              listMemeHeight += 400.h;
+              expandMeme = true;
+            }
+            setState(() {});
+          },
+          listHeight: listMemeHeight,
+          expandMeme: expandMeme,
         ),
       ],
     );
@@ -165,15 +190,16 @@ class _InteractiveDialogState extends State<InteractiveDialog>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(StrRes.function,style: TextStyle(
-          fontSize: 14.sp
-        ),),
+        Text(
+          StrRes.function,
+          style: TextStyle(fontSize: 14.sp),
+        ),
         SizedBox(
           height: 6.w,
         ),
         Container(
-          width: 42.w,
-          height: 42.w,
+          width: 52.w,
+          height: 52.w,
           decoration: BoxDecoration(
             color: const Color(0xFFF7F7F7),
             borderRadius: BorderRadius.circular(10),

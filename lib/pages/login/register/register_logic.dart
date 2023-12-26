@@ -12,14 +12,14 @@ import '../../../widget/loading_view.dart';
 import '../../../widget/toast_utils.dart';
 
 class RegisterLogic extends GetxController {
-  TextEditingController userNameCtr = TextEditingController();
-  TextEditingController emailCtr = TextEditingController();
-  TextEditingController passWordCtr = TextEditingController();
-  TextEditingController rePassWordCtr = TextEditingController();
-  FocusNode userNameFn = FocusNode();
-  FocusNode emailFn = FocusNode();
-  FocusNode passWordFn = FocusNode();
-  FocusNode cPassWordFn = FocusNode();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passWordController = TextEditingController();
+  TextEditingController rePassWordController = TextEditingController();
+  FocusNode userNameFocusNode = FocusNode();
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode passWordFocusNode = FocusNode();
+  FocusNode cPassWordFocusNode = FocusNode();
   bool isShowPwd = true;
   bool isShowCPwd = true;
   Rx<bool> isShowPwdBtn = false.obs;
@@ -36,14 +36,14 @@ class RegisterLogic extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    userNameCtr.dispose();
-    emailCtr.dispose();
-    passWordCtr.dispose();
-    rePassWordCtr.dispose();
-    userNameFn.dispose();
-    emailFn.dispose();
-    passWordFn.dispose();
-    cPassWordFn.dispose();
+    userNameController.dispose();
+    emailController.dispose();
+    passWordController.dispose();
+    rePassWordController.dispose();
+    userNameFocusNode.dispose();
+    emailFocusNode.dispose();
+    passWordFocusNode.dispose();
+    cPassWordFocusNode.dispose();
   }
 
   void isShowPwdFunc() {
@@ -57,46 +57,46 @@ class RegisterLogic extends GetxController {
   }
 
   void listenFocus() {
-    userNameFn.addListener(() {
-      if (userNameFn.hasFocus) {}
+    userNameFocusNode.addListener(() {
+      if (userNameFocusNode.hasFocus) {}
       update(["usernameInput"]);
     });
-    emailFn.addListener(() {
-      if (emailFn.hasFocus) {}
+    emailFocusNode.addListener(() {
+      if (emailFocusNode.hasFocus) {}
       update(["emailInput"]);
     });
-    passWordFn.addListener(() {
-      if (passWordFn.hasFocus) {
+    passWordFocusNode.addListener(() {
+      if (passWordFocusNode.hasFocus) {
       } else {
         isShowPwd = true;
         isShowPwdBtn.value = false;
       }
       update(["passwordInput"]);
     });
-    cPassWordFn.addListener(() {
-      if (cPassWordFn.hasFocus) {
+    cPassWordFocusNode.addListener(() {
+      if (cPassWordFocusNode.hasFocus) {
       } else {
         isShowCPwd = true;
         isShowCPwdBtn.value = false;
       }
       update(["confirmPasswordInput"]);
     });
-    userNameCtr.addListener(() {
+    userNameController.addListener(() {
       listenRules();
     });
-    emailCtr.addListener(() {
+    emailController.addListener(() {
       listenRules();
     });
-    passWordCtr.addListener(() {
-      if (passWordCtr.text.isNotEmpty) {
+    passWordController.addListener(() {
+      if (passWordController.text.isNotEmpty) {
         isShowPwdBtn.value = true;
       } else {
         isShowPwdBtn.value = false;
       }
       listenRules();
     });
-    rePassWordCtr.addListener(() {
-      if (rePassWordCtr.text.isNotEmpty) {
+    rePassWordController.addListener(() {
+      if (rePassWordController.text.isNotEmpty) {
         isShowCPwdBtn.value = true;
       } else {
         isShowCPwdBtn.value = false;
@@ -106,10 +106,10 @@ class RegisterLogic extends GetxController {
   }
 
   void listenRules() {
-    if (userNameCtr.text.length > 3 &&
-        AppRegExp.emailRegExp.hasMatch(emailCtr.text) &&
-        passWordCtr.text.length > 8 &&
-        rePassWordCtr.text == passWordCtr.text &&
+    if (userNameController.text.length > 3 &&
+        AppRegExp.emailRegExp.hasMatch(emailController.text) &&
+        passWordController.text.length > 8 &&
+        rePassWordController.text == passWordController.text &&
         isAgreeTerms.value) {
       isClick.value = true;
     } else {
@@ -124,12 +124,12 @@ class RegisterLogic extends GetxController {
 
   Future<bool> register() async {
     if (isClick.value) {
-      var password = await AppUtils.encodeString(passWordCtr.text);
-      var repassword = await AppUtils.encodeString(rePassWordCtr.text);
+      var password = await AppUtils.encodeString(passWordController.text);
+      var repassword = await AppUtils.encodeString(rePassWordController.text);
       var data = await LoadingView.singleton.wrap(
           asyncFunction: () => Apis.register(
-                name: userNameCtr.text,
-                email: emailCtr.text,
+                name: userNameController.text,
+                email: emailController.text,
                 password: password,
                 repassword: repassword,
               ));
@@ -138,7 +138,7 @@ class RegisterLogic extends GetxController {
       } else {
         ToastUtils.toastText(StrRes.sendCodeSuccess);
         await AppNavigator.startCheckCode(
-          email: emailCtr.text,
+          email: emailController.text,
           checkCodeMethod: checkCodeMethod,
           regainVerifyCode: regainVerifyCode,
         );
@@ -152,12 +152,12 @@ class RegisterLogic extends GetxController {
 
   ///Resend verification code
   Future<bool> regainVerifyCode() async {
-    var password = await AppUtils.encodeString(passWordCtr.text);
-    var repassword = await AppUtils.encodeString(rePassWordCtr.text);
+    var password = await AppUtils.encodeString(passWordController.text);
+    var repassword = await AppUtils.encodeString(rePassWordController.text);
     var data = await LoadingView.singleton.wrap(
       asyncFunction: () => Apis.register(
-        name: userNameCtr.text,
-        email: emailCtr.text,
+        name: userNameController.text,
+        email: emailController.text,
         password: password,
         repassword: repassword,
       ),
@@ -174,7 +174,7 @@ class RegisterLogic extends GetxController {
   Future<bool> checkCodeMethod(String code) async {
     var data = await LoadingView.singleton.wrap(
       asyncFunction: () =>
-          Apis.checkRegisterEmailCode(email: emailCtr.text, code: code),
+          Apis.checkRegisterEmailCode(email: emailController.text, code: code),
     );
     if (data == false) {
       ToastUtils.toastText(StrRes.checkCodeError);

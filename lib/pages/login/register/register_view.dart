@@ -50,8 +50,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   GetBuilder<RegisterLogic>(
                     id: "usernameInput",
                     builder: (logic) => loginInput(
-                      controller: logic.userNameCtr,
-                      focusNode: logic.userNameFn,
+                      controller: logic.userNameController,
+                      focusNode: logic.userNameFocusNode,
                       hintText: StrRes.usernameInputHintText,
                     ),
                   ),
@@ -67,8 +67,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   GetBuilder<RegisterLogic>(
                     id: "emailInput",
                     builder: (logic) => loginInput(
-                      controller: logic.emailCtr,
-                      focusNode: logic.emailFn,
+                      controller: logic.emailController,
+                      focusNode: logic.emailFocusNode,
                       hintText: StrRes.emailInputHintText,
                     ),
                   ),
@@ -88,8 +88,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       return Stack(
                         children: [
                           loginInput(
-                            controller: logic.passWordCtr,
-                            focusNode: logic.passWordFn,
+                            controller: logic.passWordController,
+                            focusNode: logic.passWordFocusNode,
                             hintText: StrRes.passwordInputHintText,
                             obscureText: logic.isShowPwd,
                           ),
@@ -131,8 +131,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       return Stack(
                         children: [
                           loginInput(
-                            controller: logic.rePassWordCtr,
-                            focusNode: logic.cPassWordFn,
+                            controller: logic.rePassWordController,
+                            focusNode: logic.cPassWordFocusNode,
                             hintText: StrRes.confirmPasswordInputHintText,
                             obscureText: logic.isShowCPwd,
                           ),

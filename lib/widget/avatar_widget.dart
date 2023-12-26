@@ -32,7 +32,7 @@ class AvatarWidget extends StatelessWidget {
           ),
           image: NetworkImage(imageUrl),
           fit: BoxFit.fill,
-          fadeInDuration: const Duration(milliseconds: 300), // 渐变显示的时长，可选设置
+          fadeInDuration: const Duration(milliseconds: 300),
         ),
       ),
     );
