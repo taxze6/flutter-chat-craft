@@ -61,4 +61,7 @@ const Map<String, String> zh_CN = {
   "online": "在线",
   "offline": "离线",
   "send": "发送",
+  "promotionalCardText": "如需体验更多ChatCraft的功能，请联系我的微信Taxze2019😘",
+  "meMe": "表情包",
+  "function": "功能",
 };

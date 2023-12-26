@@ -77,16 +77,31 @@ class _InteractiveDialogState extends State<InteractiveDialog>
                     onTap: () {},
                     child: Container(
                         width: double.infinity,
-                        padding: EdgeInsets.symmetric(vertical: 6.w),
+                        padding: EdgeInsets.only(
+                          top: 6.w,
+                          bottom: 24.w,
+                          left: 20.w,
+                          right: 20.w,
+                        ),
                         height: dialogHeight,
                         decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(38))),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            grayDivider(),
+                            Center(child: grayDivider()),
+                            Padding(
+                              padding: EdgeInsets.only(top: 16.w, bottom: 10.w),
+                              child: promotionalCard(),
+                            ),
+                            meMe(),
+                            SizedBox(
+                              height: 10.w,
+                            ),
+                            tools(),
                           ],
                         )),
                   )),
@@ -105,6 +120,66 @@ class _InteractiveDialogState extends State<InteractiveDialog>
         color: const Color(0xFFDEDEDE),
         borderRadius: BorderRadius.circular(4),
       ),
+    );
+  }
+
+  Widget promotionalCard() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.w),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF7F7F7),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Text(
+        StrRes.promotionalCardText,
+        style: TextStyle(
+          fontSize: 12.sp,
+        ),
+      ),
+    );
+  }
+
+  Widget meMe() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(StrRes.meMe,style: TextStyle(
+            fontSize: 14.sp
+        ),),
+        SizedBox(
+          height: 6.w,
+        ),
+        Container(
+          width: 42.w,
+          height: 42.w,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF7F7F7),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget tools() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(StrRes.function,style: TextStyle(
+          fontSize: 14.sp
+        ),),
+        SizedBox(
+          height: 6.w,
+        ),
+        Container(
+          width: 42.w,
+          height: 42.w,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF7F7F7),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ],
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/chat_logic.dart';
 import 'package:flutter_chat_craft/res/images.dart';
@@ -36,7 +37,7 @@ class _ChatPageState extends State<ChatPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: WaterMarkBgView(
-          text: "111",
+          text: GlobalData.userInfo.userName,
           child: Column(
             children: [
               Expanded(

@@ -64,4 +64,8 @@ const Map<String, String> en_US = {
   "online": "Online",
   "offline": "Offline",
   "send": "Send",
+  "promotionalCardText":
+      "To experience more functions of ChatCraft, please contact Taxze2019 on wechat😘",
+  "meMe": "Meme",
+  "function": "Function",
 };

@@ -137,4 +137,10 @@ class StrRes {
   static get offline => 'offline'.tr;
 
   static get send => 'send'.tr;
+
+  static get promotionalCardText => 'promotionalCardText'.tr;
+
+  static get meMe => 'meMe'.tr;
+
+  static get function => 'function'.tr;
 }
