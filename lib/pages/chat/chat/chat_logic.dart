@@ -52,6 +52,10 @@ class ChatLogic extends GetxController {
   }
 
   void sendMessage() {
+    if (textEditingController.text.isEmpty) {
+      ToastUtils.toastText("");
+      return;
+    }
     var message = Message(
       targetId: userInfo.userID,
       type: ConversationType.single,

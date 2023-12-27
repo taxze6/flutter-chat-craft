@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../res/images.dart';
 import '../../../res/strings.dart';
 import 'list_meme_widget.dart';
+import 'list_tools_widget.dart';
 
 class InteractiveDialog extends StatefulWidget {
   const InteractiveDialog({Key? key, this.height}) : super(key: key);
@@ -36,11 +37,7 @@ class _InteractiveDialogState extends State<InteractiveDialog>
       curve: Curves.fastLinearToSlowEaseIn,
     ));
     _controller.forward();
-    if (widget.height != null) {
-      dialogHeight = widget.height!;
-    } else {
-      dialogHeight = 233.h;
-    }
+    dialogHeight = widget.height ?? 233.h;
   }
 
   void _closeDialogWithAnimation() {
@@ -165,16 +162,16 @@ class _InteractiveDialogState extends State<InteractiveDialog>
             "https://img0.baidu.com/it/u=2675956744,746307251&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1703696400&t=f0be222470ca827b6fcae86e10459c32",
             "https://img2.baidu.com/it/u=444016934,3124738357&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1703696400&t=00ac06ff150b6d17325f1e94b3d730bf",
             "https://img2.baidu.com/it/u=3339674241,1724389523&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1703696400&t=07ce7382a8bbfafa43e248a7411dbda9"
-            ],
+          ],
           addImg: () {},
           onTapRightBtn: () {
             if (expandMeme) {
-              dialogHeight -= 400.h;
-              listMemeHeight -= 400.h;
+              dialogHeight -= 0.3.sh;
+              listMemeHeight -= 0.3.sh;
               expandMeme = false;
             } else {
-              dialogHeight += 400.h;
-              listMemeHeight += 400.h;
+              dialogHeight += 0.3.sh;
+              listMemeHeight += 0.3.sh;
               expandMeme = true;
             }
             setState(() {});
@@ -197,14 +194,7 @@ class _InteractiveDialogState extends State<InteractiveDialog>
         SizedBox(
           height: 6.w,
         ),
-        Container(
-          width: 52.w,
-          height: 52.w,
-          decoration: BoxDecoration(
-            color: const Color(0xFFF7F7F7),
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
+        ListToolsWidget(),
       ],
     );
   }

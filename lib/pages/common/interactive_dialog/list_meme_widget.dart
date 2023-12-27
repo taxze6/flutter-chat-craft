@@ -16,9 +16,9 @@ class ListMemeWidget extends StatelessWidget {
 
   final List<String> imgUrls;
 
-  final GestureLongPressCallback addImg;
+  final GestureTapCallback addImg;
 
-  final GestureLongPressCallback onTapRightBtn;
+  final GestureTapCallback onTapRightBtn;
 
   final bool expandMeme;
 
@@ -64,7 +64,7 @@ class ListMemeWidget extends StatelessWidget {
 
   Widget addBtn() {
     return Container(
-      padding: EdgeInsets.all(19.w),
+      padding: EdgeInsets.all(18.w),
       decoration: BoxDecoration(
         color: const Color(0xFFF7F7F7),
         borderRadius: BorderRadius.circular(10.w),
@@ -96,7 +96,7 @@ class ListMemeWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTapRightBtn,
       child: Container(
-        padding: EdgeInsets.all(19.w),
+        padding: EdgeInsets.all(18.w),
         decoration: BoxDecoration(
           color: const Color(0xFFF7F7F7),
           borderRadius: BorderRadius.circular(10.w),

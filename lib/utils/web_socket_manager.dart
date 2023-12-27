@@ -5,6 +5,8 @@ import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../common/global_data.dart';
+import '../common/urls.dart';
+import '../models/message.dart';
 
 enum ConnectStatusEnum { connect, connecting, close, closing }
 
@@ -29,6 +31,21 @@ class WebSocketManager {
 
   /// The flow of the connection status.
   Stream<ConnectStatusEnum>? _socketStatusStream;
+
+  ///Heartbeat Timer
+  Timer? _heartBeat;
+
+  ///Heartbeat Interval (in milliseconds)
+  final int _heartTimes = 30000;
+
+  ///Maximum number of reconnections,Default value is 10
+  final int _reconnectCount = 10;
+
+  ///Reconnection Counter
+  int _reconnectTimes = 0;
+
+  ///Reconnection timer.
+  Timer? _reconnectTimer;
 
   /// The flow of obtaining WebSocket messages.
   Stream<dynamic> getWebSocketChannelStream() {
@@ -68,6 +85,16 @@ class WebSocketManager {
       }
       _connectStatus = ConnectStatusEnum.connect;
       _socketStatusController.add(ConnectStatusEnum.connect);
+      if (_reconnectTimes == 0) {
+        print("第一次socket连接成功");
+      } else {
+        print("重连成功");
+      }
+      _reconnectTimes = 0;
+      if (_reconnectTimer != null) {
+        _reconnectTimer?.cancel();
+        _reconnectTimer = null;
+      }
       return true;
     } else {
       return false;
@@ -92,8 +119,23 @@ class WebSocketManager {
 
   /// Reconnect
   void reconnect(String url) async {
-    await disconnect();
-    await connect(url);
+    print("----------------------------");
+    if (_reconnectTimes < _reconnectCount) {
+      _reconnectTimes++;
+      print("开始重连，这是第$_reconnectTimes次重连");
+      _reconnectTimer =
+          Timer.periodic(Duration(milliseconds: _heartTimes), (timer) async {
+        await disconnect();
+        await connect(url);
+      });
+    } else {
+      if (_reconnectTimer != null) {
+        print("The reconnection attempts have exceeded the maximum limit.");
+        _reconnectTimer?.cancel();
+        _reconnectTimer = null;
+      }
+      return;
+    }
   }
 
   /// Listen for messages
@@ -107,6 +149,9 @@ class WebSocketManager {
       if (onError != null) {
         onError.call(error);
       }
+    }, onDone: () {
+      print("123");
+      reconnect(Urls.sendUserMsg);
     });
   }
 
@@ -131,6 +176,28 @@ class WebSocketManager {
       return ConnectStatusEnum.closing;
     }
     return ConnectStatusEnum.closing;
+  }
+
+  /// Init Heart
+  void initHeartBeat() {
+    destroyHeartBeat();
+    _heartBeat = Timer.periodic(Duration(milliseconds: _heartTimes), (timer) {
+      sentHeart();
+    });
+  }
+
+  /// Heart
+  void sentHeart() {
+    var msg = Message.fromHeartbeat();
+    sendMsg(msg.toJsonString());
+  }
+
+  /// disposeHeart
+  void destroyHeartBeat() {
+    if (_heartBeat != null) {
+      _heartBeat?.cancel();
+      _heartBeat = null;
+    }
   }
 
   /// Destroy the channel.

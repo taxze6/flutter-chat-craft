@@ -21,7 +21,6 @@ class ConversationLogic extends GetxController
   final refreshController = RefreshController(initialRefresh: false);
   List<UserInfo> friendsInfo = [];
   final WebSocketManager webSocketManager = WebSocketManager();
-  late Timer heartBeatTimer;
   RxList<ConversationInfo> conversationsInfo = <ConversationInfo>[].obs;
 
   @override
@@ -105,21 +104,10 @@ class ConversationLogic extends GetxController
       }
     });
 
-    heartBeatTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      heartbeat();
-    });
-    // socketChannel.sink.add({
-    //   "userId": 9,
-    //   "targetId": 10,
-    //   "type": ConversationType.single,
-    //   "content": "This is a test message"
-    // });
+    webSocketManager.initHeartBeat();
   }
 
-  void heartbeat() {
-    var msg = Message.fromHeartbeat();
-    webSocketManager.sendMsg(msg.toJsonString());
-  }
+  void heartbeat() {}
 
   void testMessage() {
     var msg = Message(
