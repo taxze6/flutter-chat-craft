@@ -15,9 +15,6 @@ class ChatSingleLayout extends StatelessWidget {
 
   final bool isFromMsg;
 
-  Color get bubbleColor =>
-      isFromMsg ? const Color(0xFFF7F7F7) : const Color(0xFFFCC504);
-
   MainAxisAlignment get layoutAlignment =>
       isFromMsg ? MainAxisAlignment.start : MainAxisAlignment.end;
 
@@ -36,16 +33,7 @@ class ChatSingleLayout extends StatelessWidget {
       mainAxisAlignment: layoutAlignment,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          margin: EdgeInsets.only(bottom: 6.w),
-          constraints: BoxConstraints(maxWidth: 0.7.sw),
-          padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 12.w),
-          decoration: BoxDecoration(
-            color: bubbleColor,
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          child: child,
-        ),
+        child,
       ],
     );
   }

@@ -1,13 +1,33 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_craft/common/config.dart';
 import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_single_layout.dart';
 
+import 'chat_picture.dart';
 import 'chat_text.dart';
 
+class MsgStreamEv<T> {
+  final String msgId;
+  final T value;
+
+  MsgStreamEv({required this.msgId, required this.value});
+}
+
 class ChatItemView extends StatefulWidget {
-  const ChatItemView({Key? key, required this.message}) : super(key: key);
+  const ChatItemView(
+      {Key? key,
+      required this.message,
+      required this.msgSendStatusSubjectStream,
+      required this.msgSendProgressSubjectStream})
+      : super(key: key);
   final Message message;
+
+  final Stream<MsgStreamEv<bool>> msgSendStatusSubjectStream;
+
+  final Stream<MsgStreamEv<double>> msgSendProgressSubjectStream;
 
   @override
   State<ChatItemView> createState() => _ChatItemViewState();
@@ -31,7 +51,23 @@ class _ChatItemViewState extends State<ChatItemView> {
           child = ChatSingleLayout(
             isFromMsg: isFromMsg,
             child: ChatText(
+              isFromMsg: isFromMsg,
               text: widget.message.content,
+            ),
+          );
+        }
+        break;
+      case MessageType.picture:
+        {
+          child = ChatSingleLayout(
+            isFromMsg: isFromMsg,
+            child: ChatPictureView(
+              msgId: widget.message.msgId!,
+              width: 100,
+              height: 100,
+              msgProgressControllerStream: widget.msgSendProgressSubjectStream,
+              imgUrl: widget.message.content!,
+              isFromMsg: isFromMsg,
             ),
           );
         }

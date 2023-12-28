@@ -55,7 +55,7 @@ class _ChatPageState extends State<ChatPage> {
                           onScrollDownLoad: () => chatLogic.getHistoryMsgList(),
                           itemBuilder: (_, index) => itemView(
                             index,
-                            chatLogic.messageList[index],
+                            chatLogic.indexOfMessage(index),
                           ),
                         );
                       })),
@@ -133,5 +133,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget itemView(index, Message message) => ChatItemView(
         message: message,
+        msgSendStatusSubjectStream: chatLogic.msgSendStatusSubject.stream,
+        msgSendProgressSubjectStream: chatLogic.msgProgressController.stream,
       );
 }

@@ -8,9 +8,17 @@ import 'list_meme_widget.dart';
 import 'list_tools_widget.dart';
 
 class InteractiveDialog extends StatefulWidget {
-  const InteractiveDialog({Key? key, this.height}) : super(key: key);
+  const InteractiveDialog({
+    Key? key,
+    this.height,
+    required this.openCamera,
+    required this.openPhotoAlbum,
+  }) : super(key: key);
 
   final double? height;
+
+  final GestureTapCallback openCamera;
+  final GestureTapCallback openPhotoAlbum;
 
   @override
   State<InteractiveDialog> createState() => _InteractiveDialogState();
@@ -194,7 +202,10 @@ class _InteractiveDialogState extends State<InteractiveDialog>
         SizedBox(
           height: 6.w,
         ),
-        ListToolsWidget(),
+        ListToolsWidget(
+          openCamera:widget.openCamera,
+          openPhotoAlbum: widget.openPhotoAlbum,
+        ),
       ],
     );
   }

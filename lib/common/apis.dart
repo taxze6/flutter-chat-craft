@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_chat_craft/common/global_data.dart';
 
@@ -178,6 +180,32 @@ class Apis {
           "end": end,
           "isRev": isRev,
         });
+    if (data == null) {
+      return false;
+    }
+    return data;
+  }
+
+  static Future<dynamic> uploadImage({
+    required String imagePath,
+    required String imageFileName,
+    required Function(int sent, int total) onSendProgress,
+  }) async {
+    FormData formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(imagePath, filename: imageFileName),
+    });
+    var data = await HttpUtil.post(
+      Urls.uploadImage,
+      options: Options(
+        headers: {
+          "Authorization": GlobalData.token,
+          "UserId": GlobalData.userInfo.userID,
+        },
+        contentType: 'application/json',
+      ),
+      data: formData,
+      onSendProgress: onSendProgress,
+    );
     if (data == null) {
       return false;
     }

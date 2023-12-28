@@ -17,6 +17,7 @@ class ConversationInfo {
 }
 
 class Message {
+  String? msgId;
   String? sendTime;
   int? formId;
   int? targetId;
@@ -25,6 +26,7 @@ class Message {
   String? content;
 
   Message({
+    this.msgId,
     this.sendTime,
     this.formId,
     this.targetId,
@@ -34,7 +36,8 @@ class Message {
   });
 
   Message.fromJson(Map<String, dynamic> json)
-      : sendTime = json['createAt'],
+      : msgId = json['msgId'],
+        sendTime = json['createAt'],
         formId = json['userId'],
         targetId = json['targetId'],
         type = json['type'],
@@ -43,6 +46,7 @@ class Message {
 
   factory Message.fromHeartbeat() {
     return Message(
+      msgId: "-1",
       targetId: -1,
       type: ConversationType.heart,
       formId: GlobalData.userInfo.userID,
@@ -53,6 +57,7 @@ class Message {
 
   Map<String, dynamic> toJson() {
     return {
+      "msgId": msgId,
       "userId": formId,
       "targetId": targetId,
       "type": type,
@@ -68,6 +73,7 @@ class Message {
   @override
   String toString() {
     return 'Message{'
+        'msgId:$msgId,'
         'sendTime: $sendTime, '
         'formId: $formId, '
         'targetId: $targetId, '

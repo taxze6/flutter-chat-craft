@@ -18,6 +18,9 @@ class Urls {
   static var loadFriends = "${Config.apiUrl}/relation/list";
 
   //message
-  static var sendUserMsg = "$webSocketUrl${Config.ip}/message/send_user_msg";
+  static var sendUserMsg = "$webSocketUrl${Config.ip}/v1/message/send_user_msg";
   static var getRedisMsg = "${Config.apiUrl}/message/get_redis_msg";
+
+  //upload
+  static var uploadImage = "${Config.apiUrl}/upload/image";
 }
