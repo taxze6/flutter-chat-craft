@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_chat_craft/res/styles.dart';
 import 'package:flutter_chat_craft/utils/touch_close_keyboard.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../widget/expanded_viewport.dart';
 
 class ChatListView extends StatefulWidget {
   const ChatListView({
@@ -90,16 +94,55 @@ class _ChatListViewState extends State<ChatListView> {
     return TouchCloseSoftKeyboard(
       child: Align(
         alignment: Alignment.topCenter,
-        child: ListView.builder(
-          reverse: true,
-          shrinkWrap: true,
-          itemCount: widget.itemCount ?? 0,
+        child: Padding(
           padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
-          controller: widget.controller,
-          itemBuilder: (context, index) {
-            return _wrapItem(index);
-          },
+          // child: Scrollable(
+          //   controller: widget.controller,
+          //   axisDirection: AxisDirection.up,
+          //   physics: const ScrollPhysics (),
+          //   viewportBuilder: (BuildContext context, ViewportOffset position) {
+          //     return ExpandedViewport(
+          //       offset: position,
+          //       axisDirection: AxisDirection.up,
+          //       slivers: [
+          //         SliverExpanded(),
+          //         SliverList(
+          //           delegate: SliverChildBuilderDelegate(
+          //             childCount: widget.itemCount ?? 0,
+          //             (BuildContext context, int index) {
+          //               return _wrapItem(index);
+          //             },
+          //           ),
+          //         ),
+          //       ],
+          //     );
+          //   },
+          // ),
+          child: CustomScrollView(
+            controller: widget.controller,
+            reverse: true,
+            // center: centerKey,
+            slivers: [
+              SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      childCount: widget.itemCount ?? 0,
+                      (BuildContext context, int index) {
+                return _wrapItem(index);
+              }))
+            ],
+          ),
         ),
+        // child: ListView.builder(
+        //   reverse: true,
+        //   shrinkWrap: true,
+        //   itemCount: widget.itemCount ?? 0,
+        //   padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
+        //   controller: widget.controller,
+        //   dragStartBehavior: DragStartBehavior.down,
+        //   itemBuilder: (context, index) {
+        //     return _wrapItem(index);
+        //   },
+        // ),
       ),
     );
   }

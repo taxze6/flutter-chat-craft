@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'chat_item_view.dart';
 
@@ -23,31 +24,55 @@ class ChatSendProgressView extends StatefulWidget {
 }
 
 class _ChatSendProgressViewState extends State<ChatSendProgressView> {
+  double _progress = 100.0;
+  StreamSubscription? _progressSubs;
+
+  @override
+  void initState() {
+    super.initState();
+    _progressSubs = widget.msgProgressControllerStream
+        .where((event) => widget.msgId == event.msgId)
+        .listen((event) {
+      if (!mounted) return;
+      setState(() {
+        _progress = event.value;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _progressSubs?.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<double>(
-      stream: widget.msgProgressControllerStream
-          .where((event) => widget.msgId == event.msgId)
-          .map((event) => event.value),
-      initialData: 0.0,
-      builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-        final double progress = snapshot.data ?? 0.0;
-        return Visibility(
-          visible: progress != 100.0,
-          child: Container(
-            height: widget.height,
-            width: widget.width,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.black.withOpacity(0.5),
+    return Visibility(
+      visible: _progress != 100.0,
+      child: Container(
+        height: widget.height,
+        width: widget.width,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.grey.withOpacity(0.2),
+        ),
+        child: Column(
+          children: [
+            CircularProgressIndicator(
+              value: _progress,
             ),
-            child: CircularProgressIndicator(
-              value: progress,
-            ),
-          ),
-        );
-      },
+            Text(
+              "${_progress.toStringAsFixed(2)}%",
+              style: TextStyle(
+                fontSize: 10.sp,
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

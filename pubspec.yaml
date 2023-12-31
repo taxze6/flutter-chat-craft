@@ -53,6 +53,8 @@ dependencies:
   web_socket_channel: 2.4.0
   wechat_camera_picker: 4.2.0-dev.3
   wechat_assets_picker: 9.0.0-dev.2
+  extended_image: 8.2.0
+  cached_network_image: 3.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

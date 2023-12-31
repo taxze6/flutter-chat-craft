@@ -1,106 +1,140 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
+import 'package:flutter_chat_craft/res/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../widget/aspect_ratio_image.dart';
 import 'chat_item_view.dart';
 import 'chat_send_progress.dart';
 
-class ChatPictureView extends StatefulWidget {
-  const ChatPictureView({
-    Key? key,
-    required this.msgId,
-    required this.width,
-    required this.height,
-    required this.imgUrl,
-    required this.isFromMsg,
-    required this.msgProgressControllerStream,
-  }) : super(key: key);
+class ChatPictureView extends StatelessWidget {
+  const ChatPictureView(
+      {super.key,
+      required this.msgId,
+      required this.imgUrl,
+      required this.isFromMsg,
+      required this.msgProgressControllerStream});
 
   final String msgId;
-  final double width;
-  final double height;
   final String imgUrl;
   final bool isFromMsg;
   final Stream<MsgStreamEv<double>> msgProgressControllerStream;
 
   @override
-  State<ChatPictureView> createState() => _ChatPictureViewState();
-}
-
-class _ChatPictureViewState extends State<ChatPictureView> {
-  late double _trulyWidth;
-  late double _trulyHeight;
-  late String _imgPath;
-  late bool showFileOrNetWorkImg;
-
-  @override
-  void initState() {
-    super.initState();
-    _trulyWidth = widget.width;
-    _trulyHeight = widget.height;
-    _imgPath = widget.imgUrl;
-    showFileOrNetWorkImg =
-        _imgPath.startsWith('http://') || _imgPath.startsWith('https://');
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var child = _buildChildView();
-    return child;
+    String imgPath = imgUrl;
+    bool showFileOrNetWorkImg =
+        imgPath.startsWith('http://') || imgPath.startsWith('https://');
+
+    Widget child = _buildChildView(imgPath, showFileOrNetWorkImg);
+    return Padding(padding: EdgeInsets.only(bottom: 6.w), child: child);
   }
 
-  Widget _buildChildView() {
+  Widget _buildChildView(String imgPath, bool showFileOrNetWorkImg) {
     Widget child;
     if (showFileOrNetWorkImg) {
-      child = _urlView(url: _imgPath);
+      child = _urlView(url: imgPath);
     } else {
-      child = _pathView(path: _imgPath);
+      child = _pathView(path: imgPath);
     }
-    return Container(
-      margin: EdgeInsets.only(bottom: 6.w),
-      child: child,
-    );
+    return child;
   }
 
   Widget _pathView({required String path}) => Stack(
         children: [
-          Container(
-            height: _trulyHeight,
-            width: _trulyWidth,
-            decoration: BoxDecoration(
-              color: const Color(0xFFE8E8E8),
-              borderRadius: BorderRadius.circular(12.0),
-              image: DecorationImage(
-                image: FileImage(File(path)),
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          ),
-          ChatSendProgressView(
-            height: _trulyHeight,
-            width: _trulyWidth,
-            msgProgressControllerStream: widget.msgProgressControllerStream,
-            msgId: widget.msgId,
+          AspectRatioImage.file(
+            imageFile: File(path),
+            fileBuilder: (context, snapshot, url) {
+              //Image maximum size
+              double width = 0.5.sw;
+              double height = 0.25.sh;
+
+              double actualWidth = snapshot.data?.width.toDouble() ?? 0.0;
+              double actualHeight = snapshot.data?.height.toDouble() ?? 0.0;
+
+              double scale = 1.0;
+              if (actualWidth > width || actualHeight > height) {
+                double widthScale = width / actualWidth;
+                double heightScale = height / actualHeight;
+                //Choose the smaller ratio as the scaling factor.
+                scale = widthScale < heightScale ? widthScale : heightScale;
+              }
+
+              width = actualWidth * scale;
+              height = actualHeight * scale;
+              return Stack(
+                children: [
+                  Container(
+                    width: width,
+                    height: height,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8.0)),
+                        image: DecorationImage(
+                          image: FileImage(url),
+                          fit: BoxFit.fill,
+                        )),
+                  ),
+                  ChatSendProgressView(
+                    width: width,
+                    height: height,
+                    msgProgressControllerStream: msgProgressControllerStream,
+                    msgId: msgId,
+                  ),
+                ],
+              );
+            },
           ),
         ],
       );
 
   Widget _urlView({required String url}) {
-    return Container(
-      height: _trulyHeight,
-      width: _trulyWidth,
-      decoration: BoxDecoration(
-        color: const Color(0xFFE8E8E8),
-        borderRadius: BorderRadius.circular(12.0),
-        image: DecorationImage(
-          image: NetworkImage(url),
-          fit: BoxFit.cover,
-        ),
-      ),
+    return AspectRatioImage.network(
+      url: url,
+      builder: (context, snapshot, url) {
+        //Image maximum size
+        double width = 0.5.sw;
+        double height = 0.25.sh;
+
+        double actualWidth = snapshot.data?.width.toDouble() ?? 0.0;
+        double actualHeight = snapshot.data?.height.toDouble() ?? 0.0;
+
+        double scale = 1.0;
+        if (actualWidth > width || actualHeight > height) {
+          double widthScale = width / actualWidth;
+          double heightScale = height / actualHeight;
+          //Choose the smaller ratio as the scaling factor.
+          scale = widthScale < heightScale ? widthScale : heightScale;
+        }
+
+        width = actualWidth * scale;
+        height = actualHeight * scale;
+        return CachedNetworkImage(
+          imageUrl: url,
+          width: width,
+          height: height,
+          imageBuilder: (context, imageProvider) => Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+            ),
+          ),
+          placeholder: (context, url) => Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              color: Colors.grey.shade100,
+            ),
+          ),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        );
+      },
     );
   }
 

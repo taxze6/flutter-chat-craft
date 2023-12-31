@@ -24,7 +24,7 @@ class ChatLogic extends GetxController {
   UserInfo userInfo = Get.arguments["userInfo"];
   TextEditingController textEditingController = TextEditingController();
   FocusNode textFocusNode = FocusNode();
-  List<Message> messageList = [];
+  RxList<Message> messageList = <Message>[].obs;
   ScrollController scrollController = ScrollController();
 
   /// The status of message sending,
@@ -64,7 +64,6 @@ class ChatLogic extends GetxController {
       if (message.formId == userInfo.userID) {
         // messageList.insert(0, message);
         messageList.add(message);
-        update(["chatList"]);
       }
     }, onError: (error) {
       ToastUtils.toastText(error.toString());
@@ -90,7 +89,6 @@ class ChatLogic extends GetxController {
       // messageList.insert(0, message);
       messageList.add(message);
       textEditingController.clear();
-      update(["chatList"]);
       scrollBottom();
     }
   }
@@ -192,7 +190,7 @@ class ChatLogic extends GetxController {
 
   void sendPicture(
       {required String imagePath, required String imageName}) async {
-    var message = Message(
+    Message message = Message(
       msgId: generateMessageId(userInfo.userID),
       targetId: userInfo.userID,
       type: ConversationType.single,
@@ -204,7 +202,6 @@ class ChatLogic extends GetxController {
     print(message.toString());
     // messageList.insert(0, message);
     messageList.add(message);
-    update(["chatList"]);
     scrollBottom();
     var data = await Apis.uploadImage(
       imagePath: imagePath,
