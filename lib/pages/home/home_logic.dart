@@ -12,12 +12,6 @@ class HomeLogic extends GetxController {
   bool isShowDialog = false;
   List<Widget> pages = [
     ConversationPage(),
-    Container(
-      color: Colors.black,
-      child: Center(
-        child: Text("2"),
-      ),
-    )
   ];
 
   List<BottomMenu> bottomMenu = [
@@ -28,14 +22,11 @@ class HomeLogic extends GetxController {
   void showHomeDialog(BuildContext context) {
     isShowDialog = true;
     update(["homeDialog"]);
-    showDialog(
-      context: context,
+    Get.dialog(
       barrierColor: const Color(0x573D3D3D),
-      builder: (BuildContext context) {
-        return HomeDialog(
-          toAddFriend: () => toAddFriendPage(),
-        );
-      },
+      HomeDialog(
+        toAddFriend: () => toAddFriendPage(),
+      ),
     ).then((value) {
       isShowDialog = false;
       update(["homeDialog"]);
@@ -55,5 +46,9 @@ class HomeLogic extends GetxController {
 
   void toAddFriendPage() {
     AppNavigator.startAddFriend();
+  }
+
+  void startMine() {
+    AppNavigator.startMine(isMine: true);
   }
 }

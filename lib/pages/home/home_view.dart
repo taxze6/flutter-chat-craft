@@ -119,7 +119,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               ),
               Expanded(
                 child: GestureDetector(
-                  onTap: () => homeLogic.jumpToPage(1),
+                  // onTap: () => homeLogic.jumpToPage(1),
+                  onTap: homeLogic.startMine,
                   child: Container(
                     width: double.infinity,
                     color: Colors.transparent,
