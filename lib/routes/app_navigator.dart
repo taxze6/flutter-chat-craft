@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/user_info.dart';
+import 'package:flutter_chat_craft/pages/mine/mine_logic.dart';
+import 'package:flutter_chat_craft/pages/mine/mine_view.dart';
 import 'package:get/get.dart';
 
 import 'app_routes.dart';
@@ -53,5 +56,22 @@ abstract class AppNavigator {
       'userInfo': userInfo,
       'groupId': groupId,
     });
+  }
+
+  static void startMine({
+    required bool isMine,
+    UserInfo? userInfo,
+  }) {
+    Get.dialog(GetBuilder<MineLogic>(
+      init: MineLogic(),
+      builder: (controller) {
+        if (isMine) {
+          controller.setUserInfo(GlobalData.userInfo);
+        } else {
+          controller.setUserInfo(userInfo);
+        }
+        return MinePage(controller: controller);
+      },
+    ));
   }
 }

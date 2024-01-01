@@ -8,4 +8,5 @@ abstract class AppRoutes {
   static const conversation = '/conversation';
   static const addFriend = '/addFriend';
   static const chat = '/chat';
+  static const mine = '/mine';
 }

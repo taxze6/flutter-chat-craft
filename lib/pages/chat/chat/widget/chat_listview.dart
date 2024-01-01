@@ -94,8 +94,9 @@ class _ChatListViewState extends State<ChatListView> {
     return TouchCloseSoftKeyboard(
       child: Align(
         alignment: Alignment.topCenter,
-        child: Padding(
-          padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
+        // child:
+        // Padding(
+        //   padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
           // child: Scrollable(
           //   controller: widget.controller,
           //   axisDirection: AxisDirection.up,
@@ -118,31 +119,31 @@ class _ChatListViewState extends State<ChatListView> {
           //     );
           //   },
           // ),
-          child: CustomScrollView(
-            controller: widget.controller,
-            reverse: true,
-            // center: centerKey,
-            slivers: [
-              SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      childCount: widget.itemCount ?? 0,
-                      (BuildContext context, int index) {
-                return _wrapItem(index);
-              }))
-            ],
-          ),
-        ),
-        // child: ListView.builder(
-        //   reverse: true,
-        //   shrinkWrap: true,
-        //   itemCount: widget.itemCount ?? 0,
-        //   padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
-        //   controller: widget.controller,
-        //   dragStartBehavior: DragStartBehavior.down,
-        //   itemBuilder: (context, index) {
-        //     return _wrapItem(index);
-        //   },
+          // child: CustomScrollView(
+          //   controller: widget.controller,
+          //   reverse: true,
+          //   // center: centerKey,
+          //   slivers: [
+          //     SliverList(
+          //         delegate: SliverChildBuilderDelegate(
+          //             childCount: widget.itemCount ?? 0,
+          //             (BuildContext context, int index) {
+          //       return _wrapItem(index);
+          //     }))
+          //   ],
+          // ),
         // ),
+        child: ListView.builder(
+          reverse: true,
+          shrinkWrap: true,
+          itemCount: widget.itemCount ?? 0,
+          padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
+          controller: widget.controller,
+          dragStartBehavior: DragStartBehavior.down,
+          itemBuilder: (context, index) {
+            return _wrapItem(index);
+          },
+        ),
       ),
     );
   }
