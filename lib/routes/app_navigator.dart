@@ -68,7 +68,7 @@ abstract class AppNavigator {
         if (isMine) {
           controller.setUserInfo(GlobalData.userInfo);
         } else {
-          controller.setUserInfo(userInfo);
+          controller.setUserInfo(userInfo!);
         }
         return MinePage(controller: controller);
       },

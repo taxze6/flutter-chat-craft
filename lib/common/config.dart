@@ -11,7 +11,7 @@ class Config {
   static const UI_W = 375.0;
   static const UI_H = 812.0;
 
-  static const ip = "192.168.31.135:8889";
+  static const ip = "192.168.31.123:8889";
   static const apiUrl = "http://$ip/v1";
   // static const imgIp = "http://$ip/";
 
