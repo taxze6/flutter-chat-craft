@@ -64,4 +64,7 @@ const Map<String, String> zh_CN = {
   "promotionalCardText": "如需体验更多ChatCraft的功能，请联系我的微信Taxze2019😘",
   "meMe": "表情包",
   "function": "功能",
+  "myProfile": "个人信息",
+  "sendMessage": "发送消息",
+  "audio": "语音通话",
 };

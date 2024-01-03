@@ -50,7 +50,7 @@ abstract class AppNavigator {
 
   static void startChat({
     UserInfo? userInfo,
-    int? groupId,
+    int groupId = 0,
   }) {
     Get.toNamed(AppRoutes.chat, arguments: {
       'userInfo': userInfo,

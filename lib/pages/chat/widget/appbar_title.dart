@@ -34,17 +34,17 @@ class _AppBarTitleState extends State<AppBarTitle>
       parent: _controller,
       curve: Curves.fastLinearToSlowEaseIn,
     ));
-    Future.delayed(const Duration(milliseconds: 300), () {
-      _controller.forward();
-      startTimer();
-    });
+    _controller.forward();
+    startTimer();
   }
 
   void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
       setState(() {
         if (_controller.isCompleted) {
-          _controller.reverse().then((value) => showTextOrIcon = !showTextOrIcon);
+          _controller
+              .reverse()
+              .then((value) => showTextOrIcon = !showTextOrIcon);
         } else {
           _controller.forward();
         }

@@ -25,4 +25,7 @@ class ImagesRes {
   static const icDownArrow = '${_dir}ic_down_arrow.svg';
   static const icPhotoAlbum = '${_dir}ic_photo_album.svg';
   static const icCamera = '${_dir}ic_camera.svg';
+  static const icLike = '${_dir}ic_like.svg';
+  static const icSend = '${_dir}ic_send.svg';
+  static const icAudio = '${_dir}ic_audio.svg';
 }

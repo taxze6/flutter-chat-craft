@@ -13,6 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../common/urls.dart';
+import '../../../im/im_utils.dart';
 import '../../../utils/web_socket_manager.dart';
 import '../../../widget/toast_utils.dart';
 import '../../../widget/water_mark_view.dart';
@@ -50,9 +51,15 @@ class _ChatPageState extends State<ChatPage> {
                         itemCount: chatLogic.messageList.length,
                         controller: chatLogic.scrollController,
                         onScrollDownLoad: () => chatLogic.getHistoryMsgList(),
-                        itemBuilder: (_, index) => itemView(
-                          index,
-                          chatLogic.indexOfMessage(index),
+                        itemBuilder: (_, index) => Column(
+                          children: [
+                            onBuildTime(index),
+                            itemView(
+                              // ValueKey(chatLogic.indexOfMessage(index).msgId),
+                              index,
+                              chatLogic.indexOfMessage(index),
+                            ),
+                          ],
                         ),
                       ))),
               ChatInputBoxView(
@@ -128,8 +135,34 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget itemView(index, Message message) => ChatItemView(
+        // key: key,
         message: message,
         msgSendStatusSubjectStream: chatLogic.msgSendStatusSubject.stream,
         msgSendProgressSubjectStream: chatLogic.msgProgressController.stream,
       );
+
+  Widget onBuildTime(index) {
+    if (index != 0) {
+      var timeDiff = (DateTime.parse(chatLogic.indexOfMessage(index).sendTime!)
+                  .millisecondsSinceEpoch ~/
+              1000) -
+          (DateTime.parse(chatLogic.indexOfMessage(index - 1).sendTime!)
+                  .millisecondsSinceEpoch ~/
+              1000);
+      if (timeDiff < 10 * 60) {
+        return const SizedBox();
+      }
+    }
+
+    var nearTime = chatLogic.messageList[index].sendTime;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(0x44, 0x66, 0x66, 0x66),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.w),
+      child: Text(IMUtils.formatTime(nearTime) ?? ""),
+    );
+  }
 }

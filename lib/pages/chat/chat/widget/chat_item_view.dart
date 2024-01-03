@@ -71,6 +71,8 @@ class _ChatItemViewState extends State<ChatItemView> {
         }
         break;
     }
+
+
     return child;
   }
 }

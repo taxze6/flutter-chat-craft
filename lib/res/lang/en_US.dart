@@ -68,4 +68,7 @@ const Map<String, String> en_US = {
       "To experience more functions of ChatCraft, please contact Taxze2019 on wechat😘",
   "meMe": "Meme",
   "function": "Function",
+  "myProfile": "My Profile",
+  "sendMessage": "Send Message",
+  "audio": "Audio",
 };

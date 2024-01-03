@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_logic.dart';
+import 'package:flutter_chat_craft/res/images.dart';
+import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_chat_craft/widget/avatar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class MinePage extends StatefulWidget {
@@ -13,7 +16,7 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late MineLogic mineLogic;
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
@@ -70,6 +73,11 @@ class _MinePageState extends State<MinePage>
                       children: [
                         closeButton(),
                         userInfoView(),
+                        if (mineLogic.isSelf)
+                          myProfile()
+                        else
+                          otherUserInteractionModule(),
+                        divider(),
                       ],
                     ),
                   ),
@@ -118,4 +126,115 @@ class _MinePageState extends State<MinePage>
       ],
     );
   }
+
+  ///Display the widget when the account belongs to the user.
+  Widget myProfile() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 6.w),
+      child: GestureDetector(
+        onTap: () {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              StrRes.myProfile,
+              style: TextStyle(
+                fontSize: 10.sp,
+                color: const Color(0xFFC4C4C4),
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: const Color(0xFFC4C4C4),
+              size: 10.w,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ///Display when it is information of other users.
+  Widget otherUserInteractionModule() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 18.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 2,
+            child: otherUserInteractionItem(
+              iconImage: ImagesRes.icLike,
+              itemText: '222',
+              onTap: () {},
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 6.w),
+              child: otherUserInteractionItem(
+                iconImage: ImagesRes.icSend,
+                itemText: StrRes.sendMessage,
+                onTap: mineLogic.toChat,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: otherUserInteractionItem(
+              iconImage: ImagesRes.icAudio,
+              itemText: StrRes.audio,
+              onTap: () {},
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget otherUserInteractionItem({
+    required String iconImage,
+    required String itemText,
+    required GestureTapCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(26.w),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 12.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(iconImage),
+              SizedBox(
+                width: 6.w,
+              ),
+              Text(
+                itemText,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget divider() {
+    return const Divider(
+      color: Color(0xFFEFEFEF),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../im/im_utils.dart';
 import '../../models/message.dart';
 import '../../res/images.dart';
 import '../../utils/touch_close_keyboard.dart';
@@ -143,7 +144,7 @@ class _ConversationPageState extends State<ConversationPage> {
             imageSize: Size(60.w, 60.w),
             imageUrl: userInfo.avatar,
             radius: 60.w,
-            onTap: () {},
+            onTap: () => conversationLogic.startUserInfo(userInfo),
           ),
           Text(
             userInfo.userName,
@@ -176,9 +177,12 @@ class _ConversationPageState extends State<ConversationPage> {
             (context, index) => ConversationItemView(
               userInfo: conversationLogic.conversationsInfo[index].userInfo,
               content: conversationLogic.conversationsInfo[index].previewText,
-              timeStr:
-                  conversationLogic.conversationsInfo[index].message.sendTime ??
-                      "",
+              // timeStr:
+              //     conversationLogic.conversationsInfo[index].message.sendTime ??
+              //         "",
+              timeStr: IMUtils.formatTime(conversationLogic
+                      .conversationsInfo[index].message.sendTime) ??
+                  "",
               onTap: () => conversationLogic.toChat(index),
               slideActions: [
                 SlideItemInfo(

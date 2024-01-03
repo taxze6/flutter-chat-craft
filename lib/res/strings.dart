@@ -144,4 +144,10 @@ class StrRes {
 
   static get function => 'function'.tr;
 
+  static get myProfile => 'myProfile'.tr;
+
+  static get sendMessage => 'sendMessage'.tr;
+
+
+  static get audio => 'audio'.tr;
 }

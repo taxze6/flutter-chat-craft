@@ -152,12 +152,15 @@ class ConversationLogic extends GetxController
   }
 
   void toChat(int index) {
-    AppNavigator.startChat(
-        userInfo: conversationsInfo[index].userInfo, groupId: 0);
+    AppNavigator.startChat(userInfo: conversationsInfo[index].userInfo);
   }
 
   /// Determine the top.
   bool isPinned(int index) {
     return false;
+  }
+
+  void startUserInfo(UserInfo userInfo) {
+    AppNavigator.startMine(isMine: false, userInfo: userInfo);
   }
 }
