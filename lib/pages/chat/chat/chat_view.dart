@@ -152,17 +152,19 @@ class _ChatPageState extends State<ChatPage> {
       if (timeDiff < 10 * 60) {
         return const SizedBox();
       }
+
+      var nearTime = chatLogic.messageList[index].sendTime;
+
+      return Container(
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(0x44, 0x66, 0x66, 0x66),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.w),
+        child: Text(IMUtils.formatTime(nearTime) ?? ""),
+      );
+    } else {
+      return SizedBox();
     }
-
-    var nearTime = chatLogic.messageList[index].sendTime;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(0x44, 0x66, 0x66, 0x66),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.w),
-      child: Text(IMUtils.formatTime(nearTime) ?? ""),
-    );
   }
 }

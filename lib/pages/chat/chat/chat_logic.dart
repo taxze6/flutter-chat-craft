@@ -82,6 +82,7 @@ class ChatLogic extends GetxController {
       formId: GlobalData.userInfo.userID,
       contentType: MessageType.text,
       content: textEditingController.text,
+      sendTime: DateTime.now().toString(),
     );
     bool isSendSuccess =
         conversationLogic.webSocketManager.sendMsg(message.toJsonString());
