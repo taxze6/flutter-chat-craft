@@ -67,4 +67,6 @@ const Map<String, String> zh_CN = {
   "myProfile": "个人信息",
   "sendMessage": "发送消息",
   "audio": "语音通话",
+  "story": "故事",
+  "viewAllStory": "查看所有故事",
 };

@@ -211,4 +211,24 @@ class Apis {
     }
     return data;
   }
+
+  static Future<dynamic> getUserShowStoryList({
+    required int userId,
+  }) async {
+    var data = await HttpUtil.post(Urls.getUserShowStoryList,
+        options: Options(
+          headers: {
+            "Authorization": GlobalData.token,
+            "UserId": GlobalData.userInfo.userID,
+          },
+          contentType: 'application/json',
+        ),
+        data: {
+          "userId": userId,
+        });
+    if (data == null) {
+      return false;
+    }
+    return data;
+  }
 }

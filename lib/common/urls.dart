@@ -13,6 +13,9 @@ class Urls {
       "${Config.apiUrl}/user/register_email_code_check";
   static var findUserWithName = "${Config.apiUrl}/user/find_user_with_name";
 
+  static var getUserShowStoryList =
+      "${Config.apiUrl}/user/get_user_show_story_list";
+
   //relation
   static var addFriendWithUserName = "${Config.apiUrl}/relation/add_username";
   static var loadFriends = "${Config.apiUrl}/relation/list";

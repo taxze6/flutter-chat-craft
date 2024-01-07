@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_logic.dart';
 import 'package:flutter_chat_craft/res/images.dart';
@@ -56,29 +57,34 @@ class _MinePageState extends State<MinePage>
           children: [
             SlideTransition(
               position: _offsetAnimation,
-              child: Container(
-                width: 1.sw,
-                height: 0.9.sh,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(42.w),
-                    topRight: Radius.circular(42.w),
+              child: GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 1.sw,
+                  height: 0.9.sh,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(42.w),
+                      topRight: Radius.circular(42.w),
+                    ),
                   ),
-                ),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.all(18.w),
-                    child: Column(
-                      children: [
-                        closeButton(),
-                        userInfoView(),
-                        if (mineLogic.isSelf)
-                          myProfile()
-                        else
-                          otherUserInteractionModule(),
-                        divider(),
-                      ],
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.all(18.w),
+                      child: Column(
+                        children: [
+                          closeButton(),
+                          userInfoView(),
+                          if (mineLogic.isSelf)
+                            myProfile()
+                          else
+                            otherUserInteractionModule(),
+                          divider(),
+                          storyTitle(),
+                          stories(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -163,10 +169,12 @@ class _MinePageState extends State<MinePage>
         children: [
           Expanded(
             flex: 2,
-            child: otherUserInteractionItem(
-              iconImage: ImagesRes.icLike,
-              itemText: '222',
-              onTap: () {},
+            child: Obx(
+              () => otherUserInteractionItem(
+                iconImage: ImagesRes.icLike,
+                itemText: mineLogic.storyLike.value.toString(),
+                onTap: () {},
+              ),
             ),
           ),
           Expanded(
@@ -230,8 +238,101 @@ class _MinePageState extends State<MinePage>
   }
 
   Widget divider() {
-    return const Divider(
-      color: Color(0xFFEFEFEF),
+    return Padding(
+      padding: EdgeInsets.only(bottom: 20.w),
+      child: const Divider(
+        color: Color(0xFFEFEFEF),
+      ),
+    );
+  }
+
+  Widget storyTitle() {
+    return Row(
+      children: [
+        Text(
+          StrRes.story,
+          style: TextStyle(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const Spacer(),
+        GestureDetector(
+            onTap: () {},
+            child: Text(
+              StrRes.viewAllStory,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFFB4B4B4),
+              ),
+            )),
+      ],
+    );
+  }
+
+  Widget stories() {
+    return Padding(
+      padding: EdgeInsets.only(top: 16.w),
+      child: SizedBox(
+        height: 175.h,
+        child: Obx(
+          () => ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemCount: mineLogic.userStories.length,
+              itemBuilder: (_, index) {
+                var data = mineLogic.userStories[index];
+                return LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Padding(
+                      padding: EdgeInsets.only(right: 12.w),
+                      child: Stack(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: data.media ?? "",
+                            width: 130.w,
+                            height: constraints.maxHeight,
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
+                              ),
+                            ),
+                            placeholder: (context, url) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                color: Colors.grey.shade100,
+                              ),
+                              child: const CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error_outlined),
+                          ),
+                          Positioned(
+                              top: constraints.maxHeight - 34,
+                              left: 5,
+                              right: 5,
+                              child: Text(
+                                (data.content?.length ?? 0) > 30
+                                    ? '${data.content!.substring(0, 30)}...'
+                                    : (data.content ?? ""),
+                                style: TextStyle(
+                                  fontSize: 10.sp,
+                                  color: Colors.white,
+                                ),
+                              ))
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }),
+        ),
+      ),
     );
   }
 

@@ -148,6 +148,9 @@ class StrRes {
 
   static get sendMessage => 'sendMessage'.tr;
 
-
   static get audio => 'audio'.tr;
+
+  static get story => 'story'.tr;
+
+  static get viewAllStory => 'viewAllStory'.tr;
 }

@@ -71,4 +71,6 @@ const Map<String, String> en_US = {
   "myProfile": "My Profile",
   "sendMessage": "Send Message",
   "audio": "Audio",
+  "story": "Story",
+  "viewAllStory": "View All Story",
 };
