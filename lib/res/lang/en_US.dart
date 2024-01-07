@@ -73,4 +73,6 @@ const Map<String, String> en_US = {
   "audio": "Audio",
   "story": "Story",
   "viewAllStory": "View All Story",
+  "preferences": "Preferences",
+  "noStory":"No story available at the moment."
 };

@@ -28,4 +28,6 @@ class ImagesRes {
   static const icLike = '${_dir}ic_like.svg';
   static const icSend = '${_dir}ic_send.svg';
   static const icAudio = '${_dir}ic_audio.svg';
+  static const icFriendSetting = '${_dir}ic_friend_setting.svg';
+  static const icShareApp = '${_dir}ic_share_app.svg';
 }

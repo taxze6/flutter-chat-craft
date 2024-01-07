@@ -153,4 +153,8 @@ class StrRes {
   static get story => 'story'.tr;
 
   static get viewAllStory => 'viewAllStory'.tr;
+
+  static get preferences => 'preferences'.tr;
+
+  static get noStory => 'noStory'.tr;
 }

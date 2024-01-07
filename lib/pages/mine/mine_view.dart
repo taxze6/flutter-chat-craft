@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_logic.dart';
@@ -83,6 +85,14 @@ class _MinePageState extends State<MinePage>
                           divider(),
                           storyTitle(),
                           stories(),
+                          preferencesTitle(),
+                          preferencesItem(
+                              icon: ImagesRes.icFriendSetting,
+                              title: 'Friend settings'),
+                          preferencesItem(
+                              icon: ImagesRes.icShareApp,
+                              title: 'Share this App'),
+                          appVersion(),
                         ],
                       ),
                     ),
@@ -273,64 +283,163 @@ class _MinePageState extends State<MinePage>
 
   Widget stories() {
     return Padding(
-      padding: EdgeInsets.only(top: 16.w),
-      child: SizedBox(
-        height: 175.h,
-        child: Obx(
-          () => ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: mineLogic.userStories.length,
-              itemBuilder: (_, index) {
-                var data = mineLogic.userStories[index];
-                return LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return Padding(
-                      padding: EdgeInsets.only(right: 12.w),
-                      child: Stack(
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl: data.media ?? "",
-                            width: 130.w,
-                            height: constraints.maxHeight,
-                            imageBuilder: (context, imageProvider) => Container(
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
-                                image: DecorationImage(
-                                    image: imageProvider, fit: BoxFit.cover),
-                              ),
-                            ),
-                            placeholder: (context, url) => Container(
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
-                                color: Colors.grey.shade100,
-                              ),
-                              child: const CircularProgressIndicator(),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error_outlined),
-                          ),
-                          Positioned(
-                              top: constraints.maxHeight - 34,
-                              left: 5,
-                              right: 5,
-                              child: Text(
-                                (data.content?.length ?? 0) > 30
-                                    ? '${data.content!.substring(0, 30)}...'
-                                    : (data.content ?? ""),
-                                style: TextStyle(
-                                  fontSize: 10.sp,
-                                  color: Colors.white,
+      padding: EdgeInsets.symmetric(
+        vertical: 16.w,
+      ),
+      child: Obx(() => mineLogic.userStories.isEmpty
+          ? Row(
+              children: [
+                Text(
+                  StrRes.noStory,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ],
+            )
+          : SizedBox(
+              height: 175.h,
+              child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: mineLogic.userStories.length,
+                  itemBuilder: (_, index) {
+                    var data = mineLogic.userStories[index];
+                    return LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        return Padding(
+                          padding: EdgeInsets.only(right: 12.w),
+                          child: Stack(
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl: data.media ?? "",
+                                width: 130.w,
+                                height: constraints.maxHeight,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
                                 ),
-                              ))
-                        ],
-                      ),
+                                placeholder: (context, url) => Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    color: Colors.grey.shade100,
+                                  ),
+                                  child: const Center(
+                                      child: CircularProgressIndicator()),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error_outlined),
+                              ),
+                              Positioned(
+                                  top: constraints.maxHeight - 34,
+                                  left: 5,
+                                  right: 5,
+                                  child: Text(
+                                    (data.content?.length ?? 0) > 30
+                                        ? '${data.content!.substring(0, 30)}...'
+                                        : (data.content ?? ""),
+                                    style: TextStyle(
+                                      fontSize: 10.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        );
+                      },
                     );
-                  },
-                );
-              }),
+                  }),
+            )),
+    );
+  }
+
+  Widget preferencesTitle() {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 12.w),
+      child: Row(
+        children: [
+          Text(
+            StrRes.preferences,
+            style: TextStyle(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget preferencesItem({
+    required String icon,
+    required String title,
+  }) {
+    return InkWell(
+      onTap: () {},
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 6.w),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  icon,
+                  width: 18.w,
+                  height: 18.w,
+                ),
+                SizedBox(
+                  width: 18.w,
+                ),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Transform.rotate(
+                  angle: pi,
+                  child: SvgPicture.asset(
+                    ImagesRes.back,
+                    width: 18.w,
+                    height: 18.w,
+                    colorFilter: const ColorFilter.mode(
+                      Color(0xFFD2D2D2),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Divider(
+            color: Color(0xFFEFEFEF),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget appVersion() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 48, bottom: 12),
+      child: Center(
+        child: Text(
+          "ChatCraft v1.0.0",
+          style: TextStyle(
+            fontSize: 12.sp,
+            color: const Color(0xFFA6A6A6),
+          ),
         ),
       ),
     );

@@ -69,4 +69,6 @@ const Map<String, String> zh_CN = {
   "audio": "语音通话",
   "story": "故事",
   "viewAllStory": "查看所有故事",
+  "preferences": "偏好设置",
+  "noStory":"好像有点空空~"
 };
