@@ -335,8 +335,17 @@ class _MinePageState extends State<MinePage>
                                   child: const Center(
                                       child: CircularProgressIndicator()),
                                 ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error_outlined),
+                                errorWidget: (context, url, error) => Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
+                                    color: Colors.grey.shade100,
+                                  ),
+                                  child: const Center(
+                                      child: Icon(
+                                    Icons.close,
+                                  )),
+                                ),
                               ),
                               Positioned(
                                   top: constraints.maxHeight - 34,
@@ -382,7 +391,7 @@ class _MinePageState extends State<MinePage>
     required String icon,
     required String title,
   }) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {},
       child: Column(
         children: [

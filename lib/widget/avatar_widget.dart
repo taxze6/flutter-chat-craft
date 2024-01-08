@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../res/images.dart';
 import 'photo_browser.dart';
@@ -22,17 +23,45 @@ class AvatarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap ?? () => clickItemCell(context, 0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(radius),
-        child: FadeInImage(
-          width: imageSize.width,
-          height: imageSize.height,
-          placeholder: const AssetImage(
-            ImagesRes.icBrowser,
+      // child: ClipRRect(
+      //   borderRadius: BorderRadius.circular(radius),
+      //   child: FadeInImage(
+      //     width: imageSize.width,
+      //     height: imageSize.height,
+      //     placeholder: const AssetImage(
+      //       ImagesRes.icBrowser,
+      //     ),
+      //     image: NetworkImage(imageUrl),
+      //     fit: BoxFit.fill,
+      //     fadeInDuration: const Duration(milliseconds: 300),
+      //   ),
+      // ),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: imageSize.width,
+        height: imageSize.height,
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(radius)),
+            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
           ),
-          image: NetworkImage(imageUrl),
-          fit: BoxFit.fill,
-          fadeInDuration: const Duration(milliseconds: 300),
+        ),
+        placeholder: (context, url) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(radius)),
+            color: Colors.grey.shade100,
+          ),
+          child: const Center(child: CircularProgressIndicator()),
+        ),
+        errorWidget: (context, url, error) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(radius)),
+            color: Colors.grey.shade100,
+          ),
+          child: const Center(
+              child: Icon(
+            Icons.eco_rounded,
+          )),
         ),
       ),
     );
