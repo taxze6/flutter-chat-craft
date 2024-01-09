@@ -14,6 +14,8 @@ import 'package:flutter_chat_craft/pages/login/login_view.dart';
 import 'package:flutter_chat_craft/pages/login/register/register_binding.dart';
 import 'package:flutter_chat_craft/pages/login/register/register_view.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_binding.dart';
+import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_details_binding.dart';
+import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_details_view.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_view.dart';
 import 'package:flutter_chat_craft/pages/splash/splash_binding.dart';
 import 'package:flutter_chat_craft/pages/splash/splash_view.dart';
@@ -74,5 +76,10 @@ class AppPages {
     //   page: () => MinePage(),
     //   binding: MineBinding(),
     // )
+    GetPage(
+        name: AppRoutes.mineStoryDetails,
+        transition: Transition.topLevel,
+        page: () => MineStoryDetailsPage(),
+        binding: MineStoryDetailsBindings()),
   ];
 }

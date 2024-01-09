@@ -312,57 +312,61 @@ class _MinePageState extends State<MinePage>
                           (BuildContext context, BoxConstraints constraints) {
                         return Padding(
                           padding: EdgeInsets.only(right: 12.w),
-                          child: Stack(
-                            children: [
-                              CachedNetworkImage(
-                                imageUrl: data.media ?? "",
-                                width: 130.w,
-                                height: constraints.maxHeight,
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(8)),
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover),
-                                  ),
-                                ),
-                                placeholder: (context, url) => Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(8)),
-                                    color: Colors.grey.shade100,
-                                  ),
-                                  child: const Center(
-                                      child: CircularProgressIndicator()),
-                                ),
-                                errorWidget: (context, url, error) => Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(8)),
-                                    color: Colors.grey.shade100,
-                                  ),
-                                  child: const Center(
-                                      child: Icon(
-                                    Icons.close,
-                                  )),
-                                ),
-                              ),
-                              Positioned(
-                                  top: constraints.maxHeight - 34,
-                                  left: 5,
-                                  right: 5,
-                                  child: Text(
-                                    (data.content?.length ?? 0) > 30
-                                        ? '${data.content!.substring(0, 30)}...'
-                                        : (data.content ?? ""),
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                      color: Colors.white,
+                          child: GestureDetector(
+                            onTap: () => mineLogic.startMineStoryDetails(data),
+                            child: Stack(
+                              children: [
+                                CachedNetworkImage(
+                                  imageUrl: data.media![0],
+                                  width: 130.w,
+                                  height: constraints.maxHeight,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8)),
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover),
                                     ),
-                                  ))
-                            ],
+                                  ),
+                                  placeholder: (context, url) => Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8)),
+                                      color: Colors.grey.shade100,
+                                    ),
+                                    child: const Center(
+                                        child: CircularProgressIndicator()),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8)),
+                                      color: Colors.grey.shade100,
+                                    ),
+                                    child: const Center(
+                                        child: Icon(
+                                      Icons.close,
+                                    )),
+                                  ),
+                                ),
+                                Positioned(
+                                    top: constraints.maxHeight - 34,
+                                    left: 5,
+                                    right: 5,
+                                    child: Text(
+                                      (data.content?.length ?? 0) > 30
+                                          ? '${data.content!.substring(0, 30)}...'
+                                          : (data.content ?? ""),
+                                      style: TextStyle(
+                                        fontSize: 10.sp,
+                                        color: Colors.white,
+                                      ),
+                                    ))
+                              ],
+                            ),
                           ),
                         );
                       },

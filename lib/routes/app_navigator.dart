@@ -6,6 +6,7 @@ import 'package:flutter_chat_craft/pages/mine/mine_logic.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_view.dart';
 import 'package:get/get.dart';
 
+import '../models/user_story.dart';
 import 'app_routes.dart';
 
 typedef CheckCodeMethod = Future<bool> Function(String code);
@@ -73,5 +74,15 @@ abstract class AppNavigator {
         return MinePage(controller: controller);
       },
     ));
+  }
+
+  static void startMineStoryDetails({
+    required UserInfo userInfo,
+    required UserStory userStory,
+  }) {
+    Get.toNamed(AppRoutes.mineStoryDetails, arguments: {
+      'userInfo': userInfo,
+      'userStory': userStory,
+    });
   }
 }

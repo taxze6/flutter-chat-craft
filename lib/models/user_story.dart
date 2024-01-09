@@ -2,7 +2,7 @@ class UserStory {
   int? storyId;
   int? ownerId;
   String? content;
-  String? media;
+  List<String>? media;
   int? type;
 
   UserStory({
@@ -17,14 +17,14 @@ class UserStory {
       : storyId = json["ID"],
         ownerId = json['owner_id'],
         content = json['content'],
-        media = json['media'],
+        media = json['media'].split(','),
         type = json['type'];
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'ownerId': ownerId,
       'content': content,
-      'media': media,
+      'media': media?.join(','),
       'type': type,
     };
   }

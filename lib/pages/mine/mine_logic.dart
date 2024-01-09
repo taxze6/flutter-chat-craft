@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/user_story.dart';
 import 'package:get/get.dart';
@@ -16,13 +14,11 @@ class MineLogic extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
     getUserShowStoryList();
   }
 
   void setUserInfo(UserInfo info) {
     userInfo = info;
-    update();
   }
 
   bool get isSelf => userInfo.userID == GlobalData.userInfo.userID;
@@ -49,5 +45,9 @@ class MineLogic extends GetxController {
       }
     }
     return false;
+  }
+
+  void startMineStoryDetails(UserStory story) {
+    AppNavigator.startMineStoryDetails(userInfo: userInfo, userStory: story);
   }
 }
