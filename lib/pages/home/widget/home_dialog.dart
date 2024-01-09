@@ -5,9 +5,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../res/strings.dart';
 
 class HomeDialog extends StatefulWidget {
-  const HomeDialog({super.key, required this.toAddFriend});
+  const HomeDialog({
+    super.key,
+    required this.toAddFriend,
+    required this.toAddNewChat,
+  });
 
   final GestureTapCallback toAddFriend;
+  final GestureTapCallback toAddNewChat;
 
   @override
   State<HomeDialog> createState() => _HomeDialogState();
@@ -91,7 +96,7 @@ class _HomeDialogState extends State<HomeDialog>
                               imagePath: ImagesRes.icNewChatIcon,
                               title: StrRes.newChat,
                               content: StrRes.newChatContent,
-                              onTap: w.toAddFriend,
+                              onTap: w.toAddNewChat,
                             ),
                             homeDivider(),
                             homeItem(

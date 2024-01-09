@@ -10,4 +10,5 @@ abstract class AppRoutes {
   static const chat = '/chat';
   static const mine = '/mine';
   static const mineStoryDetails = '/mineStoryDetails';
+  static const newChat = '/newChat';
 }

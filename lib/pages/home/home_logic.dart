@@ -25,6 +25,7 @@ class HomeLogic extends GetxController {
     Get.dialog(
       barrierColor: const Color(0x573D3D3D),
       HomeDialog(
+        toAddNewChat: () => toNewChat(),
         toAddFriend: () => toAddFriendPage(),
       ),
     ).then((value) {
@@ -46,6 +47,10 @@ class HomeLogic extends GetxController {
 
   void toAddFriendPage() {
     AppNavigator.startAddFriend();
+  }
+
+  void toNewChat() {
+    AppNavigator.startNewChat();
   }
 
   void startMine() {

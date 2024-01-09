@@ -4,6 +4,8 @@ import 'package:flutter_chat_craft/pages/chat/chat/chat_binding.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/chat_view.dart';
 import 'package:flutter_chat_craft/pages/chat/conversation_binding.dart';
 import 'package:flutter_chat_craft/pages/chat/conversation_view.dart';
+import 'package:flutter_chat_craft/pages/chat/new_chat/new_chat_binding.dart';
+import 'package:flutter_chat_craft/pages/chat/new_chat/new_chat_view.dart';
 import 'package:flutter_chat_craft/pages/common/check_code/check_code_binding.dart';
 import 'package:flutter_chat_craft/pages/common/check_code/check_code_view.dart';
 import 'package:flutter_chat_craft/pages/home/home_binding.dart';
@@ -81,5 +83,10 @@ class AppPages {
         transition: Transition.topLevel,
         page: () => MineStoryDetailsPage(),
         binding: MineStoryDetailsBindings()),
+    GetPage(
+        name: AppRoutes.newChat,
+        transition: Transition.rightToLeft,
+        page: () => NewChatPage(),
+        binding: NewChatBinding()),
   ];
 }

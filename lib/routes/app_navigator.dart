@@ -85,4 +85,8 @@ abstract class AppNavigator {
       'userStory': userStory,
     });
   }
+
+  static void startNewChat() {
+    Get.toNamed(AppRoutes.newChat);
+  }
 }
