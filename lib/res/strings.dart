@@ -157,4 +157,8 @@ class StrRes {
   static get preferences => 'preferences'.tr;
 
   static get noStory => 'noStory'.tr;
+
+  static get friendSetting => 'friendSetting'.tr;
+
+  static get shareApp => 'shareApp'.tr;
 }

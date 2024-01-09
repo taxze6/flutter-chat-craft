@@ -74,5 +74,7 @@ const Map<String, String> en_US = {
   "story": "Story",
   "viewAllStory": "View All Story",
   "preferences": "Preferences",
-  "noStory":"No story available at the moment."
+  "noStory": "No story available at the moment.",
+  "friendSetting": "Friend Setting",
+  "shareApp": "Share This Project~",
 };

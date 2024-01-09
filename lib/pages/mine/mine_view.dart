@@ -87,11 +87,13 @@ class _MinePageState extends State<MinePage>
                           stories(),
                           preferencesTitle(),
                           preferencesItem(
-                              icon: ImagesRes.icFriendSetting,
-                              title: 'Friend settings'),
+                            icon: ImagesRes.icFriendSetting,
+                            title: StrRes.friendSetting,
+                          ),
                           preferencesItem(
-                              icon: ImagesRes.icShareApp,
-                              title: 'Share this App'),
+                            icon: ImagesRes.icShareApp,
+                            title: StrRes.shareApp,
+                          ),
                           appVersion(),
                         ],
                       ),

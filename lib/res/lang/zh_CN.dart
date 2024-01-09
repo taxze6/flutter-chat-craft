@@ -70,5 +70,7 @@ const Map<String, String> zh_CN = {
   "story": "故事",
   "viewAllStory": "查看所有故事",
   "preferences": "偏好设置",
-  "noStory":"好像有点空空~"
+  "noStory": "好像有点空空~",
+  "friendSetting": "好友设置",
+  "shareApp": "分享这个项目吧~",
 };
