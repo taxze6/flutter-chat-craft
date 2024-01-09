@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_details_logic.dart';
+import 'package:flutter_chat_craft/res/images.dart';
 import 'package:flutter_chat_craft/widget/avatar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class MineStoryDetailsPage extends StatefulWidget {
@@ -95,6 +97,12 @@ class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
               height: constraints.maxHeight,
               child: storyImages(images),
             ),
+            Positioned(
+              bottom: 20.w,
+              left: 0,
+              right: 0,
+              child: storyTools(),
+            ),
           ],
         );
       }),
@@ -103,6 +111,7 @@ class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
 
   Widget storyImages(List<String> images) {
     return PageView.builder(
+      physics: const BouncingScrollPhysics(),
       controller: mineStoryDetailsLogic.imagesController,
       itemCount: images.length,
       onPageChanged: (int index) => mineStoryDetailsLogic.changeCurrent(index),
@@ -137,6 +146,42 @@ class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
           ),
         );
       },
+    );
+  }
+
+  Widget storyTools() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        itemTool(() {}, ImagesRes.icStoryLike, const Color(0xFF383838)),
+        itemTool(() => mineStoryDetailsLogic.showToolsDialog(context),
+            ImagesRes.icStoryComment, const Color(0xFF383838)),
+        itemTool(() {}, ImagesRes.icStoryCollect, const Color(0xFF383838)),
+        itemTool(() {}, ImagesRes.icStoryShare, const Color(0xFF383838)),
+      ],
+    );
+  }
+
+  Widget itemTool(GestureTapCallback onTap, String iconPath, Color color) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 36.w,
+        height: 36.w,
+        margin: EdgeInsets.symmetric(horizontal: 10.w),
+        padding: EdgeInsets.all(10.w),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+        child: SvgPicture.asset(
+          iconPath,
+          colorFilter: ColorFilter.mode(
+            color,
+            BlendMode.srcIn,
+          ),
+        ),
+      ),
     );
   }
 }

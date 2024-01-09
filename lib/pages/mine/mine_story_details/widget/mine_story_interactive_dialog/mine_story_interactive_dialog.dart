@@ -2,32 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../res/images.dart';
-import '../../../res/strings.dart';
+import '../../../../../res/images.dart';
+import '../../../../../res/strings.dart';
 import 'list_meme_widget.dart';
-import 'list_tools_widget.dart';
+import 'list_reply_input.dart';
 
-class InteractiveDialog extends StatefulWidget {
-  const InteractiveDialog({
+class MineStoryInteractiveDialog extends StatefulWidget {
+  const MineStoryInteractiveDialog({
     Key? key,
     this.height,
-    required this.openCamera,
-    required this.openPhotoAlbum,
+    required this.editingController,
+    required this.onSubmitted,
   }) : super(key: key);
 
   final double? height;
+  final TextEditingController editingController;
 
-  final GestureTapCallback openCamera;
-  final GestureTapCallback openPhotoAlbum;
+  final Function(String value) onSubmitted;
 
   @override
-  State<InteractiveDialog> createState() => _InteractiveDialogState();
+  State<MineStoryInteractiveDialog> createState() =>
+      _MineStoryInteractiveDialogState();
 }
 
-class _InteractiveDialogState extends State<InteractiveDialog>
+class _MineStoryInteractiveDialogState extends State<MineStoryInteractiveDialog>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
+  late Animation<double> _scaleAnimation;
   late double dialogHeight;
 
   @override
@@ -40,6 +42,13 @@ class _InteractiveDialogState extends State<InteractiveDialog>
     _offsetAnimation = Tween<Offset>(
       begin: const Offset(0.0, 2.0),
       end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.fastLinearToSlowEaseIn,
+    ));
+    _scaleAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.fastLinearToSlowEaseIn,
@@ -70,7 +79,6 @@ class _InteractiveDialogState extends State<InteractiveDialog>
 
   @override
   Widget build(BuildContext context) {
-    final w = widget;
     return GestureDetector(
       onTap: () {
         _closeDialogWithAnimation();
@@ -78,7 +86,7 @@ class _InteractiveDialogState extends State<InteractiveDialog>
       child: Material(
         color: const Color(0x00000000),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 24.w),
+          padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 28.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -117,6 +125,60 @@ class _InteractiveDialogState extends State<InteractiveDialog>
                           ],
                         )),
                   )),
+              SizedBox(
+                height: 10.w,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: SizedBox(
+                      width: 36.w,
+                      height: 36.w,
+                    ),
+                  ),
+                  ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: GestureDetector(
+                        onTap: () => _closeDialogWithAnimation(),
+                        child: Container(
+                          width: 36.w,
+                          height: 36.w,
+                          padding: EdgeInsets.all(10.w),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: SvgPicture.asset(
+                            ImagesRes.icStoryComment,
+                            colorFilter: const ColorFilter.mode(
+                              Color(0xFF383838),
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: SizedBox(
+                      width: 36.w,
+                      height: 36.w,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: SizedBox(
+                      width: 36.w,
+                      height: 36.w,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -196,15 +258,15 @@ class _InteractiveDialogState extends State<InteractiveDialog>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          StrRes.function,
+          StrRes.reply,
           style: TextStyle(fontSize: 14.sp),
         ),
         SizedBox(
           height: 6.w,
         ),
-        ListToolsWidget(
-          openCamera:widget.openCamera,
-          openPhotoAlbum: widget.openPhotoAlbum,
+        ListReplyInputWidget(
+          controller: widget.editingController,
+          onSubmitted: widget.onSubmitted,
         ),
       ],
     );

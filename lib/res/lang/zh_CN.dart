@@ -73,4 +73,6 @@ const Map<String, String> zh_CN = {
   "noStory": "好像有点空空~",
   "friendSetting": "好友设置",
   "shareApp": "分享这个项目吧~",
+  "reply": "回复",
+  "storyCommentHintText": "你觉得这个故事怎么样？",
 };

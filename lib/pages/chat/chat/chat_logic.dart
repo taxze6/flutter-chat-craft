@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/models/user_info.dart';
@@ -15,8 +12,8 @@ import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import '../../../common/apis.dart';
 import '../../../common/global_data.dart';
 import '../../../widget/toast_utils.dart';
-import '../../common/interactive_dialog/interactive_dialog.dart';
 import 'widget/chat_item_view.dart';
+import 'widget/interactive_dialog/interactive_dialog.dart';
 
 class ChatLogic extends GetxController {
   final conversationLogic = Get.find<ConversationLogic>();

@@ -30,4 +30,8 @@ class ImagesRes {
   static const icAudio = '${_dir}ic_audio.svg';
   static const icFriendSetting = '${_dir}ic_friend_setting.svg';
   static const icShareApp = '${_dir}ic_share_app.svg';
+  static const icStoryLike = '${_dir}ic_story_like.svg';
+  static const icStoryComment = '${_dir}ic_story_comment.svg';
+  static const icStoryCollect = '${_dir}ic_story_collect.svg';
+  static const icStoryShare = '${_dir}ic_story_share.svg';
 }

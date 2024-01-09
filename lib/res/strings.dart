@@ -161,4 +161,8 @@ class StrRes {
   static get friendSetting => 'friendSetting'.tr;
 
   static get shareApp => 'shareApp'.tr;
+
+  static get reply => 'reply'.tr;
+
+  static get storyCommentHintText => 'storyCommentHintText'.tr;
 }
