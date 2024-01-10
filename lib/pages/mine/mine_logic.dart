@@ -39,7 +39,14 @@ class MineLogic extends GetxController {
       var count = data["Count"];
       storyLike.value = count;
       for (var story in storyData) {
-        UserStory info = UserStory.fromJson(story);
+        UserStory info = UserStory.fromJson(story["story"]);
+
+        List<UserStoryLike> storyLikes = story["story_likes"] != null
+            ? (story["story_likes"] as List<dynamic>)
+                .map((likeJson) => UserStoryLike.fromJson(likeJson))
+                .toList()
+            : [];
+        info.storyLikes = storyLikes;
         userStories.add(info);
         print(info.toString());
       }

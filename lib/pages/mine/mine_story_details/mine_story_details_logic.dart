@@ -4,8 +4,6 @@ import 'package:flutter_chat_craft/models/user_info.dart';
 import 'package:flutter_chat_craft/models/user_story.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import 'widget/mine_story_interactive_dialog/mine_story_interactive_dialog.dart';
 
 class MineStoryDetailsLogic extends GetxController {
