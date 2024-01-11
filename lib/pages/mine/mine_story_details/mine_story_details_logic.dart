@@ -42,7 +42,7 @@ class MineStoryDetailsLogic extends GetxController {
       barrierColor: const Color(0x573D3D3D),
       builder: (BuildContext context) {
         return MineStoryInteractiveDialog(
-          height: 270.w,
+          height: 290.w,
           editingController: commentController,
           onSubmitted: storyComment,
         );
@@ -85,5 +85,19 @@ class MineStoryDetailsLogic extends GetxController {
     }
   }
 
-  void storyComment(String value) {}
+  void storyComment(String value) async {
+    var data = await Apis.addUserStoryComment(
+      userId: GlobalData.userInfo.userID,
+      storyId: userStory.storyId!,
+      content: value,
+      type: UserStoryCommentType.text,
+    );
+    if (data == false) {
+    } else {
+      UserStoryComment comment = UserStoryComment.fromJson(data);
+      userStory.storyComments?.add(comment);
+      ToastUtils.toastText(StrRes.operationSuccessful);
+      commentController.clear();
+    }
+  }
 }

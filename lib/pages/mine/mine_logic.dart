@@ -45,7 +45,14 @@ class MineLogic extends GetxController {
                 .map((likeJson) => UserStoryLike.fromJson(likeJson))
                 .toList()
             : [];
+
+        List<UserStoryComment> storyComments = story["story_comments"] != null
+            ? (story["story_comments"] as List<dynamic>)
+                .map((commentJson) => UserStoryComment.fromJson(commentJson))
+                .toList()
+            : [];
         info.storyLikes = storyLikes;
+        info.storyComments = storyComments;
         userStories.add(info);
         print(info.toString());
       }

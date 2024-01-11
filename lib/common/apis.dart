@@ -253,4 +253,30 @@ class Apis {
     }
     return data;
   }
+
+  static Future<dynamic> addUserStoryComment({
+    required int userId,
+    required int storyId,
+    required String content,
+    required int type,
+  }) async {
+    var data = await HttpUtil.post(Urls.addUserStoryComment,
+        options: Options(
+          headers: {
+            "Authorization": GlobalData.token,
+            "UserId": GlobalData.userInfo.userID,
+          },
+          contentType: 'application/json',
+        ),
+        data: {
+          "storyId": storyId.toString(),
+          "ownerId": userId.toString(),
+          "content": content,
+          "type": type.toString(),
+        });
+    if (data == null) {
+      return false;
+    }
+    return data;
+  }
 }

@@ -5,6 +5,7 @@ class UserStory {
   List<String>? media;
   int? type;
   List<UserStoryLike>? storyLikes;
+  List<UserStoryComment>? storyComments;
 
   UserStory({
     this.storyId,
@@ -34,7 +35,7 @@ class UserStory {
 
   @override
   String toString() {
-    return 'UserStory{ownerId: $ownerId, content: $content, media: $media, type: $type,storyLikes:$storyLikes}';
+    return 'UserStory{ownerId: $ownerId, content: $content, media: $media, type: $type,storyLikes:$storyLikes,storyComments:$storyComments}';
   }
 }
 
@@ -62,4 +63,43 @@ class UserStoryLike {
   String toString() {
     return 'UserStoryLike{storyId:$storyId,ownerId: $ownerId}';
   }
+}
+
+class UserStoryComment {
+  int? userStoryId;
+  int? commentOwnerId;
+  String? commentContent;
+  int? type;
+
+  UserStoryComment({
+    this.userStoryId,
+    this.commentOwnerId,
+    this.commentContent,
+    this.type,
+  });
+
+  UserStoryComment.fromJson(Map<String, dynamic> json)
+      : userStoryId = json["user_story_id"],
+        commentOwnerId = json['comment_owner_id'],
+        commentContent = json["comment_content"],
+        type = json['type'];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'user_story_id': userStoryId,
+      'comment_owner_id': commentOwnerId,
+      'comment_content': commentContent,
+      'type': type,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'UserStoryComment{user_story_id: $userStoryId,comment_owner_id: $commentOwnerId,comment_content: $commentContent,type: $type}';
+  }
+}
+
+class UserStoryCommentType {
+  static const text = 101;
+  static const image = 102;
 }

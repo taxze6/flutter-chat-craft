@@ -69,7 +69,7 @@ const Map<String, String> en_US = {
   "meMe": "Meme",
   "function": "Function",
   "myProfile": "My Profile",
-  "sendMessage": "Send Message",
+  "sendMessage": "To Chat",
   "audio": "Audio",
   "story": "Story",
   "viewAllStory": "View All Story",
