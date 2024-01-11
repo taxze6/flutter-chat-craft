@@ -165,4 +165,8 @@ class StrRes {
   static get reply => 'reply'.tr;
 
   static get storyCommentHintText => 'storyCommentHintText'.tr;
+
+  static get operationFailed => 'operationFailed'.tr;
+
+  static get operationSuccessful => 'operationSuccessful'.tr;
 }

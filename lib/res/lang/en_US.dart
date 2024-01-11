@@ -79,4 +79,6 @@ const Map<String, String> en_US = {
   "shareApp": "Share This Project~",
   "reply": "Reply",
   "storyCommentHintText": "How do you like it?",
+  "operationFailed": "Operation Failed.",
+  "operationSuccessful": "Operation Successful.",
 };

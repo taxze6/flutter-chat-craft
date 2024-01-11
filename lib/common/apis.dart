@@ -231,4 +231,26 @@ class Apis {
     }
     return data;
   }
+
+  static Future<dynamic> addOrRemoveUserStoryLike({
+    required int userId,
+    required int storyId,
+  }) async {
+    var data = await HttpUtil.post(Urls.addOrRemoveUserStoryLike,
+        options: Options(
+          headers: {
+            "Authorization": GlobalData.token,
+            "UserId": GlobalData.userInfo.userID,
+          },
+          contentType: 'application/json',
+        ),
+        data: {
+          "storyId": storyId,
+          "ownerId": userId,
+        });
+    if (data == null) {
+      return false;
+    }
+    return data;
+  }
 }

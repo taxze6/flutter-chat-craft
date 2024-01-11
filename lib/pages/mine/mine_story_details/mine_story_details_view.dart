@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_details_logic.dart';
 import 'package:flutter_chat_craft/res/images.dart';
+import 'package:flutter_chat_craft/res/styles.dart';
 import 'package:flutter_chat_craft/widget/avatar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -153,7 +154,12 @@ class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        itemTool(() {}, ImagesRes.icStoryLike, const Color(0xFF383838)),
+        Obx(() => itemTool(
+            () => mineStoryDetailsLogic.addLikeOrRemoveLike(),
+            ImagesRes.icStoryLike,
+            mineStoryDetailsLogic.isLike.value
+                ? PageStyle.chatColor
+                : const Color(0xFF383838))),
         itemTool(() => mineStoryDetailsLogic.showToolsDialog(context),
             ImagesRes.icStoryComment, const Color(0xFF383838)),
         itemTool(() {}, ImagesRes.icStoryCollect, const Color(0xFF383838)),

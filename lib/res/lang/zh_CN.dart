@@ -75,4 +75,6 @@ const Map<String, String> zh_CN = {
   "shareApp": "分享这个项目吧~",
   "reply": "回复",
   "storyCommentHintText": "你觉得这个故事怎么样？",
+  "operationFailed": "操作失败！",
+  "operationSuccessful": "操作成功！",
 };
