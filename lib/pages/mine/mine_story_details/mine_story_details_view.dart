@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+
 class MineStoryDetailsPage extends StatefulWidget {
   const MineStoryDetailsPage({Key? key}) : super(key: key);
 
@@ -104,6 +105,12 @@ class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
               right: 0,
               child: storyTools(),
             ),
+            // Positioned(
+            //   child: BarrageView(
+            //     commentData:
+            //         mineStoryDetailsLogic.userStory.storyComments ?? [],
+            //   ),
+            // ),
           ],
         );
       }),
