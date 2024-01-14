@@ -1,13 +1,18 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_details_logic.dart';
 import 'package:flutter_chat_craft/res/images.dart';
 import 'package:flutter_chat_craft/res/styles.dart';
 import 'package:flutter_chat_craft/widget/avatar_widget.dart';
+import 'package:flutter_chat_craft/widget/barrage/barrage_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../widget/barrage/barrage_controller.dart';
+import '../../../widget/barrage/barrage_view.dart';
 
 class MineStoryDetailsPage extends StatefulWidget {
   const MineStoryDetailsPage({Key? key}) : super(key: key);
@@ -18,6 +23,44 @@ class MineStoryDetailsPage extends StatefulWidget {
 
 class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
   final mineStoryDetailsLogic = Get.find<MineStoryDetailsLogic>();
+  BarrageController controller = BarrageController();
+
+  addDanmaku() {
+    int random = Random().nextInt(20);
+    controller.addDanmaku('s' + 's' * random,
+        color: Colors.primaries[Random().nextInt(Colors.primaries.length)]);
+    int random1 = Random().nextInt(20);
+    controller.addDanmaku('s' + 's' * random1,
+        barrageType: BarrageType.fixed,
+        color: Colors.primaries[Random().nextInt(Colors.primaries.length)]);
+  }
+
+  Size get areaSize => MediaQuery.of(context).size;
+
+  void _incrementCounter() {
+    addDanmaku();
+    int random = Random().nextInt(20);
+    controller.addDanmaku('s' + 's' * random,
+        barrageType: BarrageType.fixed,
+        color: Colors.primaries[Random().nextInt(Colors.primaries.length)]);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(milliseconds: 500), () {
+      controller.init(areaSize);
+      controller.setBulletTapCallBack(setBulletTapCallBack);
+      addDanmaku();
+      addDanmaku();
+    });
+  }
+
+  setBulletTapCallBack(BarrageModel bulletModel) {
+    print(bulletModel.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,12 +148,15 @@ class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
               right: 0,
               child: storyTools(),
             ),
-            // Positioned(
-            //   child: BarrageView(
-            //     commentData:
-            //         mineStoryDetailsLogic.userStory.storyComments ?? [],
-            //   ),
-            // ),
+            Positioned(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                child: BarrageView(
+                  controller: controller,
+                  bulletTapCallBack: (BarrageModel) {},
+                ),
+              ),
+            ),
           ],
         );
       }),
