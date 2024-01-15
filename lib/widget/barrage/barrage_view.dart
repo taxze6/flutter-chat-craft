@@ -5,13 +5,9 @@ import 'package:flutter_chat_craft/widget/barrage/barrage_item.dart';
 import 'barrage_controller.dart';
 
 class BarrageView extends StatefulWidget {
-  const BarrageView(
-      {Key? key, required this.controller, required this.bulletTapCallBack})
-      : super(key: key);
+  const BarrageView({Key? key, required this.controller}) : super(key: key);
 
   final BarrageController controller;
-
-  final Function(BarrageModel) bulletTapCallBack;
 
   @override
   State<BarrageView> createState() => _BarrageViewState();
@@ -35,26 +31,24 @@ class _BarrageViewState extends State<BarrageView> {
 
   // 构建子弹
   Widget buildBulletToScreen(BuildContext context, BarrageModel bulletModel) {
-    BarrageItem bullet = BarrageItem(bulletModel.id, bulletModel.text,
-        color: bulletModel.color, builder: bulletModel.builder);
+    BarrageItem bullet = BarrageItem(bulletModel.id, bulletModel.comment,
+        color: bulletModel.color,);
     return Positioned(
-        right: bulletModel.offsetX,
-        top: bulletModel.offsetY + BarrageConfig.areaOfChildOffsetY,
-        child: BarrageConfig.bulletTapCallBack == null
-            ? bullet
-            : GestureDetector(
-                onTap: () => BarrageConfig.bulletTapCallBack!(bulletModel),
-                child: bullet));
+      right: bulletModel.offsetX,
+      top: bulletModel.offsetY + BarrageConfig.areaOfChildOffsetY,
+      child: BarrageConfig.bulletTapCallBack == null
+          ? bullet
+          : GestureDetector(
+              onTap: () => BarrageConfig.bulletTapCallBack!(bulletModel),
+              child: bullet,
+            ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: BarrageConfig.areaSize.height,
-      width: BarrageConfig.areaSize.width,
-      child: Stack(
-        children: [...buildAllBullet(context)],
-      ),
+    return Stack(
+      children: [...buildAllBullet(context)],
     );
   }
 }

@@ -23,43 +23,10 @@ class MineStoryDetailsPage extends StatefulWidget {
 
 class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
   final mineStoryDetailsLogic = Get.find<MineStoryDetailsLogic>();
-  BarrageController controller = BarrageController();
-
-  addDanmaku() {
-    int random = Random().nextInt(20);
-    controller.addDanmaku('s' + 's' * random,
-        color: Colors.primaries[Random().nextInt(Colors.primaries.length)]);
-    int random1 = Random().nextInt(20);
-    controller.addDanmaku('s' + 's' * random1,
-        barrageType: BarrageType.fixed,
-        color: Colors.primaries[Random().nextInt(Colors.primaries.length)]);
-  }
-
-  Size get areaSize => MediaQuery.of(context).size;
-
-  void _incrementCounter() {
-    addDanmaku();
-    int random = Random().nextInt(20);
-    controller.addDanmaku('s' + 's' * random,
-        barrageType: BarrageType.fixed,
-        color: Colors.primaries[Random().nextInt(Colors.primaries.length)]);
-    setState(() {});
-  }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(milliseconds: 500), () {
-      controller.init(areaSize);
-      controller.setBulletTapCallBack(setBulletTapCallBack);
-      addDanmaku();
-      addDanmaku();
-    });
-  }
-
-  setBulletTapCallBack(BarrageModel bulletModel) {
-    print(bulletModel.text);
   }
 
   @override
@@ -152,8 +119,7 @@ class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.w),
                 child: BarrageView(
-                  controller: controller,
-                  bulletTapCallBack: (BarrageModel) {},
+                  controller: mineStoryDetailsLogic.barrageController,
                 ),
               ),
             ),

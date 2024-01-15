@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_craft/models/user_story.dart';
 import 'package:flutter_chat_craft/widget/barrage/barrage_config.dart';
 import 'package:flutter_chat_craft/widget/barrage/barrage_item.dart';
 import 'package:flutter_chat_craft/widget/barrage/barrage_track.dart';
@@ -38,15 +39,15 @@ class BarrageController {
   void dispose() => _renderManager.dispose();
 
   // 成功返回AddBulletResBody.data为bulletId
-  AddBarrageResBody addDanmaku(String text,
+  AddBarrageResBody addDanmaku(UserStoryComment text,
       {BarrageType barrageType = BarrageType.scroll,
       Color color = Colors.black,
       Widget Function(Text)? builder,
       int offsetMS = 0,
       BarragePosition position = BarragePosition.any}) {
-    assert(text.isNotEmpty);
     // 先获取子弹尺寸
-    Size bulletSize = BarrageUtils.getDanmakuBulletSizeByText(text);
+    Size bulletSize =
+        BarrageUtils.getDanmakuBulletSizeByText(text.commentContent ?? "");
     // 寻找可用的轨道
     BarrageTrack track = _findAvailableTrack(bulletSize,
         bulletType: barrageType, position: position, offsetMS: offsetMS);
@@ -129,7 +130,7 @@ class BarrageController {
     _trackManager.recountTrackOffset(_bulletManager.bulletsMap);
     _trackManager.resetBottomBullets(_bulletManager.bottomBullets);
     if (BarrageConfig.pause) {
-      _renderManager.renderNextFramerate(
+      _renderManager.renderNextFrameRate(
           _bulletManager.bullets, _allOutLeaveCallBack);
     }
   }
@@ -159,27 +160,23 @@ class BarrageController {
   }
 
   void _run() => _renderManager.run(() {
-        _renderManager.renderNextFramerate(
+        _renderManager.renderNextFrameRate(
             _bulletManager.bullets, _allOutLeaveCallBack);
       }, setState);
 
   /// 获取允许注入的轨道
-  BarrageTrack? _findAllowInsertTrack(Size bulletSize,
+  BarrageTrack _findAllowInsertTrack(Size bulletSize,
       {BarrageType bulletType = BarrageType.scroll, int offsetMS = 0}) {
-    BarrageTrack? track;
-    if (tracks.isEmpty) {
-      track = BarrageTrack(30, 100);
-    } else {
-      // 在现有轨道里找
-      for (int i = 0; i < tracks.length; i++) {
-        // 当前轨道溢出可用轨道
-        if (BarrageUtils.isEnableTrackOverflowArea(tracks[i]!)) break;
-        bool allowInsert = _trackAllowInsert(tracks[i]!, bulletSize,
-            bulletType: bulletType, offsetMS: offsetMS);
-        if (allowInsert) {
-          track = tracks[i];
-          break;
-        }
+    BarrageTrack track;
+    // 在现有轨道里找
+    for (int i = 0; i < tracks.length; i++) {
+      // 当前轨道溢出可用轨道
+      if (BarrageUtils.isEnableTrackOverflowArea(tracks[i]!)) break;
+      bool allowInsert = _trackAllowInsert(tracks[i]!, bulletSize,
+          bulletType: bulletType, offsetMS: offsetMS);
+      if (allowInsert) {
+        track = tracks[i];
+        break;
       }
     }
     return track;
@@ -210,6 +207,6 @@ class BarrageController {
     assert(bulletSize.height > 0);
     assert(bulletSize.width > 0);
     return _findAllowInsertTrack(bulletSize,
-        bulletType: bulletType, offsetMS: offsetMS)!;
+        bulletType: bulletType, offsetMS: offsetMS);
   }
 }

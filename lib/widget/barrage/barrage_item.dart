@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_chat_craft/models/user_story.dart';
+import 'package:flutter_chat_craft/widget/avatar_widget.dart';
 import 'package:flutter_chat_craft/widget/barrage/barrage_config.dart';
 import 'package:flutter_chat_craft/widget/barrage/barrage_track.dart';
 import 'package:flutter_chat_craft/widget/barrage/barrage_utils.dart';
@@ -16,14 +17,12 @@ class BarrageModel {
   UniqueKey trackId;
   UniqueKey? prevBulletId;
   Size bulletSize;
-  String text;
+  UserStoryComment comment;
   double offsetY;
   double _runDistance = 0;
   double everyFrameRunDistance;
   Color color = Colors.black;
   BarragePosition position = BarragePosition.any;
-
-  Widget Function(Text)? builder;
 
   BarrageType barrageType;
 
@@ -67,20 +66,20 @@ class BarrageModel {
 
   // 计算文字尺寸
   void completeSize() {
-    bulletSize = BarrageUtils.getDanmakuBulletSizeByText(text);
+    bulletSize =
+        BarrageUtils.getDanmakuBulletSizeByText(comment.commentContent ?? "");
   }
 
   BarrageModel({
     required this.id,
     required this.trackId,
-    required this.text,
+    required this.comment,
     required this.bulletSize,
     required this.offsetY,
     this.barrageType = BarrageType.scroll,
     required this.color,
     this.prevBulletId,
     required int offsetMS,
-    this.builder,
     required this.position,
     this.everyFrameRunDistance = 0,
   }) {
@@ -118,8 +117,8 @@ class BarrageManager {
   }
 
   // 初始化一个子弹
-  BarrageModel initBullet(
-      String text, UniqueKey trackId, Size bulletSize, double offsetY,
+  BarrageModel initBullet(UserStoryComment comment, UniqueKey trackId,
+      Size bulletSize, double offsetY,
       {BarrageType barrageType = BarrageType.scroll,
       BarragePosition position = BarragePosition.any,
       Color color = Colors.black,
@@ -131,17 +130,17 @@ class BarrageManager {
     assert(offsetY >= 0);
     UniqueKey bulletId = UniqueKey();
     BarrageModel bullet = BarrageModel(
-        color: color,
-        id: bulletId,
-        trackId: trackId,
-        text: text,
-        position: position,
-        bulletSize: bulletSize,
-        offsetY: offsetY,
-        offsetMS: offsetMS,
-        prevBulletId: prevBulletId,
-        barrageType: barrageType,
-        builder: builder);
+      color: color,
+      id: bulletId,
+      trackId: trackId,
+      comment: comment,
+      position: position,
+      bulletSize: bulletSize,
+      offsetY: offsetY,
+      offsetMS: offsetMS,
+      prevBulletId: prevBulletId,
+      barrageType: barrageType,
+    );
     // 记录到表上
     recordBullet(bullet);
     return bullet;
@@ -151,33 +150,38 @@ class BarrageManager {
 class BarrageItem extends StatelessWidget {
   BarrageItem(
     this.danmakuId,
-    this.text, {
+    this.comment, {
+    super.key,
     this.color = Colors.black,
-    this.builder,
-    this.key,
   });
 
-  String text;
+  UserStoryComment comment;
   UniqueKey danmakuId;
   Color color;
-
-  Widget Function(Text)? builder;
 
   GlobalKey? key;
 
   /// 构建文字
   Widget buildText() {
     Text textWidget = Text(
-      text,
+      comment.commentContent ?? "",
       style: TextStyle(
         fontSize: BarrageConfig.bulletLableSize,
         color: color.withOpacity(BarrageConfig.opacity),
       ),
     );
-    if (builder != null) {
-      return builder!(textWidget);
-    }
-    return textWidget;
+
+    return Container(
+        padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 12.w),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: const Color(0x80FFFFFF),
+        ),
+        child: Row(
+          children: [
+            textWidget,
+          ],
+        ));
   }
 
   @override

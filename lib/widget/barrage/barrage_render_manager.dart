@@ -25,16 +25,16 @@ class BarrageRenderManager {
   }
 
   // 渲染下一帧
-  List<BarrageModel> renderNextFramerate(
+  List<BarrageModel> renderNextFrameRate(
       List<BarrageModel> bullets, Function(UniqueKey) allOutLeaveCallBack) {
     List<BarrageModel> _bullets =
         List.generate(bullets.length, (index) => bullets[index]);
-    _bullets.forEach((BarrageModel bulletModel) {
+    for (var bulletModel in _bullets) {
       bulletModel.runNextFrame();
       if (bulletModel.allOutLeave) {
         allOutLeaveCallBack(bulletModel.id);
       }
-    });
+    }
     return _bullets;
   }
 }

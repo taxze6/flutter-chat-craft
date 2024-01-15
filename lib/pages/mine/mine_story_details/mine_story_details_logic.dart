@@ -8,6 +8,8 @@ import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../common/apis.dart';
+import '../../../widget/barrage/barrage_controller.dart';
+import '../../../widget/barrage/barrage_item.dart';
 import 'widget/mine_story_interactive_dialog/mine_story_interactive_dialog.dart';
 
 class MineStoryDetailsLogic extends GetxController {
@@ -19,7 +21,24 @@ class MineStoryDetailsLogic extends GetxController {
   PageController imagesController = PageController();
   TextEditingController commentController = TextEditingController();
 
+  Size get areaSize => Size(1.sw, 0.2.sh);
+
   RxBool isLike = false.obs;
+
+  BarrageController barrageController = BarrageController();
+
+  addDanmaku(UserStoryComment comment) {
+    barrageController.addDanmaku(comment);
+    // int random1 = Random().nextInt(20);
+    // controller.addDanmaku('s' + 's' * random1,
+    //     barrageType: BarrageType.fixed,
+    //     color: Colors.primaries[Random().nextInt(Colors.primaries.length)]);
+  }
+
+  setBulletTapCallBack(BarrageModel bulletModel) {
+    print(bulletModel.comment.toString());
+    barrageController.pause();
+  }
 
   @override
   void onInit() {
@@ -29,6 +48,19 @@ class MineStoryDetailsLogic extends GetxController {
     isLike.value = userStory.storyLikes
             ?.any((like) => like.ownerId == GlobalData.userInfo.userID) ??
         true;
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    barrageController.init(areaSize);
+    barrageController.setBulletTapCallBack(setBulletTapCallBack);
+    userStory.storyComments?.forEach((comment) {
+      addDanmaku(comment);
+
+      addDanmaku(comment);
+      addDanmaku(comment);
+    });
   }
 
   void changeCurrent(int index) {
@@ -80,6 +112,7 @@ class MineStoryDetailsLogic extends GetxController {
           userStory.storyLikes?.add(UserStoryLike(
               storyId: userStory.storyId, ownerId: GlobalData.userInfo.userID));
         }
+
         ToastUtils.toastText(StrRes.operationSuccessful);
       }
     }

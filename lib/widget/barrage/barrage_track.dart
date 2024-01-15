@@ -91,8 +91,9 @@ class BarrageTrackManager {
   // 删除轨道上的所有子弹
   void delBullletsByTrack(
       BarrageTrack track, Map<UniqueKey, BarrageModel> bulletMap) {
-    if (track.bindFixedBulletId != null)
+    if (track.bindFixedBulletId != null) {
       bulletMap.remove(track.bindFixedBulletId);
+    }
     UniqueKey? prevBulletId = track.lastBulletId;
     while (prevBulletId != null) {
       UniqueKey? _prevBulletId = bulletMap[prevBulletId]?.prevBulletId;
@@ -108,7 +109,7 @@ class BarrageTrackManager {
       if (bulletMap[track.bindFixedBulletId] == null) return;
       bulletMap[track.bindFixedBulletId]?.offsetY = track.offsetTop;
       Size newBulletSize = BarrageUtils.getDanmakuBulletSizeByText(
-          bulletMap[track.bindFixedBulletId]!.text);
+          bulletMap[track.bindFixedBulletId]!.comment.commentContent ?? "");
       bulletMap[track.bindFixedBulletId]?.bulletSize = newBulletSize;
     }
     UniqueKey? prevBulletId = track.lastBulletId;
