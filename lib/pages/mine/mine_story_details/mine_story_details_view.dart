@@ -6,12 +6,10 @@ import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_deta
 import 'package:flutter_chat_craft/res/images.dart';
 import 'package:flutter_chat_craft/res/styles.dart';
 import 'package:flutter_chat_craft/widget/avatar_widget.dart';
-import 'package:flutter_chat_craft/widget/barrage/barrage_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../../widget/barrage/barrage_controller.dart';
 import '../../../widget/barrage/barrage_view.dart';
 
 class MineStoryDetailsPage extends StatefulWidget {
@@ -32,6 +30,12 @@ class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          mineStoryDetailsLogic
+              .addBarrage(mineStoryDetailsLogic.userStory.storyComments![0]);
+        },
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8.w),

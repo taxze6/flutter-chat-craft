@@ -57,7 +57,7 @@ class BarrageManager {
 
   List<UniqueKey> get bulletKeys => _barrages.keys.toList();
 
-  Map<UniqueKey, BarrageModel> get bulletsMap => _barrages;
+  Map<UniqueKey, BarrageModel> get barragesMap => _barrages;
 
   /// 记录弹幕到map中
   recordBarrage(BarrageModel barrage) {
@@ -70,13 +70,14 @@ class BarrageManager {
     _barrages = {};
   }
 
-  BarrageModel addBarrage({required UserStoryComment comment}) {
+  BarrageModel initBarrage({
+    required UserStoryComment comment,
+    required double offsetY,
+    required double everyFrameRunDistance,
+    required double runDistance,
+    required Size barrageSize,
+  }) {
     UniqueKey barrageId = UniqueKey();
-    Size barrageSize = Size(0, 0);
-    double everyFrameRunDistance =
-        BarrageUtils.getBulletEveryFrameRateRunDistance(barrageSize.width);
-    double runDistance = BarrageConfig.unitTimer * everyFrameRunDistance;
-    double offsetY = 0.0;
     BarrageModel barrage = BarrageModel(
       id: barrageId,
       comment: comment,

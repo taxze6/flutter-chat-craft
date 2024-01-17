@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'barrage_model.dart';
+
 class BarrageConfig {
   // 帧率
   static int frameRate = 60;
@@ -18,4 +20,7 @@ class BarrageConfig {
 
   //弹幕移动倍速，默认为1
   static double barrageRate = 1.0;
+
+  //弹幕单击事件
+  static late Function(BarrageModel) bulletTapCallBack;
 }

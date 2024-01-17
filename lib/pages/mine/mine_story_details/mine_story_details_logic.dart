@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/common/global_data.dart';
@@ -9,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../common/apis.dart';
 import '../../../widget/barrage/barrage_controller.dart';
-import '../../../widget/barrage/barrage_item.dart';
+import '../../../widget/barrage/barrage_model.dart';
 import 'widget/mine_story_interactive_dialog/mine_story_interactive_dialog.dart';
 
 class MineStoryDetailsLogic extends GetxController {
@@ -21,18 +23,14 @@ class MineStoryDetailsLogic extends GetxController {
   PageController imagesController = PageController();
   TextEditingController commentController = TextEditingController();
 
-  Size get areaSize => Size(1.sw, 0.2.sh);
+  Size get areaSize => Size(0.5.sw, 0.2.sh);
 
   RxBool isLike = false.obs;
 
   BarrageController barrageController = BarrageController();
 
-  addDanmaku(UserStoryComment comment) {
-    barrageController.addDanmaku(comment);
-    // int random1 = Random().nextInt(20);
-    // controller.addDanmaku('s' + 's' * random1,
-    //     barrageType: BarrageType.fixed,
-    //     color: Colors.primaries[Random().nextInt(Colors.primaries.length)]);
+  addBarrage(UserStoryComment comment) {
+    barrageController.addBarrage(comment);
   }
 
   setBulletTapCallBack(BarrageModel bulletModel) {
@@ -56,10 +54,7 @@ class MineStoryDetailsLogic extends GetxController {
     barrageController.init(areaSize);
     barrageController.setBulletTapCallBack(setBulletTapCallBack);
     userStory.storyComments?.forEach((comment) {
-      addDanmaku(comment);
-
-      addDanmaku(comment);
-      addDanmaku(comment);
+      addBarrage(comment);
     });
   }
 
