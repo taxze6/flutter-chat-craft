@@ -24,6 +24,7 @@ class Message {
   int? type;
   int? contentType;
   String? content;
+  SoundElem? sound;
 
   Message({
     this.msgId,
@@ -33,6 +34,7 @@ class Message {
     this.type,
     this.contentType,
     this.content,
+    this.sound,
   });
 
   Message.fromJson(Map<String, dynamic> json)
@@ -42,7 +44,8 @@ class Message {
         targetId = json['targetId'],
         type = json['type'],
         contentType = json['contentType'],
-        content = json['content'];
+        content = json['content'],
+        sound = json['sound'];
 
   factory Message.fromHeartbeat() {
     return Message(
@@ -63,6 +66,7 @@ class Message {
       "type": type,
       "contentType": contentType,
       "content": content,
+      "sound": sound,
     };
   }
 
@@ -120,4 +124,38 @@ class MessageStatus {
   static const failed = 3;
 
   static const deleted = 4;
+}
+
+/// 语音消息内容
+class SoundElem {
+  /// url地址
+  String? sourceUrl;
+
+  /// 本地地址
+
+  String? soundPath;
+
+  /// 大小
+  int? dataSize;
+
+  /// 时间s
+  int? duration;
+
+  SoundElem({this.sourceUrl, this.soundPath, this.dataSize, this.duration});
+
+  SoundElem.fromJson(Map<String, dynamic> json) {
+    sourceUrl = json['sourceUrl'];
+    soundPath = json['soundPath'];
+    dataSize = json['dataSize'];
+    duration = json['duration'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['sourceUrl'] = sourceUrl;
+    data['soundPath'] = soundPath;
+    data['dataSize'] = dataSize;
+    data['duration'] = duration;
+    return data;
+  }
 }

@@ -8,6 +8,7 @@ import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_single_layout.dar
 
 import 'chat_picture.dart';
 import 'chat_text.dart';
+import 'chat_voice_view.dart';
 
 class MsgStreamEv<T> {
   final String msgId;
@@ -65,6 +66,17 @@ class _ChatItemViewState extends State<ChatItemView> {
               imgUrl: widget.message.content!,
               isFromMsg: isFromMsg,
             ),
+          );
+        }
+        break;
+      case MessageType.voice:
+        {
+          var sound = widget.message.sound;
+          child = ChatVoiceView(
+            isReceived: isFromMsg,
+            soundPath: sound?.soundPath,
+            soundUrl: sound?.sourceUrl,
+            duration: sound?.duration,
           );
         }
         break;

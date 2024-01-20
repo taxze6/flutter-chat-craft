@@ -49,4 +49,8 @@ class ImagesRes {
   static const icVoiceRecordZiGrey = '${_dir}voice/ic_voice_record_zi_grey.webp';
   static const icVoiceRecordZiWhite =
       '${_dir}voice/ic_voice_record_zi_white.webp';
+  static const icVoiceBlack =
+      '${_dir}voice/ic_voice_black.webp';
+  static const icVoiceBlue =
+      '${_dir}voice/ic_voice_blue.webp';
 }

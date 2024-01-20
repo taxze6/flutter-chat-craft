@@ -57,6 +57,7 @@ dependencies:
   cached_network_image: 3.3.0
   record: 4.4.3
   lottie: 3.0.0
+  just_audio: 0.9.36
 dev_dependencies:
   flutter_test:
     sdk: flutter

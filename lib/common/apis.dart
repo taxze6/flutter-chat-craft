@@ -186,16 +186,18 @@ class Apis {
     return data;
   }
 
-  static Future<dynamic> uploadImage({
-    required String imagePath,
-    required String imageFileName,
+  static Future<dynamic> uploadFile({
+    required String filePath,
+    required String fileName,
+    required int fileType,
     required Function(int sent, int total) onSendProgress,
   }) async {
     FormData formData = FormData.fromMap({
-      "file": await MultipartFile.fromFile(imagePath, filename: imageFileName),
+      "file": await MultipartFile.fromFile(filePath, filename: fileName),
+      "type": fileType,
     });
     var data = await HttpUtil.post(
-      Urls.uploadImage,
+      Urls.uploadFile,
       options: Options(
         headers: {
           "Authorization": GlobalData.token,

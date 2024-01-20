@@ -200,9 +200,10 @@ class ChatLogic extends GetxController {
     print("imagePath:$imagePath");
     messageList.add(message);
     scrollBottom();
-    var data = await Apis.uploadImage(
-      imagePath: imagePath,
-      imageFileName: imageName,
+    var data = await Apis.uploadFile(
+      filePath: imagePath,
+      fileName: imageName,
+      fileType: MessageType.picture,
       onSendProgress: (int sent, int total) {
         msgProgressController.sink.add(MsgStreamEv(
           msgId: message.msgId!,
@@ -231,12 +232,58 @@ class ChatLogic extends GetxController {
   ///send vocie
   void sendVoice({required int duration, required String path}) async {
     print("duration${duration},path:${path}");
-    // var message =
-    // await OpenIM.iMManager.messageManager.createSoundMessageFromFullPath(
-    //   soundPath: path,
-    //   duration: duration,
-    // );
-    // _sendMessage(message);
+    Message message = Message(
+      msgId: generateMessageId(userInfo.userID),
+      targetId: userInfo.userID,
+      type: ConversationType.single,
+      formId: GlobalData.userInfo.userID,
+      contentType: MessageType.voice,
+      content: path,
+      sendTime: DateTime.now().toString(),
+      sound: SoundElem(
+        sourceUrl: "",
+        soundPath: path,
+        dataSize: 0,
+        duration: duration,
+      ),
+    );
+    print("voicePath:$path");
+    messageList.add(message);
+    scrollBottom();
+    var data = await Apis.uploadFile(
+      filePath: path,
+      fileName: path.split('/').last,
+      fileType: MessageType.voice,
+      onSendProgress: (int sent, int total) {
+        msgProgressController.sink.add(MsgStreamEv(
+          msgId: message.msgId!,
+          value: sent / total * 100,
+        ));
+        print('上传进度：${sent / total * 100}%');
+      },
+    );
+    if (data != false) {
+      Message message = Message(
+        msgId: generateMessageId(userInfo.userID),
+        targetId: userInfo.userID,
+        type: ConversationType.single,
+        formId: GlobalData.userInfo.userID,
+        contentType: MessageType.voice,
+        content: path,
+        sendTime: DateTime.now().toString(),
+        sound: SoundElem(
+          sourceUrl: "",
+          soundPath: path,
+          dataSize: 0,
+          duration: duration,
+        ),
+      );
+      bool isSendSuccess =
+          conversationLogic.webSocketManager.sendMsg(message.toJsonString());
+      if (isSendSuccess) {
+        // image upload success
+      }
+    }
   }
 
   Message indexOfMessage(

@@ -29,5 +29,5 @@ class Urls {
   static var getRedisMsg = "${Config.apiUrl}/message/get_redis_msg";
 
   //upload
-  static var uploadImage = "${Config.apiUrl}/upload/image";
+  static var uploadFile = "${Config.apiUrl}/upload/file";
 }
