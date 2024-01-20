@@ -81,4 +81,12 @@ const Map<String, String> en_US = {
   "storyCommentHintText": "How do you like it?",
   "operationFailed": "Operation Failed.",
   "operationSuccessful": "Operation Successful.",
+  "pressSpeak": "Press Speak",
+  "releaseSend": "Release Send",
+  "convertFailTips": "Convert Fail Tips",
+  "cancelVoiceSend": "Cancel Voice Send",
+  "confirmVoiceSend": "Confirm Voice Send",
+  "soundToWord": "Sound To Word",
+  "releaseCancel": "Release Cancel",
+  "converting": "Converting",
 };

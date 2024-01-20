@@ -77,4 +77,12 @@ const Map<String, String> zh_CN = {
   "storyCommentHintText": "你觉得这个故事怎么样？",
   "operationFailed": "操作失败！",
   "operationSuccessful": "操作成功！",
+  "pressSpeak": "按下说话",
+  "releaseSend": "发送语音",
+  "convertFailTips": "转文字失败",
+  "cancelVoiceSend": "取消",
+  "confirmVoiceSend": "发送原语音",
+  "soundToWord": "语音转文本",
+  "releaseCancel": "取消发送",
+  "converting": "转换中",
 };

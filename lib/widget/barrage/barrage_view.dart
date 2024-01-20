@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_craft/widget/avatar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'barrage_config.dart';
@@ -25,6 +26,12 @@ class _BarrageViewState extends State<BarrageView> {
     controller = widget.controller;
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    widget.controller.dispose();
+  }
+
   // 构建全部的子弹
   List<Widget> buildAllBullet(BuildContext context) {
     return List.generate(controller.barrages.length,
@@ -38,7 +45,7 @@ class _BarrageViewState extends State<BarrageView> {
     );
     return Positioned(
       right: barrageModel.offsetX,
-      top: barrageModel.offsetY,
+      top: barrageModel.offsetY + 20,
       child: GestureDetector(
         onTap: () => BarrageConfig.bulletTapCallBack(barrageModel),
         child: barrage,
@@ -55,8 +62,8 @@ class _BarrageViewState extends State<BarrageView> {
 }
 
 class BarrageItem extends StatelessWidget {
-  BarrageItem({Key? key, required this.barrageMode}) : super(key: key);
-  BarrageModel barrageMode;
+  const BarrageItem({Key? key, required this.barrageMode}) : super(key: key);
+  final BarrageModel barrageMode;
 
   /// 构建文字
   Widget buildText() {
@@ -75,6 +82,13 @@ class BarrageItem extends StatelessWidget {
       ),
       child: Row(
         children: [
+          AvatarWidget(
+            imageUrl: barrageMode.comment.userAvatar ?? "",
+            imageSize: Size(28.w, 28.w),
+          ),
+          SizedBox(
+            width: 6.w,
+          ),
           textWidget,
         ],
       ),

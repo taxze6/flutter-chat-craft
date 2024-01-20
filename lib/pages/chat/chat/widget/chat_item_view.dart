@@ -38,9 +38,7 @@ class _ChatItemViewState extends State<ChatItemView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: buildItemView(),
-    );
+    return buildItemView();
   }
 
   Widget buildItemView() {
@@ -71,7 +69,6 @@ class _ChatItemViewState extends State<ChatItemView> {
         }
         break;
     }
-
 
     return child;
   }

@@ -16,7 +16,7 @@ class BarrageUtils {
     RenderParagraph renderParagraph = RenderParagraph(
       TextSpan(
         text: text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 14,
         ),
       ),
@@ -27,7 +27,7 @@ class BarrageUtils {
     renderParagraph.layout(constraints);
     double w = renderParagraph.getMinIntrinsicWidth(14).ceilToDouble();
     double h = renderParagraph.getMinIntrinsicHeight(999).ceilToDouble();
-    return Size(w + 32.w, h + 26.w);
+    return Size(w + 66.w, h + 40.w);
   }
 
   // 根据文字长度计算每一帧需要run多少距离
@@ -43,13 +43,13 @@ class BarrageUtils {
 
   // 子弹剩余多少帧离开屏幕
   static double remainderTimeLeaveScreen(
-      double runDistance, double textWidth, double everyFramerateDistance) {
+      double runDistance, double textWidth, double everyFrameRateDistance) {
     assert(runDistance >= 0);
     assert(textWidth >= 0);
-    assert(everyFramerateDistance > 0);
+    assert(everyFrameRateDistance > 0);
     double remainderDistance =
         (BarrageConfig.areaSize.width + textWidth) - runDistance;
-    return remainderDistance / everyFramerateDistance;
+    return remainderDistance / everyFrameRateDistance;
   }
 
   // 偏移子弹是否有空间能插入
@@ -69,10 +69,8 @@ class BarrageUtils {
         BarrageUtils.getBulletEveryFrameRateRunDistance(
             needInsertBulletSize.width);
     bool hasInsertOffsetSpace = true;
-    double willInsertBulletRunDistance = offsetMS == null
-        ? 0
-        : (offsetMS / BarrageConfig.unitTimer) *
-            willInsertBarrageEveryFrameRateRunDistance;
+    double willInsertBulletRunDistance = (offsetMS / BarrageConfig.unitTimer) *
+        willInsertBarrageEveryFrameRateRunDistance;
     hasInsertOffsetSpace = hasInsertOffsetSpaceComputed(
         trackLastBullet, willInsertBulletRunDistance);
     if (!hasInsertOffsetSpace) return true;

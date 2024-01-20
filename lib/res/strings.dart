@@ -169,4 +169,20 @@ class StrRes {
   static get operationFailed => 'operationFailed'.tr;
 
   static get operationSuccessful => 'operationSuccessful'.tr;
+
+  static get pressSpeak => 'pressSpeak'.tr;
+
+  static get releaseSend => 'releaseSend'.tr;
+
+  static get convertFailTips => 'convertFailTips'.tr;
+
+  static get cancelVoiceSend => 'cancelVoiceSend'.tr;
+
+  static get confirmVoiceSend => 'confirmVoiceSend'.tr;
+
+  static get soundToWord => 'soundToWord'.tr;
+
+  static get releaseCancel => 'releaseCancel'.tr;
+
+  static get converting => 'converting'.tr;
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class MineStoryDetailsLogic extends GetxController {
   PageController imagesController = PageController();
   TextEditingController commentController = TextEditingController();
 
-  Size get areaSize => Size(0.5.sw, 0.2.sh);
+  Size get areaSize => Size(1.sw, 0.3.sh);
 
   RxBool isLike = false.obs;
 
@@ -34,7 +35,6 @@ class MineStoryDetailsLogic extends GetxController {
   }
 
   setBulletTapCallBack(BarrageModel bulletModel) {
-    print(bulletModel.comment.toString());
     barrageController.pause();
   }
 
@@ -53,9 +53,16 @@ class MineStoryDetailsLogic extends GetxController {
     super.onReady();
     barrageController.init(areaSize);
     barrageController.setBulletTapCallBack(setBulletTapCallBack);
-    userStory.storyComments?.forEach((comment) {
-      addBarrage(comment);
-    });
+    simulateBarrage(userStory.storyComments ?? []);
+  }
+
+  Future<void> simulateBarrage(List<UserStoryComment> comments) async {
+    if (comments.isEmpty) return;
+    for (var comment in comments) {
+      await addBarrage(comment);
+      final delay = Duration(milliseconds: Random().nextInt(300) + 500);
+      await Future.delayed(delay);
+    }
   }
 
   void changeCurrent(int index) {

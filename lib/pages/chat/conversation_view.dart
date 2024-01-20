@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../im/im_utils.dart';
-import '../../models/message.dart';
 import '../../res/images.dart';
 import '../../utils/touch_close_keyboard.dart';
 import '../../widget/avatar_widget.dart';

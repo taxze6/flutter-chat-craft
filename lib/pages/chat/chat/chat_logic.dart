@@ -195,10 +195,9 @@ class ChatLogic extends GetxController {
       formId: GlobalData.userInfo.userID,
       contentType: MessageType.picture,
       content: imagePath,
+      sendTime: DateTime.now().toString(),
     );
     print("imagePath:$imagePath");
-    print(message.toString());
-    // messageList.insert(0, message);
     messageList.add(message);
     scrollBottom();
     var data = await Apis.uploadImage(
@@ -227,6 +226,17 @@ class ChatLogic extends GetxController {
         // image upload success
       }
     }
+  }
+
+  ///send vocie
+  void sendVoice({required int duration, required String path}) async {
+    print("duration${duration},path:${path}");
+    // var message =
+    // await OpenIM.iMManager.messageManager.createSoundMessageFromFullPath(
+    //   soundPath: path,
+    //   duration: duration,
+    // );
+    // _sendMessage(message);
   }
 
   Message indexOfMessage(

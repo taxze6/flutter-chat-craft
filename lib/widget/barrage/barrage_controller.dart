@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/models/user_story.dart';
@@ -22,7 +23,7 @@ class BarrageController {
   BarrageManager barrageManager = BarrageManager();
   BarrageTrackManager trackManager = BarrageTrackManager();
 
-  List<BarrageModel> get barrages => barrageManager.bullets;
+  List<BarrageModel> get barrages => barrageManager.barrages;
 
   List<BarrageTrack> get tracks => trackManager.tracks;
 
@@ -31,6 +32,7 @@ class BarrageController {
     trackManager.buildTrackFullScreen();
     if (isInit) return;
     isInit = true;
+    play();
     _run();
   }
 
@@ -63,7 +65,7 @@ class BarrageController {
     _timer?.cancel();
   }
 
-  // 弹幕清屏
+  /// 弹幕清屏
   void clearScreen() {
     barrageManager.removeAllBarrage();
   }
@@ -89,6 +91,8 @@ class BarrageController {
       everyFrameRunDistance: everyFrameRunDistance,
       runDistance: runDistance,
       barrageSize: barrageSize,
+      // offsetMS: Random().nextInt(5000),
+      offsetMS: 0,
     );
     track.lastBulletId = barrage.id;
     print("加入的轨道为：${track.toString()}");
@@ -101,12 +105,24 @@ class BarrageController {
   }
 
   // 子弹完全离开后回调
-  void allOutLeaveCallBack(UniqueKey bulletId) {
-    // if (barrageManager.bulletsMap[bulletId]?.trackId != null) {
-    //   _trackManager
-    //       .removeTrackBindIdByBulletModel(_bulletManager.bulletsMap[bulletId]!);
-    //   _bulletManager.bulletsMap.remove(bulletId);
-    // }
+  void allOutLeaveCallBack(UniqueKey barrageId) {
+    if (barrageId == barrageManager.barrageKeys.last) {
+      List<UserStoryComment> comments = List.generate(
+          barrageManager.barrages.length,
+          (index) => barrageManager.barrages[index].comment);
+      barrageManager.removeAllBarrage();
+      simulateBarrage(comments);
+    }
+  }
+
+  //重新播放已有弹幕
+  Future<void> simulateBarrage(List<UserStoryComment> comments) async {
+    if (comments.isEmpty) return;
+    for (var comment in comments) {
+      addBarrage(comment);
+      final delay = Duration(milliseconds: Random().nextInt(300) + 500);
+      await Future.delayed(delay);
+    }
   }
 
   // 渲染下一帧

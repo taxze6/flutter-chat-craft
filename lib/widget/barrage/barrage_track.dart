@@ -15,6 +15,10 @@ class BarrageTrack {
     this.trackHeight,
   );
 
+  void unloadLastBulletId() {
+    lastBulletId = null;
+  }
+
   @override
   String toString() {
     return 'BarrageTrack(id: $id, lastBulletId: $lastBulletId, offsetTop: $offsetTop, trackHeight: $trackHeight)';
@@ -38,7 +42,7 @@ class BarrageTrackManager {
 
   BarrageTrack buildTrack(double trackHeight) {
     assert(trackHeight > 0);
-    BarrageTrack track = BarrageTrack(allTrackHeight,trackHeight);
+    BarrageTrack track = BarrageTrack(allTrackHeight, trackHeight);
     print(track.toString());
     tracks.add(track);
     return track;

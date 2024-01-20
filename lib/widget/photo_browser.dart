@@ -81,7 +81,7 @@ class _PhotoBrowserState extends State<PhotoBrowser> {
                     if (imgURL.startsWith('http')) {
                       picture = NetworkImage(imgURL);
                     } else {
-                      picture = AssetImage(imgURL);
+                      picture = FileImage(imgURL);
                     }
                     return PhotoViewGalleryPageOptions(
                       imageProvider: picture,

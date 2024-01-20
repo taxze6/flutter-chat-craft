@@ -55,6 +55,8 @@ dependencies:
   wechat_assets_picker: 9.0.0-dev.2
   extended_image: 8.2.0
   cached_network_image: 3.3.0
+  record: 4.4.3
+  lottie: 3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -80,7 +82,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/images/voice/
     - assets/key/
+    - assets/anim/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

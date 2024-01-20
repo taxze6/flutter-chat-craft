@@ -21,10 +21,8 @@ class ChatSingleLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      child: IgnorePointer(
-        child: buildContentView(),
-      ),
+      behavior: HitTestBehavior.deferToChild,
+      child: buildContentView(),
     );
   }
 

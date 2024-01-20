@@ -5,6 +5,8 @@ import 'package:flutter_chat_craft/res/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'chat_voice_record_widget/chat_voice_record_bar.dart';
+
 class ChatInputBoxView extends StatefulWidget {
   const ChatInputBoxView({
     Key? key,
@@ -13,12 +15,14 @@ class ChatInputBoxView extends StatefulWidget {
     required this.textFocusNode,
     required this.onToolsBtnTap,
     required this.onSendTap,
+    required this.voiceRecordBar,
   }) : super(key: key);
   final String? quoteContent;
   final TextEditingController textEditingController;
   final FocusNode textFocusNode;
   final GestureTapCallback onToolsBtnTap;
   final GestureTapCallback onSendTap;
+  final ChatVoiceRecordBar voiceRecordBar;
 
   @override
   State<ChatInputBoxView> createState() => _ChatInputBoxViewState();
@@ -95,7 +99,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                     ),
                     Offstage(
                       offstage: !leftKeyboardButton,
-                      child: voiceRecordBar(),
+                      child: widget.voiceRecordBar,
                     ),
                   ],
                 ),
@@ -146,14 +150,23 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget keyboardLeftBtn() {
     return IconButton(
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          leftKeyboardButton = false;
+        });
+      },
       icon: SvgPicture.asset(ImagesRes.icKeyboard),
     );
   }
 
   Widget speakBtn() {
     return IconButton(
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          leftKeyboardButton = true;
+          widget.textFocusNode.unfocus();
+        });
+      },
       icon: SvgPicture.asset(ImagesRes.icVoice),
     );
   }

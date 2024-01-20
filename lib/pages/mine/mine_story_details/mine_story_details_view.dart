@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_details_logic.dart';
@@ -30,12 +28,12 @@ class _MineStoryDetailsPageState extends State<MineStoryDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          mineStoryDetailsLogic
-              .addBarrage(mineStoryDetailsLogic.userStory.storyComments![0]);
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     mineStoryDetailsLogic.addBarrage(mineStoryDetailsLogic
+      //         .userStory.storyComments![Random().nextInt(6)]);
+      //   },
+      // ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8.w),

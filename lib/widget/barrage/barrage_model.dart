@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../models/user_story.dart';
 import 'barrage_config.dart';
-import 'barrage_utils.dart';
-
 class BarrageModel {
   UniqueKey id;
   UserStoryComment comment;
@@ -19,7 +17,10 @@ class BarrageModel {
     required this.everyFrameRunDistance,
     required this.runDistance,
     required this.barrageSize,
-  });
+    required int offsetMS,
+  }) {
+    runDistance = (offsetMS / BarrageConfig.unitTimer) * everyFrameRunDistance;
+  }
 
   /// 弹幕的x轴位置
   double get offsetX => runDistance - barrageSize.width;
@@ -53,9 +54,9 @@ class BarrageModel {
 class BarrageManager {
   Map<UniqueKey, BarrageModel> _barrages = {};
 
-  List<BarrageModel> get bullets => _barrages.values.toList();
+  List<BarrageModel> get barrages => _barrages.values.toList();
 
-  List<UniqueKey> get bulletKeys => _barrages.keys.toList();
+  List<UniqueKey> get barrageKeys => _barrages.keys.toList();
 
   Map<UniqueKey, BarrageModel> get barragesMap => _barrages;
 
@@ -76,6 +77,7 @@ class BarrageManager {
     required double everyFrameRunDistance,
     required double runDistance,
     required Size barrageSize,
+    required int offsetMS,
   }) {
     UniqueKey barrageId = UniqueKey();
     BarrageModel barrage = BarrageModel(
@@ -85,6 +87,7 @@ class BarrageManager {
       everyFrameRunDistance: everyFrameRunDistance,
       runDistance: runDistance,
       barrageSize: barrageSize,
+      offsetMS: offsetMS,
     );
     recordBarrage(barrage);
     return barrage;

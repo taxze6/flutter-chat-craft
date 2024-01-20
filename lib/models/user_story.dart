@@ -70,19 +70,22 @@ class UserStoryComment {
   int? commentOwnerId;
   String? commentContent;
   int? type;
+  String? userAvatar;
 
   UserStoryComment({
     this.userStoryId,
     this.commentOwnerId,
     this.commentContent,
     this.type,
+    this.userAvatar,
   });
 
   UserStoryComment.fromJson(Map<String, dynamic> json)
-      : userStoryId = json["user_story_id"],
-        commentOwnerId = json['comment_owner_id'],
-        commentContent = json["comment_content"],
-        type = json['type'];
+      : userStoryId = json["story_comment"]["user_story_id"],
+        commentOwnerId = json["story_comment"]['comment_owner_id'],
+        commentContent = json["story_comment"]["comment_content"],
+        type = json["story_comment"]['type'],
+        userAvatar = json["user_avatar"];
 
   Map<String, dynamic> toJson() {
     return {
@@ -90,12 +93,13 @@ class UserStoryComment {
       'comment_owner_id': commentOwnerId,
       'comment_content': commentContent,
       'type': type,
+      'userAvatar': userAvatar,
     };
   }
 
   @override
   String toString() {
-    return 'UserStoryComment{user_story_id: $userStoryId,comment_owner_id: $commentOwnerId,comment_content: $commentContent,type: $type}';
+    return 'UserStoryComment{user_story_id: $userStoryId,comment_owner_id: $commentOwnerId,comment_content: $commentContent,type: $type,userAvatar:$userAvatar}';
   }
 }
 

@@ -34,4 +34,19 @@ class ImagesRes {
   static const icStoryComment = '${_dir}ic_story_comment.svg';
   static const icStoryCollect = '${_dir}ic_story_collect.svg';
   static const icStoryShare = '${_dir}ic_story_share.svg';
+  static const icVoiceCancel = '${_dir}voice/ic_voice_cancel.webp';
+  static const icVoiceConfirm = '${_dir}voice/ic_voice_confirm.webp';
+  static const icVoiceConvertFail = '${_dir}voice/ic_voice_convert_fail.webp';
+  static const icVoiceConvertSuccess = '${_dir}voice/ic_voice_convert_suc.webp';
+  static const icVoiceRecordBackWhite = '${_dir}voice/ic_voice_record_bg1.webp';
+  static const icVoiceRecordBackGrey = '${_dir}voice/ic_voice_record_bg2.webp';
+  static const icVoiceRecordCancelGrey =
+      '${_dir}voice/ic_voice_record_cancel_grey.webp';
+  static const icVoiceRecordCancelWhite =
+      '${_dir}voice/ic_voice_record_cancel_white.webp';
+  static const icVoiceRecordSpeaker =
+      '${_dir}voice/ic_voice_record_speaker.webp';
+  static const icVoiceRecordZiGrey = '${_dir}voice/ic_voice_record_zi_grey.webp';
+  static const icVoiceRecordZiWhite =
+      '${_dir}voice/ic_voice_record_zi_white.webp';
 }

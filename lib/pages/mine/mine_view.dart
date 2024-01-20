@@ -180,7 +180,7 @@ class _MinePageState extends State<MinePage>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Obx(
               () => otherUserInteractionItem(
                 iconImage: ImagesRes.icLike,
@@ -190,7 +190,7 @@ class _MinePageState extends State<MinePage>
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 7,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 6.w),
               child: otherUserInteractionItem(
@@ -201,7 +201,7 @@ class _MinePageState extends State<MinePage>
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 5,
             child: otherUserInteractionItem(
               iconImage: ImagesRes.icAudio,
               itemText: StrRes.audio,

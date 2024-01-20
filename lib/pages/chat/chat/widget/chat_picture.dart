@@ -2,15 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
-import 'package:flutter_chat_craft/res/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../widget/aspect_ratio_image.dart';
+import '../../../../widget/photo_browser.dart';
 import 'chat_item_view.dart';
 import 'chat_send_progress.dart';
 
@@ -34,7 +33,20 @@ class ChatPictureView extends StatelessWidget {
         imgPath.startsWith('http://') || imgPath.startsWith('https://');
 
     Widget child = _buildChildView(imgPath, showFileOrNetWorkImg);
-    return Padding(padding: EdgeInsets.only(bottom: 6.w), child: child);
+    return Padding(
+      padding: EdgeInsets.only(bottom: 6.w),
+      child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(FadeRoute(
+              page: PhotoBrowser(
+                imgDataArr: [imgPath],
+                index: 0,
+                onLongPress: () {},
+              ),
+            ));
+          },
+          child: child),
+    );
   }
 
   Widget _buildChildView(String imgPath, bool showFileOrNetWorkImg) {
