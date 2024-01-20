@@ -45,7 +45,7 @@ class Message {
         type = json['type'],
         contentType = json['contentType'],
         content = json['content'],
-        sound = json['sound'];
+        sound = SoundElem.fromJson(json['sound']);
 
   factory Message.fromHeartbeat() {
     return Message(
@@ -83,7 +83,8 @@ class Message {
         'targetId: $targetId, '
         'type: $type, '
         'contentType: $contentType, '
-        'content: $content'
+        'content: $content,'
+        'sound:${sound.toString()},'
         '}';
   }
 }
@@ -157,5 +158,10 @@ class SoundElem {
     data['dataSize'] = dataSize;
     data['duration'] = duration;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'SoundElem{sourceUrl: $sourceUrl, soundPath: $soundPath, dataSize: $dataSize, duration: $duration}';
   }
 }
