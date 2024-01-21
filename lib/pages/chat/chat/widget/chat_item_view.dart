@@ -18,17 +18,21 @@ class MsgStreamEv<T> {
 }
 
 class ChatItemView extends StatefulWidget {
-  const ChatItemView(
-      {Key? key,
-      required this.message,
-      required this.msgSendStatusSubjectStream,
-      required this.msgSendProgressSubjectStream})
-      : super(key: key);
+  const ChatItemView({
+    Key? key,
+    required this.index,
+    required this.message,
+    required this.msgSendStatusSubjectStream,
+    required this.msgSendProgressSubjectStream,
+    required this.clickSubjectController,
+  }) : super(key: key);
+  final int index;
   final Message message;
 
   final Stream<MsgStreamEv<bool>> msgSendStatusSubjectStream;
 
   final Stream<MsgStreamEv<double>> msgSendProgressSubjectStream;
+  final StreamController<int> clickSubjectController;
 
   @override
   State<ChatItemView> createState() => _ChatItemViewState();
@@ -48,7 +52,9 @@ class _ChatItemViewState extends State<ChatItemView> {
       case MessageType.text:
         {
           child = ChatSingleLayout(
+            index: widget.index,
             isFromMsg: isFromMsg,
+            clickSink: widget.clickSubjectController.sink,
             child: ChatText(
               isFromMsg: isFromMsg,
               text: widget.message.content,
@@ -59,7 +65,9 @@ class _ChatItemViewState extends State<ChatItemView> {
       case MessageType.picture:
         {
           child = ChatSingleLayout(
+            index: widget.index,
             isFromMsg: isFromMsg,
+            clickSink: widget.clickSubjectController.sink,
             child: ChatPictureView(
               msgId: widget.message.msgId!,
               msgProgressControllerStream: widget.msgSendProgressSubjectStream,
@@ -72,12 +80,18 @@ class _ChatItemViewState extends State<ChatItemView> {
       case MessageType.voice:
         {
           var sound = widget.message.sound;
-          child = ChatVoiceView(
-            isReceived: isFromMsg,
-            soundPath: sound?.soundPath,
-            soundUrl: sound?.sourceUrl,
-            duration: sound?.duration,
-          );
+          child = ChatSingleLayout(
+              index: widget.index,
+              isFromMsg: isFromMsg,
+              clickSink: widget.clickSubjectController.sink,
+              child: ChatVoiceView(
+                isReceived: isFromMsg,
+                soundPath: sound?.soundPath,
+                soundUrl: sound?.sourceUrl,
+                duration: sound?.duration,
+                index: widget.index,
+                clickStream: widget.clickSubjectController.stream,
+              ));
         }
         break;
     }

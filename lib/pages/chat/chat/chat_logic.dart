@@ -30,6 +30,9 @@ class ChatLogic extends GetxController {
       StreamController<MsgStreamEv<bool>>.broadcast();
   StreamController<MsgStreamEv<double>> msgProgressController =
       StreamController<MsgStreamEv<double>>.broadcast();
+  ///Click on the message to process voice playback, video playback, picture preview, etc.
+  StreamController<int> clickSubjectController =
+      StreamController<int>.broadcast();
   int chatStart = 0;
   int chatEnd = 30;
   int chatListSize = 30;
@@ -40,6 +43,11 @@ class ChatLogic extends GetxController {
   void onInit() {
     super.onInit();
     messageAddListen();
+    // 自定义消息点击事件
+    clickSubjectController.stream.listen((index) {
+      print('index:$index');
+      // parseClickEvent(indexOfMessage(index, calculate: false));
+    });
   }
 
   @override
@@ -49,6 +57,7 @@ class ChatLogic extends GetxController {
     scrollController.dispose();
     msgSendStatusSubject.close();
     msgProgressController.close();
+    clickSubjectController.close();
   }
 
   void messageAddListen() {
@@ -272,7 +281,7 @@ class ChatLogic extends GetxController {
         content: path,
         sendTime: DateTime.now().toString(),
         sound: SoundElem(
-          sourceUrl: "",
+          sourceUrl: data,
           soundPath: path,
           dataSize: 0,
           duration: duration,

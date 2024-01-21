@@ -193,9 +193,11 @@ class Apis {
     required Function(int sent, int total) onSendProgress,
   }) async {
     FormData formData = FormData.fromMap({
-      "file": await MultipartFile.fromFile(filePath, filename: fileName),
+      "file": MultipartFile.fromBytes(File(filePath).readAsBytesSync(),
+          filename: fileName),
       "type": fileType,
     });
+    var le = formData.length;
     var data = await HttpUtil.post(
       Urls.uploadFile,
       options: Options(

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/res/images.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,8 +8,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
 
 class ChatVoiceView extends StatefulWidget {
-  // final int index;
-  // final Stream<int>? clickStream;
+  final int index;
+  final Stream<int>? clickStream;
   final bool isReceived;
   final String? soundPath;
   final String? soundUrl;
@@ -16,8 +17,8 @@ class ChatVoiceView extends StatefulWidget {
 
   const ChatVoiceView({
     Key? key,
-    // required this.index,
-    // required this.clickStream,
+    required this.index,
+    required this.clickStream,
     required this.isReceived,
     this.soundPath,
     this.soundUrl,
@@ -33,6 +34,11 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
   bool _isExistSource = false;
   final _voicePlayer = AudioPlayer();
   StreamSubscription? _clickSubs;
+
+  bool _isClickedLocation(i) => i == widget.index;
+
+  Color get bubbleColor =>
+      widget.isReceived ? const Color(0xFFF7F7F7) : const Color(0xFFFCC504);
 
   @override
   void initState() {
@@ -55,35 +61,35 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
       }
     });
     _initSource();
-    // _clickSubs = widget.clickStream?.listen((i) {
-    //   if (!mounted) return;
-    //   print('click:$i    $_isExistSource');
-    //   if (_isExistSource) {
-    //     print('sound click:$i');
-    //     if (_isClickedLocation(i)) {
-    //       setState(() {
-    //         if (_isPlaying) {
-    //           print('sound stop:$i');
-    //           _isPlaying = false;
-    //           _voicePlayer.stop();
-    //         } else {
-    //           print('sound start:$i');
-    //           _isPlaying = true;
-    //           _voicePlayer.seek(Duration.zero);
-    //           _voicePlayer.play();
-    //         }
-    //       });
-    //     } else {
-    //       if (_isPlaying) {
-    //         setState(() {
-    //           print('sound stop:$i');
-    //           _isPlaying = false;
-    //           _voicePlayer.stop();
-    //         });
-    //       }
-    //     }
-    //   }
-    // });
+    _clickSubs = widget.clickStream?.listen((i) {
+      if (!mounted) return;
+      print('click:$i    $_isExistSource');
+      if (_isExistSource) {
+        print('sound click:$i');
+        if (_isClickedLocation(i)) {
+          setState(() {
+            if (_isPlaying) {
+              print('sound stop');
+              _isPlaying = false;
+              _voicePlayer.stop();
+            } else {
+              print('sound start');
+              _isPlaying = true;
+              _voicePlayer.seek(Duration.zero);
+              _voicePlayer.play();
+            }
+          });
+        } else {
+          if (_isPlaying) {
+            setState(() {
+              print('sound stop:$i');
+              _isPlaying = false;
+              _voicePlayer.stop();
+            });
+          }
+        }
+      }
+    });
     super.initState();
   }
 
@@ -118,8 +124,6 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
     super.dispose();
   }
 
-  // bool _isClickedLocation(i) => i == widget.index;
-
   Widget _buildVoiceAnimView() {
     String anim;
     String png;
@@ -129,20 +133,29 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
       png = ImagesRes.icVoiceBlack;
       turns = 0;
     } else {
-      anim = 'assets/anim/voice_blue.json';
-      png = ImagesRes.icVoiceBlue;
+      anim = 'assets/anim/voice_black.json';
+      png = ImagesRes.icVoiceBlack;
       turns = 90;
     }
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Visibility(
           visible: !widget.isReceived,
-          child: Text(
-            '${widget.duration ?? 0}',
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: const Color(0xFF333333),
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: (widget.duration ?? 0) * 5,
+              ),
+              Text(
+                '${widget.duration ?? 0}',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: const Color(0xFF333333),
+                ),
+              ),
+            ],
           ),
         ),
         _isPlaying
@@ -154,19 +167,30 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
                   width: 18.w,
                 ),
               )
-            : Image.asset(
-                png,
-                height: 19.h,
-                width: 18.w,
+            : RotatedBox(
+                quarterTurns: turns,
+                child: Image.asset(
+                  png,
+                  height: 19.h,
+                  width: 18.w,
+                ),
               ),
         Visibility(
           visible: widget.isReceived,
-          child: Text(
-            '${widget.duration ?? 0}``',
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: const Color(0xFF333333),
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '${widget.duration ?? 0}',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: const Color(0xFF333333),
+                ),
+              ),
+              SizedBox(
+                width: (widget.duration ?? 0) * 5,
+              ),
+            ],
           ),
         ),
       ],
@@ -175,6 +199,15 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildVoiceAnimView();
+    return Container(
+      margin: EdgeInsets.only(bottom: 6.w),
+      constraints: BoxConstraints(maxWidth: 0.7.sw),
+      padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 12.w),
+      decoration: BoxDecoration(
+        color: bubbleColor,
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: _buildVoiceAnimView(),
+    );
   }
 }

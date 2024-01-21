@@ -45,7 +45,7 @@ class Message {
         type = json['type'],
         contentType = json['contentType'],
         content = json['content'],
-        sound = SoundElem.fromJson(json['sound']);
+        sound = SoundElem.fromJson(json['sound'] ?? {});
 
   factory Message.fromHeartbeat() {
     return Message(

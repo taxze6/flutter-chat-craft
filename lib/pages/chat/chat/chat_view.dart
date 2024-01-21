@@ -142,9 +142,11 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget itemView(index, Message message) => ChatItemView(
         // key: key,
+        index: index,
         message: message,
         msgSendStatusSubjectStream: chatLogic.msgSendStatusSubject.stream,
         msgSendProgressSubjectStream: chatLogic.msgProgressController.stream,
+        clickSubjectController: chatLogic.clickSubjectController,
       );
 
   Widget onBuildTime(index) {
