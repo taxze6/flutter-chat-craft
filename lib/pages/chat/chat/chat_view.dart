@@ -66,7 +66,7 @@ class _ChatPageState extends State<ChatPage> {
                     textEditingController: chatLogic.textEditingController,
                     textFocusNode: chatLogic.textFocusNode,
                     onToolsBtnTap: () => chatLogic.showToolsDialog(context),
-                    onSendTap: () => chatLogic.sendMessage(),
+                    onSendTap: () => chatLogic.sendTextMessage(),
                     voiceRecordBar: recordBar,
                   ),
                 ],
@@ -75,8 +75,9 @@ class _ChatPageState extends State<ChatPage> {
           ),
         );
       },
-      onCompleted: (sec, path) {
-        chatLogic.sendVoice(duration: sec, path: path);
+      onCompleted: (fileDuration, path, fileSize) {
+        chatLogic.sendVoice(
+            duration: fileDuration, path: path, fileSize: fileSize);
       },
     ));
   }

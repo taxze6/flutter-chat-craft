@@ -45,20 +45,19 @@ class _ChatVoiceRecordBarState extends State<ChatVoiceRecordBar> {
         // print('local:$local');
       },
       child: Container(
-        // constraints: BoxConstraints(minHeight: 40.h),
-        height: 40.h,
+        height: 42.h,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: const Color(0xFFFFFFFF).withOpacity(_pressing ? 0.3 : 1),
           borderRadius: BorderRadius.circular(4),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF000000).withOpacity(0.12),
-              offset: const Offset(0, -1),
-              blurRadius: 4,
-              spreadRadius: 0,
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: const Color(0xFF000000).withOpacity(0.12),
+          //     offset: const Offset(0, -1),
+          //     blurRadius: 4,
+          //     spreadRadius: 0,
+          //   ),
+          // ],
         ),
         child: Text(
           _pressing ? StrRes.releaseSend : StrRes.pressSpeak,

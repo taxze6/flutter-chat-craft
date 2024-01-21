@@ -30,6 +30,7 @@ class ChatLogic extends GetxController {
       StreamController<MsgStreamEv<bool>>.broadcast();
   StreamController<MsgStreamEv<double>> msgProgressController =
       StreamController<MsgStreamEv<double>>.broadcast();
+
   ///Click on the message to process voice playback, video playback, picture preview, etc.
   StreamController<int> clickSubjectController =
       StreamController<int>.broadcast();
@@ -76,27 +77,73 @@ class ChatLogic extends GetxController {
     });
   }
 
-  void sendMessage() {
-    if (textEditingController.text.isEmpty) {
-      ToastUtils.toastText("");
-      return;
+  void _sendMessage(
+    Message message, {
+    int? userId,
+    int? groupId,
+    bool addToUI = true,
+  }) {
+    if (null == userId && null == groupId || userId == userInfo.userID) {
+      if (addToUI) {
+        // Do not need to add "Failed to repeat" to the UI.
+        messageList.add(message);
+        scrollBottom();
+      }
+      //send message
+      conversationLogic.webSocketManager
+          .sendMsg(message.toJsonString())
+          .then((value) => _sendSucceeded(message, value))
+          .catchError((e) => _senFailed(message, e))
+          .whenComplete(() => _sendCompleted());
+      // OpenIM.iMManager.messageManager
+      //     .sendMessage(
+      //       message: message,
+      //       userID: userId ?? uid,
+      //       groupID: groupId ?? gid,
+      //       offlinePushInfo: OfflinePushInfo(
+      //         title: "你收到了一条消息",
+      //         desc: "",
+      //         iOSBadgeCount: true,
+      //         iOSPushSound: '+1',
+      //       ),
+      //     )
+      //     .then((value) => _sendSucceeded(message, value))
+      //     .catchError((e) => _senFailed(message, e))
+      //     .whenComplete(() => _completed());
     }
-    var message = Message(
-      msgId: generateMessageId(userInfo.userID),
-      targetId: userInfo.userID,
-      type: ConversationType.single,
-      formId: GlobalData.userInfo.userID,
-      contentType: MessageType.text,
-      content: textEditingController.text,
-      sendTime: DateTime.now().toString(),
-    );
-    bool isSendSuccess =
-        conversationLogic.webSocketManager.sendMsg(message.toJsonString());
-    if (isSendSuccess) {
-      // messageList.insert(0, message);
-      messageList.add(message);
+    _reset(message);
+  }
+
+  /// The logic after processing the message flow is completed.
+  void _sendCompleted() {
+    messageList.refresh();
+  }
+
+  /// Message sent successfully.
+  void _sendSucceeded(Message oldMsg, Message newMsg) {
+    print('message send success----');
+    // message.status = MessageStatus.succeeded;
+    oldMsg.update(newMsg);
+    msgSendStatusSubject.sink.add(MsgStreamEv<bool>(
+      msgId: oldMsg.msgId!,
+      value: true,
+    ));
+  }
+
+  /// Message sending failed.
+  void _senFailed(Message message, e) {
+    print('message send failed e :$e');
+    message.status = MessageStatus.failed;
+    msgSendStatusSubject.sink.add(MsgStreamEv<bool>(
+      msgId: message.msgId!,
+      value: false,
+    ));
+  }
+
+  void _reset(Message message) {
+    if (message.contentType == MessageType.text ||
+        message.contentType == MessageType.atText) {
       textEditingController.clear();
-      scrollBottom();
     }
   }
 
@@ -195,6 +242,19 @@ class ChatLogic extends GetxController {
     }
   }
 
+  void sendTextMessage() {
+    var message = Message(
+      msgId: generateMessageId(userInfo.userID),
+      targetId: userInfo.userID,
+      type: ConversationType.single,
+      formId: GlobalData.userInfo.userID,
+      contentType: MessageType.text,
+      content: textEditingController.text,
+      sendTime: DateTime.now().toString(),
+    );
+    _sendMessage(message);
+  }
+
   void sendPicture(
       {required String imagePath, required String imageName}) async {
     Message message = Message(
@@ -207,40 +267,42 @@ class ChatLogic extends GetxController {
       sendTime: DateTime.now().toString(),
     );
     print("imagePath:$imagePath");
-    messageList.add(message);
-    scrollBottom();
     var data = await Apis.uploadFile(
       filePath: imagePath,
       fileName: imageName,
       fileType: MessageType.picture,
       onSendProgress: (int sent, int total) {
-        msgProgressController.sink.add(MsgStreamEv(
-          msgId: message.msgId!,
-          value: sent / total * 100,
-        ));
+        msgProgressController.sink.add(
+          MsgStreamEv(
+            msgId: message.msgId!,
+            value: sent / total * 100,
+          ),
+        );
         print('上传进度：${sent / total * 100}%');
       },
     );
     if (data != false) {
-      var message = Message(
+      message = Message(
         msgId: generateMessageId(userInfo.userID),
         targetId: userInfo.userID,
         type: ConversationType.single,
         formId: GlobalData.userInfo.userID,
         contentType: MessageType.picture,
         content: data,
+        sendTime: DateTime.now().toString(),
       );
-      bool isSendSuccess =
-          conversationLogic.webSocketManager.sendMsg(message.toJsonString());
-      if (isSendSuccess) {
-        // image upload success
-      }
     }
+    _sendMessage(message);
   }
 
   ///send vocie
-  void sendVoice({required int duration, required String path}) async {
-    print("duration${duration},path:${path}");
+  void sendVoice({
+    required int duration,
+    required String path,
+    required int fileSize,
+  }) async {
+    double fileSizeInMB = fileSize / (1024 * 1024);
+    print("duration${duration},path:${path},fileSize:${fileSizeInMB}");
     Message message = Message(
       msgId: generateMessageId(userInfo.userID),
       targetId: userInfo.userID,
@@ -252,13 +314,11 @@ class ChatLogic extends GetxController {
       sound: SoundElem(
         sourceUrl: "",
         soundPath: path,
-        dataSize: 0,
+        dataSize: fileSizeInMB,
         duration: duration,
       ),
     );
     print("voicePath:$path");
-    messageList.add(message);
-    scrollBottom();
     var data = await Apis.uploadFile(
       filePath: path,
       fileName: path.split('/').last,
@@ -272,7 +332,7 @@ class ChatLogic extends GetxController {
       },
     );
     if (data != false) {
-      Message message = Message(
+      message = Message(
         msgId: generateMessageId(userInfo.userID),
         targetId: userInfo.userID,
         type: ConversationType.single,
@@ -283,16 +343,12 @@ class ChatLogic extends GetxController {
         sound: SoundElem(
           sourceUrl: data,
           soundPath: path,
-          dataSize: 0,
+          dataSize: fileSizeInMB,
           duration: duration,
         ),
       );
-      bool isSendSuccess =
-          conversationLogic.webSocketManager.sendMsg(message.toJsonString());
-      if (isSendSuccess) {
-        // image upload success
-      }
     }
+    _sendMessage(message);
   }
 
   Message indexOfMessage(

@@ -150,18 +150,28 @@ class WebSocketManager {
         onError.call(error);
       }
     }, onDone: () {
-      print("123");
       reconnect(Urls.sendUserMsg);
     });
   }
 
   /// Send a message
-  bool sendMsg(String text) {
+  Future<Message> sendMsg(String text) async {
     if (_connectStatus == ConnectStatusEnum.connect) {
       _webSocketChannel?.sink.add(text);
-      return true;
+      try {
+        var data = await _webSocketChannel?.sink.done.then((value) {
+          // WebSocket channel closed successfully
+          print('WebSocket channel closed successfully: $value');
+        });
+        // Message sent successfully
+        print('Message sent successfully');
+        return data;
+      } catch (error) {
+        print('Failed to send message: $error');
+        rethrow;
+      }
     }
-    return false;
+    throw Exception('Not connected');
   }
 
   /// Get the current connection status.

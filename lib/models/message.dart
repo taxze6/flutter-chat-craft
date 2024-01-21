@@ -23,6 +23,7 @@ class Message {
   int? targetId;
   int? type;
   int? contentType;
+  int? status;
   String? content;
   SoundElem? sound;
 
@@ -33,6 +34,7 @@ class Message {
     this.targetId,
     this.type,
     this.contentType,
+    this.status,
     this.content,
     this.sound,
   });
@@ -44,6 +46,7 @@ class Message {
         targetId = json['targetId'],
         type = json['type'],
         contentType = json['contentType'],
+        status = json['status'],
         content = json['content'],
         sound = SoundElem.fromJson(json['sound'] ?? {});
 
@@ -65,7 +68,9 @@ class Message {
       "targetId": targetId,
       "type": type,
       "contentType": contentType,
+      "status": status,
       "content": content,
+      "sendTime": sendTime,
       "sound": sound,
     };
   }
@@ -83,9 +88,23 @@ class Message {
         'targetId: $targetId, '
         'type: $type, '
         'contentType: $contentType, '
+        'status:$status,'
         'content: $content,'
         'sound:${sound.toString()},'
         '}';
+  }
+
+  void update(Message message) {
+    if (this != message) return;
+    msgId = message.msgId;
+    sendTime = message.sendTime;
+    formId = message.formId;
+    targetId = message.targetId;
+    type = message.type;
+    contentType = message.contentType;
+    status = message.status;
+    content = message.content;
+    sound = message.sound;
   }
 }
 
@@ -137,7 +156,7 @@ class SoundElem {
   String? soundPath;
 
   /// 大小
-  int? dataSize;
+  double? dataSize;
 
   /// 时间s
   int? duration;

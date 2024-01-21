@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
-typedef RecordFc = Function(int sec, String path);
+typedef RecordFc = Function(int sec, String path, int fileSize);
 
 class VoiceRecord {
   static const _dir = "voice";
@@ -13,6 +13,7 @@ class VoiceRecord {
   late final int _tag;
   final RecordFc _callback;
   final _audioRecorder = Record();
+  int _fileSize = 0;
 
   VoiceRecord(this._callback) : _tag = _now();
 
@@ -33,7 +34,9 @@ class VoiceRecord {
     if (await _audioRecorder.isRecording()) {
       _long = (_now() - _long) ~/ 1000;
       await _audioRecorder.stop();
-      _callback(_long, _path);
+      File file = File(_path);
+      _fileSize = await file.length();
+      _callback(_long, _path, _fileSize);
     }
   }
 

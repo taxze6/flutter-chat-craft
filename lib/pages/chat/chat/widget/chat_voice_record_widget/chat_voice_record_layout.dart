@@ -16,7 +16,7 @@ class ChatVoiceRecordLayout extends StatefulWidget {
 
   final SpeakViewChildBuilder builder;
 
-  final Function(int sec, String path)? onCompleted;
+  final Function(int fileDuration, String path, int fileSize)? onCompleted;
 
   @override
   State<ChatVoiceRecordLayout> createState() => _ChatVoiceRecordLayoutState();
@@ -32,16 +32,18 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
   Timer? _timer;
   late VoiceRecord _record;
   String? _path;
-  int _sec = 0;
+  int _voiceDuration = 0;
+  int _fileSize = 0;
 
   @override
   void initState() {
     super.initState();
   }
 
-  void callback(int sec, String path) {
-    _sec = sec;
+  void callback(int voiceDuration, String path, int fileSize) {
+    _voiceDuration = voiceDuration;
     _path = path;
+    _fileSize = fileSize;
   }
 
   @override
@@ -149,8 +151,8 @@ class _ChatVoiceRecordLayoutState extends State<ChatVoiceRecordLayout> {
   }
 
   void _callback() {
-    if (_sec > 0 && null != _path) {
-      widget.onCompleted?.call(_sec, _path!);
+    if (_voiceDuration > 0 && null != _path) {
+      widget.onCompleted?.call(_voiceDuration, _path!, _fileSize);
     }
   }
 }

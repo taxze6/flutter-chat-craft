@@ -102,12 +102,12 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
         _voicePlayer.setUrl(url);
       }
     } else {
-      var _existFile = false;
+      var existFile = false;
       if (path != null && path.trim().isNotEmpty) {
         var file = File(path);
-        _existFile = await file.exists();
+        existFile = await file.exists();
       }
-      if (_existFile) {
+      if (existFile) {
         _isExistSource = true;
         _voicePlayer.setFilePath(path!);
       } else if (null != url && url.trim().isNotEmpty) {
@@ -146,7 +146,7 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: (widget.duration ?? 0) * 5,
+                width: (widget.duration ?? 0) * 5.w,
               ),
               Text(
                 '${widget.duration ?? 0}',
@@ -188,7 +188,7 @@ class _ChatVoiceViewState extends State<ChatVoiceView> {
                 ),
               ),
               SizedBox(
-                width: (widget.duration ?? 0) * 5,
+                width: (widget.duration ?? 0) * 5.w,
               ),
             ],
           ),
