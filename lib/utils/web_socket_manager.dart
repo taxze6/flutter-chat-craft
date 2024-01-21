@@ -156,27 +156,51 @@ class WebSocketManager {
   }
 
   /// Send a message
-  Future<Message> sendMsg(String text) async {
+  Future<Message> sendMsg(Message message) async {
     if (_connectStatus == ConnectStatusEnum.connect) {
-      _webSocketChannel?.sink.add(text);
+      _webSocketChannel?.sink.add(message.toJsonString());
+      Completer<Message> completer = Completer<Message>();
+      late StreamSubscription<dynamic> subscription;
 
       try {
-        // 使用stream来监听服务端的返回消息
-        var data = await getWebSocketChannelStream().first;
+        subscription = getWebSocketChannelStream().listen(
+          (backMessage) {
+            // Message sent successfully
+            Message data = Message.fromJson(json.decode(backMessage));
+            if (data.msgId == message.msgId) {
+              completer.complete(data);
+              // Stop listening because the desired response has been received
+              subscription.cancel();
+              print("completer.isCompleted:${completer.isCompleted}");
+            }
+          },
+          onError: (error) {
+            print('Failed to send message: $error');
+            completer.completeError(error);
+          },
+          cancelOnError: true,
+        );
 
-        // Message sent successfully
-        if (data != null) {
-          print('Message sent successfully');
-          return Message.fromJson(json.decode(data));
-        } else {
-          print('No response from the server');
-          throw Exception('Not connected');
-        }
+        // Set the timeout period to 30 seconds
+        const timeout = Duration(seconds: 30);
+        // Mark the Completer as failed after a timeout
+        Future.delayed(timeout, () {
+          print("Future.delayed completer.isCompleted:${completer.isCompleted}");
+          if (!completer.isCompleted) {
+            print('Timeout: No response from the server');
+            completer
+                .completeError(TimeoutException('No response from the server'));
+            subscription.cancel(); // unListen
+          }
+        });
       } catch (error) {
         print('Failed to send message: $error');
-        rethrow;
+        completer.completeError(error);
+        subscription.cancel();
       }
+      return completer.future;
     }
+
     throw Exception('Not connected');
   }
 
@@ -205,7 +229,7 @@ class WebSocketManager {
   /// Heart
   void sentHeart() {
     var msg = Message.fromHeartbeat();
-    sendMsg(msg.toJsonString());
+    sendMsg(msg);
   }
 
   /// disposeHeart

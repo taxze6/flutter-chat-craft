@@ -115,7 +115,7 @@ class ConversationLogic extends GetxController
       contentType: MessageType.picture,
       content: "测试数据111",
     );
-    webSocketManager.sendMsg(msg.toJsonString());
+    webSocketManager.sendMsg(msg);
   }
 
   void onMessage(Message message) {
@@ -143,11 +143,11 @@ class ConversationLogic extends GetxController
       message: message,
       previewText: content,
     );
-    bool containsValue =
-        conversationsInfo.any((info) => info.userInfo.userID == (self ? message.targetId : message.formId));
+    bool containsValue = conversationsInfo.any((info) =>
+        info.userInfo.userID == (self ? message.targetId : message.formId));
     if (containsValue) {
-      int index = conversationsInfo
-          .indexWhere((info) => info.userInfo.userID == (self ? message.targetId : message.formId));
+      int index = conversationsInfo.indexWhere((info) =>
+          info.userInfo.userID == (self ? message.targetId : message.formId));
       conversationsInfo[index] = info;
     } else {
       conversationsInfo.add(info);

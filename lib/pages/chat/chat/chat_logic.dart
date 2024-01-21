@@ -90,7 +90,7 @@ class ChatLogic extends GetxController {
       }
       //send message
       conversationLogic.webSocketManager
-          .sendMsg(message.toJsonString())
+          .sendMsg(message)
           .then((value) => _sendSucceeded(message, value))
           .catchError((e) => _senFailed(message, e))
           .whenComplete(() => _sendCompleted());
