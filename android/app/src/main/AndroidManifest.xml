@@ -11,6 +11,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:label="flutter_chat_craft">
         <activity
             android:name=".MainActivity"
