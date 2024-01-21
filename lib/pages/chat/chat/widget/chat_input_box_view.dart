@@ -153,6 +153,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       onPressed: () {
         setState(() {
           leftKeyboardButton = false;
+          widget.textFocusNode.requestFocus();
         });
       },
       icon: SvgPicture.asset(ImagesRes.icKeyboard),
