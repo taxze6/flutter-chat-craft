@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/chat_logic.dart';
 import 'package:flutter_chat_craft/res/images.dart';
@@ -55,7 +54,8 @@ class _ChatPageState extends State<ChatPage> {
                               children: [
                                 onBuildTime(index),
                                 itemView(
-                                  // ValueKey(chatLogic.indexOfMessage(index).msgId),
+                                  ValueKey(
+                                      chatLogic.indexOfMessage(index).msgId),
                                   index,
                                   chatLogic.indexOfMessage(index),
                                 ),
@@ -141,8 +141,8 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget itemView(index, Message message) => ChatItemView(
-        // key: key,
+  Widget itemView(key, index, Message message) => ChatItemView(
+        key: key,
         index: index,
         message: message,
         msgSendStatusSubjectStream: chatLogic.msgSendStatusSubject.stream,

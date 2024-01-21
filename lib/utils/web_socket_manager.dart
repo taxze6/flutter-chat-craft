@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/io.dart';
@@ -158,14 +159,19 @@ class WebSocketManager {
   Future<Message> sendMsg(String text) async {
     if (_connectStatus == ConnectStatusEnum.connect) {
       _webSocketChannel?.sink.add(text);
+
       try {
-        var data = await _webSocketChannel?.sink.done.then((value) {
-          // WebSocket channel closed successfully
-          print('WebSocket channel closed successfully: $value');
-        });
+        // 使用stream来监听服务端的返回消息
+        var data = await getWebSocketChannelStream().first;
+
         // Message sent successfully
-        print('Message sent successfully');
-        return data;
+        if (data != null) {
+          print('Message sent successfully');
+          return Message.fromJson(json.decode(data));
+        } else {
+          print('No response from the server');
+          throw Exception('Not connected');
+        }
       } catch (error) {
         print('Failed to send message: $error');
         rethrow;

@@ -88,16 +88,14 @@ class ConversationLogic extends GetxController
 
   Future<void> initWebSocket() async {
     webSocketManager.connect(Urls.sendUserMsg).then((isConnect) {
-      //Connection successful, listening for messages.
       if (isConnect) {
         webSocketManager.listen((msg) {
-          //Add message to the list.
           print('Received: $msg');
-          onMessage(
-            Message.fromJson(
-              json.decode(msg),
-            ),
+          Message data = Message.fromJson(
+            json.decode(msg),
           );
+          onMessage(data);
+          //The server returns a message
         }, onError: (error) {
           ToastUtils.toastText(error.toString());
         });
@@ -121,8 +119,13 @@ class ConversationLogic extends GetxController
   }
 
   void onMessage(Message message) {
+    bool self = false;
+    if (message.formId == GlobalData.userInfo.userID) {
+      self = true;
+    }
+
     UserInfo userInfo = friendsInfo.firstWhere(
-      (element) => element.userID == message.formId,
+      (element) => element.userID == (self ? message.targetId : message.formId),
     );
     String content = "";
     if (message.contentType == MessageType.text) {
@@ -141,10 +144,10 @@ class ConversationLogic extends GetxController
       previewText: content,
     );
     bool containsValue =
-        conversationsInfo.any((info) => info.userInfo.userID == message.formId);
+        conversationsInfo.any((info) => info.userInfo.userID == (self ? message.targetId : message.formId));
     if (containsValue) {
       int index = conversationsInfo
-          .indexWhere((info) => info.userInfo.userID == message.formId);
+          .indexWhere((info) => info.userInfo.userID == (self ? message.targetId : message.formId));
       conversationsInfo[index] = info;
     } else {
       conversationsInfo.add(info);

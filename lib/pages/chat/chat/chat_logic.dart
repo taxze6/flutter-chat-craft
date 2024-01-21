@@ -63,7 +63,6 @@ class ChatLogic extends GetxController {
 
   void messageAddListen() {
     conversationLogic.webSocketManager.listen((msg) {
-      //Add message to the list.
       Message message = Message.fromJson(
         json.decode(msg),
       );
@@ -95,34 +94,19 @@ class ChatLogic extends GetxController {
           .then((value) => _sendSucceeded(message, value))
           .catchError((e) => _senFailed(message, e))
           .whenComplete(() => _sendCompleted());
-      // OpenIM.iMManager.messageManager
-      //     .sendMessage(
-      //       message: message,
-      //       userID: userId ?? uid,
-      //       groupID: groupId ?? gid,
-      //       offlinePushInfo: OfflinePushInfo(
-      //         title: "你收到了一条消息",
-      //         desc: "",
-      //         iOSBadgeCount: true,
-      //         iOSPushSound: '+1',
-      //       ),
-      //     )
-      //     .then((value) => _sendSucceeded(message, value))
-      //     .catchError((e) => _senFailed(message, e))
-      //     .whenComplete(() => _completed());
     }
     _reset(message);
   }
 
   /// The logic after processing the message flow is completed.
   void _sendCompleted() {
+    print("has completed");
     messageList.refresh();
   }
 
   /// Message sent successfully.
   void _sendSucceeded(Message oldMsg, Message newMsg) {
     print('message send success----');
-    // message.status = MessageStatus.succeeded;
     oldMsg.update(newMsg);
     msgSendStatusSubject.sink.add(MsgStreamEv<bool>(
       msgId: oldMsg.msgId!,
@@ -251,6 +235,7 @@ class ChatLogic extends GetxController {
       contentType: MessageType.text,
       content: textEditingController.text,
       sendTime: DateTime.now().toString(),
+      status: MessageStatus.sending,
     );
     _sendMessage(message);
   }
@@ -265,6 +250,7 @@ class ChatLogic extends GetxController {
       contentType: MessageType.picture,
       content: imagePath,
       sendTime: DateTime.now().toString(),
+      status: MessageStatus.sending,
     );
     print("imagePath:$imagePath");
     var data = await Apis.uploadFile(
@@ -290,6 +276,7 @@ class ChatLogic extends GetxController {
         contentType: MessageType.picture,
         content: data,
         sendTime: DateTime.now().toString(),
+        status: MessageStatus.sending,
       );
     }
     _sendMessage(message);
@@ -317,6 +304,7 @@ class ChatLogic extends GetxController {
         dataSize: fileSizeInMB,
         duration: duration,
       ),
+      status: MessageStatus.sending,
     );
     print("voicePath:$path");
     var data = await Apis.uploadFile(
@@ -346,6 +334,7 @@ class ChatLogic extends GetxController {
           dataSize: fileSizeInMB,
           duration: duration,
         ),
+        status: MessageStatus.sending,
       );
     }
     _sendMessage(message);
