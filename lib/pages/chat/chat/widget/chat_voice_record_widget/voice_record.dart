@@ -32,7 +32,7 @@ class VoiceRecord {
   stop() async {
     if (await _audioRecorder.isRecording()) {
       _long = (_now() - _long) ~/ 1000;
-      _audioRecorder.stop();
+      await _audioRecorder.stop();
       _callback(_long, _path);
     }
   }
