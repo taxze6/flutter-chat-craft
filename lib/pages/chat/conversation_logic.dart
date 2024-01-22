@@ -41,12 +41,13 @@ class ConversationLogic extends GetxController
   Future<void> loadFriends() async {
     var data = await Apis.getFriends();
     if (data != false) {
-      print("data$data");
       for (var info in data) {
         friendsInfo.add(UserInfo.fromJson(info));
       }
       initWebSocket();
       update(["friendList"]);
+    } else {
+      ToastUtils.toastText(StrRes.friendListIsEmpty);
     }
   }
 
