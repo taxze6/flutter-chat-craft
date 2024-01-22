@@ -89,4 +89,6 @@ const Map<String, String> en_US = {
   "soundToWord": "Sound To Word",
   "releaseCancel": "Release Cancel",
   "converting": "Converting",
+  "friendListIsEmpty": "Friend List is empty.",
+  "notImageData": "No image data available at the moment.",
 };

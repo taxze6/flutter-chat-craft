@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import '../res/images.dart';
+import '../res/strings.dart';
 import 'photo_browser.dart';
 
 class AvatarWidget extends StatelessWidget {
@@ -68,12 +70,16 @@ class AvatarWidget extends StatelessWidget {
   }
 
   clickItemCell(context, index) {
-    Navigator.of(context).push(FadeRoute(
-      page: PhotoBrowser(
-        imgDataArr: [imageUrl],
-        index: index,
-        onLongPress: onLongPress,
-      ),
-    ));
+    if (imageUrl.isNotEmpty) {
+      Navigator.of(context).push(FadeRoute(
+        page: PhotoBrowser(
+          imgDataArr: [imageUrl],
+          index: index,
+          onLongPress: onLongPress,
+        ),
+      ));
+    } else {
+      ToastUtils.toastText(StrRes.notImageData);
+    }
   }
 }

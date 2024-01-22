@@ -185,4 +185,8 @@ class StrRes {
   static get releaseCancel => 'releaseCancel'.tr;
 
   static get converting => 'converting'.tr;
+
+  static get friendListIsEmpty => 'friendListIsEmpty'.tr;
+
+  static get notImageData => 'notImageData'.tr;
 }

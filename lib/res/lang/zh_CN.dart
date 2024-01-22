@@ -27,8 +27,7 @@ const Map<String, String> zh_CN = {
   "inputEmptyReminder": "请输入完整的内容！",
   "loginSuccess": "登录成功！",
   "sendCode": "发送验证码",
-  "sendCodeSuccess":
-      "成功发送验证码。请检查你的邮件!",
+  "sendCodeSuccess": "成功发送验证码。请检查你的邮件!",
   "sendCodeError": "发送验证码异常，请检查网络！",
   "confirmYourNumber": "请输入收到的验证码",
   "confirmYourNumberHint": "输入6位验证码，已发送到：",
@@ -85,4 +84,6 @@ const Map<String, String> zh_CN = {
   "soundToWord": "语音转文本",
   "releaseCancel": "取消发送",
   "converting": "转换中",
+  "friendListIsEmpty": "好友数据为空",
+  "notImageData": "暂无图片数据",
 };
