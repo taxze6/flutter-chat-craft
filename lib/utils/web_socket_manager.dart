@@ -185,7 +185,8 @@ class WebSocketManager {
         const timeout = Duration(seconds: 30);
         // Mark the Completer as failed after a timeout
         Future.delayed(timeout, () {
-          print("Future.delayed completer.isCompleted:${completer.isCompleted}");
+          print(
+              "Future.delayed completer.isCompleted:${completer.isCompleted}");
           if (!completer.isCompleted) {
             print('Timeout: No response from the server');
             completer
@@ -228,8 +229,12 @@ class WebSocketManager {
 
   /// Heart
   void sentHeart() {
-    var msg = Message.fromHeartbeat();
-    sendMsg(msg);
+    var message = Message.fromHeartbeat();
+    //Processing heartbeat messages
+    sendMsg(message);
+    // .then((value) => _sendSucceeded(message, value))
+    // .catchError((e) => _senFailed(message, e))
+    // .whenComplete(() => _sendCompleted());
   }
 
   /// disposeHeart

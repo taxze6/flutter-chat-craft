@@ -107,7 +107,11 @@ class ChatLogic extends GetxController {
   /// Message sent successfully.
   void _sendSucceeded(Message oldMsg, Message newMsg) {
     print('message send success----');
+    // oldMsg.status = MessageStatus.succeeded;
     oldMsg.update(newMsg);
+    print("oldMsg:${oldMsg.toString()}");
+    print("newMsg:${newMsg.toString()}");
+    print("identical:${identical(oldMsg, newMsg)}");
     msgSendStatusSubject.sink.add(MsgStreamEv<bool>(
       msgId: oldMsg.msgId!,
       value: true,

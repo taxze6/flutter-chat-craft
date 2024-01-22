@@ -25,14 +25,17 @@ class ChatItemView extends StatefulWidget {
     required this.msgSendStatusSubjectStream,
     required this.msgSendProgressSubjectStream,
     required this.clickSubjectController,
+    this.onFailedResend,
   }) : super(key: key);
   final int index;
   final Message message;
 
   final Stream<MsgStreamEv<bool>> msgSendStatusSubjectStream;
-
   final Stream<MsgStreamEv<double>> msgSendProgressSubjectStream;
   final StreamController<int> clickSubjectController;
+
+  /// Retry on failure.
+  final Function()? onFailedResend;
 
   @override
   State<ChatItemView> createState() => _ChatItemViewState();
@@ -55,6 +58,10 @@ class _ChatItemViewState extends State<ChatItemView> {
             index: widget.index,
             isFromMsg: isFromMsg,
             clickSink: widget.clickSubjectController.sink,
+            sendStatusStream: widget.msgSendStatusSubjectStream,
+            message: widget.message,
+            isSending: widget.message.status == MessageStatus.sending,
+            isSendFailed: widget.message.status == MessageStatus.failed,
             child: ChatText(
               isFromMsg: isFromMsg,
               text: widget.message.content,
@@ -68,6 +75,9 @@ class _ChatItemViewState extends State<ChatItemView> {
             index: widget.index,
             isFromMsg: isFromMsg,
             clickSink: widget.clickSubjectController.sink,
+            message: widget.message,
+            isSending: widget.message.status == MessageStatus.sending,
+            isSendFailed: widget.message.status == MessageStatus.failed,
             child: ChatPictureView(
               msgId: widget.message.msgId!,
               msgProgressControllerStream: widget.msgSendProgressSubjectStream,
@@ -84,6 +94,10 @@ class _ChatItemViewState extends State<ChatItemView> {
               index: widget.index,
               isFromMsg: isFromMsg,
               clickSink: widget.clickSubjectController.sink,
+              sendStatusStream: widget.msgSendStatusSubjectStream,
+              message: widget.message,
+              isSending: widget.message.status == MessageStatus.sending,
+              isSendFailed: widget.message.status == MessageStatus.failed,
               child: ChatVoiceView(
                 isReceived: isFromMsg,
                 soundPath: sound?.soundPath,

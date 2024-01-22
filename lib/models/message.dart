@@ -95,7 +95,7 @@ class Message {
   }
 
   void update(Message message) {
-    if (this != message) return;
+    // if (this != message) return;
     msgId = message.msgId;
     sendTime = message.sendTime;
     formId = message.formId;

@@ -31,49 +31,52 @@ class _ChatPageState extends State<ChatPage> {
     return PopScope(
         child: ChatVoiceRecordLayout(
       builder: (recordBar) {
-        return Scaffold(
-          resizeToAvoidBottomInset: true,
-          appBar: singleChatAppBar(
-              title: chatLogic.userInfo.userName,
-              userImage: chatLogic.userInfo.avatar),
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: WaterMarkBgView(
-              text: "",
-              // text: GlobalData.userInfo.userName,
-              child: Column(
-                children: [
-                  Expanded(
-                      child: Obx(() => ChatListView(
-                            // onTouch: () => chatLogic.closeToolbox(),
-                            itemCount: chatLogic.messageList.length,
-                            controller: chatLogic.scrollController,
-                            onScrollDownLoad: () =>
-                                chatLogic.getHistoryMsgList(),
-                            itemBuilder: (_, index) => Column(
-                              children: [
-                                onBuildTime(index),
-                                itemView(
-                                  ValueKey(
-                                      chatLogic.indexOfMessage(index).msgId),
-                                  index,
-                                  chatLogic.indexOfMessage(index),
-                                ),
-                              ],
-                            ),
-                          ))),
-                  ChatInputBoxView(
-                    textEditingController: chatLogic.textEditingController,
-                    textFocusNode: chatLogic.textFocusNode,
-                    onToolsBtnTap: () => chatLogic.showToolsDialog(context),
-                    onSendTap: () => chatLogic.sendTextMessage(),
-                    voiceRecordBar: recordBar,
-                  ),
-                ],
+        return Obx(() => Scaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: singleChatAppBar(
+                title: chatLogic.userInfo.userName,
+                userImage: chatLogic.userInfo.avatar,
               ),
-            ),
-          ),
-        );
+              backgroundColor: Colors.white,
+              body: SafeArea(
+                child: WaterMarkBgView(
+                  text: "",
+                  // text: GlobalData.userInfo.userName,
+                  child: Column(
+                    children: [
+                      Expanded(
+                          child: ChatListView(
+                              // onTouch: () => chatLogic.closeToolbox(),
+                              itemCount: chatLogic.messageList.length,
+                              controller: chatLogic.scrollController,
+                              onScrollDownLoad: () =>
+                                  chatLogic.getHistoryMsgList(),
+                              itemBuilder: (_, index) => Obx(
+                                    () => Column(
+                                      children: [
+                                        onBuildTime(index),
+                                        itemView(
+                                          ValueKey(chatLogic
+                                              .indexOfMessage(index)
+                                              .msgId),
+                                          index,
+                                          chatLogic.indexOfMessage(index),
+                                        ),
+                                      ],
+                                    ),
+                                  ))),
+                      ChatInputBoxView(
+                        textEditingController: chatLogic.textEditingController,
+                        textFocusNode: chatLogic.textFocusNode,
+                        onToolsBtnTap: () => chatLogic.showToolsDialog(context),
+                        onSendTap: () => chatLogic.sendTextMessage(),
+                        voiceRecordBar: recordBar,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ));
       },
       onCompleted: (fileDuration, path, fileSize) {
         chatLogic.sendVoice(

@@ -109,20 +109,39 @@ class ConversationLogic extends GetxController
     });
 
     webSocketManager.initHeartBeat();
+    // test();
   }
 
   void heartbeat() {}
 
-  void testMessage() {
-    var msg = Message(
-      targetId: friendsInfo[0].userID,
-      type: ConversationType.single,
-      formId: GlobalData.userInfo.userID,
-      contentType: MessageType.picture,
-      content: "测试数据111",
-    );
-    webSocketManager.sendMsg(msg);
-  }
+  // void test() {
+  //   int count = 0;
+  //
+  //   // 创建定时器，每隔 100 毫秒执行一次 testMessage() 函数
+  //   Timer.periodic(Duration(milliseconds: 50), (timer) {
+  //     testMessage(count);
+  //     count++;
+  //
+  //     // 循环执行 1 万次后，取消定时器
+  //     if (count == 500) {
+  //       timer.cancel();
+  //     }
+  //   });
+  // }
+  //
+  // void testMessage(int index) {
+  //   var message = Message(
+  //     msgId: generateMessageId(friendsInfo[0].userID),
+  //     targetId: friendsInfo[0].userID,
+  //     type: ConversationType.single,
+  //     formId: GlobalData.userInfo.userID,
+  //     contentType: MessageType.text,
+  //     content: "test$index",
+  //     sendTime: DateTime.now().toString(),
+  //     status: MessageStatus.sending,
+  //   );
+  //   webSocketManager.sendMsg(message);
+  // }
 
   void onMessage(Message message) {
     bool self = false;
