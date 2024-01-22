@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../common/apis.dart';
+import '../../../common/global_data.dart';
 import '../../../models/user_info.dart';
 import '../../../res/strings.dart';
 import '../../../routes/app_navigator.dart';
@@ -172,9 +173,15 @@ class RegisterLogic extends GetxController {
   }
 
   Future<bool> checkCodeMethod(String code) async {
+    var password = await AppUtils.encodeString(passWordController.text);
+    print(password);
     var data = await LoadingView.singleton.wrap(
-      asyncFunction: () =>
-          Apis.checkRegisterEmailCode(email: emailController.text, code: code),
+      asyncFunction: () => Apis.checkRegisterEmailCode(
+        name: userNameController.text,
+        email: emailController.text,
+        password: password,
+        code: code,
+      ),
     );
     if (data == false) {
       ToastUtils.toastText(StrRes.checkCodeError);
@@ -184,6 +191,8 @@ class RegisterLogic extends GetxController {
       await DataPersistence.putToken(token);
       UserInfo res = UserInfo.fromJson(data["user"]);
       await DataPersistence.putUserInfo(res);
+      GlobalData.userInfo = res;
+      GlobalData.token = token;
       ToastUtils.toastText(StrRes.checkCodeSuccess);
       ToastUtils.toastText(StrRes.loginSuccess);
       toHome();

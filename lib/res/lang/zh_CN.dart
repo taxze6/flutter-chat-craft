@@ -28,7 +28,7 @@ const Map<String, String> zh_CN = {
   "loginSuccess": "登录成功！",
   "sendCode": "发送验证码",
   "sendCodeSuccess":
-      "Verification code sent successfully. Please check your email!",
+      "成功发送验证码。请检查你的邮件!",
   "sendCodeError": "发送验证码异常，请检查网络！",
   "confirmYourNumber": "请输入收到的验证码",
   "confirmYourNumberHint": "输入6位验证码，已发送到：",

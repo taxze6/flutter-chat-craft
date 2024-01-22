@@ -41,6 +41,7 @@ class ConversationLogic extends GetxController
   Future<void> loadFriends() async {
     var data = await Apis.getFriends();
     if (data != false) {
+      print("data$data");
       for (var info in data) {
         friendsInfo.add(UserInfo.fromJson(info));
       }
@@ -94,7 +95,11 @@ class ConversationLogic extends GetxController
           Message data = Message.fromJson(
             json.decode(msg),
           );
-          onMessage(data);
+          if (data.msgId == "-1") {
+            //It's heart message;
+          } else {
+            onMessage(data);
+          }
           //The server returns a message
         }, onError: (error) {
           ToastUtils.toastText(error.toString());
