@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'chat_item_view.dart';
 import 'chat_send_failed_view.dart';
@@ -57,7 +58,7 @@ class ChatSingleLayout extends StatelessWidget {
   Widget buildContentView() {
     return Row(
       mainAxisAlignment: layoutAlignment,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         _delayedStatusView(),
         ChatSendFailedView(
@@ -66,6 +67,9 @@ class ChatSingleLayout extends StatelessWidget {
           stream: sendStatusStream,
           isSendFailed: isSendFailed,
           onFailedResend: onFailedResend,
+        ),
+        const SizedBox(
+          width: 4,
         ),
         child,
       ],
@@ -80,7 +84,14 @@ class ChatSingleLayout extends StatelessWidget {
         builder: (_, AsyncSnapshot<bool> hot) => Visibility(
           visible:
               index == 0 ? (hot.data == true) : (isSending && !isSendFailed),
-          child: const CupertinoActivityIndicator(),
+          // child: const CupertinoActivityIndicator(),
+          child: const SizedBox(
+            width: 10,
+            height: 10,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+            ),
+          ),
         ),
       );
 }

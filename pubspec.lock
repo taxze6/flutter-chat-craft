@@ -307,6 +307,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.2.0"
+  flutter_sticky_header:
+    dependency: "direct main"
+    description:
+      name: flutter_sticky_header
+      sha256: "017f398fbb45a589e01491861ca20eb6570a763fd9f3888165a978e11248c709"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.6.5"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -717,6 +725,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.27.7"
+  scrollview_observer:
+    dependency: "direct main"
+    description:
+      name: scrollview_observer
+      sha256: "69de9e6e4900a2d21dd9f593c597a1418e9f463cceeac6677ba83b007bf1f3e9"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.19.0"
   sensors_plus:
     dependency: transitive
     description:
@@ -898,6 +914,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.2.2"
+  value_layout_builder:
+    dependency: transitive
+    description:
+      name: value_layout_builder
+      sha256: "98202ec1807e94ac72725b7f0d15027afde513c55c69ff3f41bcfccb950831bc"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.1"
   vector_graphics:
     dependency: transitive
     description:

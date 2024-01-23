@@ -58,6 +58,8 @@ dependencies:
   record: 4.4.3
   lottie: 3.0.0
   just_audio: 0.9.36
+  flutter_sticky_header: 0.6.5
+  scrollview_observer: 1.19.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
