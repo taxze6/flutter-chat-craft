@@ -6,13 +6,17 @@ import 'package:flutter_chat_craft/models/user_info.dart';
 import 'package:flutter_chat_craft/routes/app_navigator.dart';
 import 'package:get/get.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
+import '../../../common/apis.dart';
 import '../../../models/contact.dart';
+import '../../../res/strings.dart';
+import '../../../widget/toast_utils.dart';
 
 class NewChatLogic extends GetxController {
+  List<UserInfo> users = [];
   late SliverObserverController observerController;
   bool isShowListMode = true;
   ScrollController scrollController = ScrollController();
-  List<ContactModel> contactList = [];
+  List<ContactModel> contactList = <ContactModel>[];
   Map<int, BuildContext> sliverContextMap = {};
   ValueNotifier<CursorInfoModel?> cursorInfo = ValueNotifier(null);
   double indexBarWidth = 20;
@@ -24,7 +28,19 @@ class NewChatLogic extends GetxController {
   onInit() {
     super.onInit();
     observerController = SliverObserverController(controller: scrollController);
-    generateContactData();
+    loadFriends();
+  }
+
+  Future<void> loadFriends() async {
+    var data = await Apis.getFriends();
+    if (data != false) {
+      for (var info in data) {
+        users.add(UserInfo.fromJson(info));
+      }
+      generateContactData();
+    } else {
+      ToastUtils.toastText(StrRes.friendListIsEmpty);
+    }
   }
 
   generateContactData() {
@@ -33,24 +49,25 @@ class NewChatLogic extends GetxController {
     int pointer = a;
     while (pointer >= a && pointer <= z) {
       final character = const Utf8Codec().decode(Uint8List.fromList([pointer]));
-      contactList.add(
-        ContactModel(
-          section: character,
-          users: List.generate(Random().nextInt(8), (index) {
-            return UserInfo(
-                userID: 1,
-                userName: "hello",
-                email: "email",
-                phone: "phone",
-                avatar: "https://img2.woyaogexing.com/2024/01/22/3dba841413d4342aca5a8b33aaba3be8.jpeg",
-                motto: "当生活给你柠檬时，做柠檬水。",
-                clientIp: "",
-                clientPort: "");
-          }),
-        ),
-      );
+      List<UserInfo> info = users
+          .where((user) =>
+              user.userName.toLowerCase().startsWith(character.toLowerCase()))
+          .toList();
+      if (info.isNotEmpty) {
+        contactList.add(
+          ContactModel(
+            section: character,
+            users: info,
+          ),
+        );
+      }
       pointer++;
     }
+    update(["cursor", "chatList"]);
+  }
+
+  void toMine(UserInfo userInfo) {
+    AppNavigator.startMine(isMine: false, userInfo: userInfo);
   }
 
   void startNewChat() {

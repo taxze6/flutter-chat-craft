@@ -35,32 +35,39 @@ class _NewChatPageState extends State<NewChatPage> {
         backOnTap: () => Get.back(),
       ),
       body: Stack(children: [
-        // Positioned(
-        //   top: 0,
-        //   child: topBack(),
-        // ),
         SliverViewObserver(
           controller: newChatLogic.observerController,
           sliverContexts: () {
             return newChatLogic.sliverContextMap.values.toList();
           },
-          child: CustomScrollView(
-            key: ValueKey(newChatLogic.isShowListMode),
-            controller: newChatLogic.scrollController,
-            slivers: [
-              SliverToBoxAdapter(
-                child: Stack(
-                  children: [
-                    topBack(),
-                    chatOptions(),
+          child: GetBuilder<NewChatLogic>(
+              id: "chatList",
+              builder: (logic) {
+                return CustomScrollView(
+                  key: ValueKey(newChatLogic.isShowListMode),
+                  controller: newChatLogic.scrollController,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Stack(
+                        children: [
+                          topBack(),
+                          chatOptions(),
+                        ],
+                      ),
+                    ),
+                    if (newChatLogic.contactList.isEmpty)
+                      const SliverToBoxAdapter(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    if (newChatLogic.contactList.isNotEmpty)
+                      ...newChatLogic.contactList.mapIndexed((i, e) {
+                        return _buildSliver(index: i, model: e);
+                      }).toList(),
                   ],
-                ),
-              ),
-              ...newChatLogic.contactList.mapIndexed((i, e) {
-                return _buildSliver(index: i, model: e);
-              }).toList()
-            ],
-          ),
+                );
+              }),
         ),
         _buildCursor(),
         Positioned(
@@ -121,25 +128,29 @@ class _NewChatPageState extends State<NewChatPage> {
       key: newChatLogic.indexBarContainerKey,
       width: newChatLogic.indexBarWidth,
       alignment: Alignment.center,
-      child: NewChatIndexBar(
-        parentKey: newChatLogic.indexBarContainerKey,
-        symbols: newChatLogic.symbols,
-        onSelectionUpdate: (index, cursorOffset) {
-          newChatLogic.cursorInfo.value = CursorInfoModel(
-            title: newChatLogic.symbols[index],
-            offset: cursorOffset,
-          );
-          final sliverContext = newChatLogic.sliverContextMap[index];
-          if (sliverContext == null) return;
-          newChatLogic.observerController.jumpTo(
-            index: 0,
-            sliverContext: sliverContext,
-          );
-        },
-        onSelectionEnd: () {
-          newChatLogic.cursorInfo.value = null;
-        },
-      ),
+      child: GetBuilder<NewChatLogic>(
+          id: "cursor",
+          builder: (context) {
+            return NewChatIndexBar(
+              parentKey: newChatLogic.indexBarContainerKey,
+              symbols: newChatLogic.symbols,
+              onSelectionUpdate: (index, cursorOffset) {
+                newChatLogic.cursorInfo.value = CursorInfoModel(
+                  title: newChatLogic.symbols[index],
+                  offset: cursorOffset,
+                );
+                final sliverContext = newChatLogic.sliverContextMap[index];
+                if (sliverContext == null) return;
+                newChatLogic.observerController.jumpTo(
+                  index: 0,
+                  sliverContext: sliverContext,
+                );
+              },
+              onSelectionEnd: () {
+                newChatLogic.cursorInfo.value = null;
+              },
+            );
+          }),
     );
   }
 
@@ -149,35 +160,42 @@ class _NewChatPageState extends State<NewChatPage> {
   }) {
     final users = model.users;
     if (users.isEmpty) return const SliverToBoxAdapter();
-    Widget resultWidget = newChatLogic.isShowListMode
-        ? SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, itemIndex) {
-                if (newChatLogic.sliverContextMap[index] == null) {
-                  newChatLogic.sliverContextMap[index] = context;
-                }
-                return NewChatItem(user: users[itemIndex]);
-              },
-              childCount: users.length,
-            ),
-          )
-        : SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, //Grid按两列显示
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
-              childAspectRatio: 2.0,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int itemIndex) {
-                if (newChatLogic.sliverContextMap[index] == null) {
-                  newChatLogic.sliverContextMap[index] = context;
-                }
-                return NewChatItem(user: users[itemIndex]);
-              },
-              childCount: users.length,
-            ),
+    Widget resultWidget =
+        // newChatLogic.isShowListMode ?
+        SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, itemIndex) {
+          if (newChatLogic.sliverContextMap[index] == null) {
+            newChatLogic.sliverContextMap[index] = context;
+          }
+          return NewChatItem(
+            user: users[itemIndex],
+            onTap: () => newChatLogic.toMine(users[itemIndex]),
           );
+        },
+        childCount: users.length,
+      ),
+    );
+    // : SliverGrid(
+    //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    //       crossAxisCount: 2, //Grid按两列显示
+    //       mainAxisSpacing: 10.0,
+    //       crossAxisSpacing: 10.0,
+    //       childAspectRatio: 2.0,
+    //     ),
+    //     delegate: SliverChildBuilderDelegate(
+    //       (BuildContext context, int itemIndex) {
+    //         if (newChatLogic.sliverContextMap[index] == null) {
+    //           newChatLogic.sliverContextMap[index] = context;
+    //         }
+    //         return NewChatItem(
+    //           user: users[itemIndex],
+    //           onTap: () {},
+    //         );
+    //       },
+    //       childCount: users.length,
+    //     ),
+    //   );
     resultWidget = SliverStickyHeader(
       header: Container(
         height: 44.0,

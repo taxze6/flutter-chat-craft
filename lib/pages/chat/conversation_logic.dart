@@ -39,6 +39,7 @@ class ConversationLogic extends GetxController
   }
 
   Future<void> loadFriends() async {
+    friendsInfo.clear();
     var data = await Apis.getFriends();
     if (data != false) {
       for (var info in data) {
@@ -61,6 +62,7 @@ class ConversationLogic extends GetxController
       // if (null == list || list.isEmpty || list.length < _pageSize) {
       //   refreshController.loadNoData();
       // }
+      loadFriends();
       Future.delayed(Duration(seconds: 3), () {
         refreshController.loadNoData();
       });
@@ -195,5 +197,4 @@ class ConversationLogic extends GetxController
   void toNewChat() {
     AppNavigator.startNewChat();
   }
-
 }
