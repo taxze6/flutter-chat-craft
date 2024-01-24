@@ -4,9 +4,10 @@ import 'user_info.dart';
 
 class ContactModel {
   final String section;
-  final List<String> users;
 
-  // final List<UserInfo> users;
+  // final List<String> users;
+
+  final List<UserInfo> users;
 
   ContactModel({
     required this.section,

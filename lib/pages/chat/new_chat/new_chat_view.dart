@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/pages/chat/new_chat/new_chat_logic.dart';
+import 'package:flutter_chat_craft/res/images.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 import '../../../models/contact.dart';
@@ -33,10 +35,10 @@ class _NewChatPageState extends State<NewChatPage> {
         backOnTap: () => Get.back(),
       ),
       body: Stack(children: [
-        Positioned(
-          top: 0,
-          child: topBack(),
-        ),
+        // Positioned(
+        //   top: 0,
+        //   child: topBack(),
+        // ),
         SliverViewObserver(
           controller: newChatLogic.observerController,
           sliverContexts: () {
@@ -45,9 +47,19 @@ class _NewChatPageState extends State<NewChatPage> {
           child: CustomScrollView(
             key: ValueKey(newChatLogic.isShowListMode),
             controller: newChatLogic.scrollController,
-            slivers: newChatLogic.contactList.mapIndexed((i, e) {
-              return _buildSliver(index: i, model: e);
-            }).toList(),
+            slivers: [
+              SliverToBoxAdapter(
+                child: Stack(
+                  children: [
+                    topBack(),
+                    chatOptions(),
+                  ],
+                ),
+              ),
+              ...newChatLogic.contactList.mapIndexed((i, e) {
+                return _buildSliver(index: i, model: e);
+              }).toList()
+            ],
           ),
         ),
         _buildCursor(),
@@ -69,8 +81,8 @@ class _NewChatPageState extends State<NewChatPage> {
       decoration: BoxDecoration(
         color: const Color(0xFFFFC15E),
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(42.w),
-          bottomRight: Radius.circular(42.w),
+          bottomLeft: Radius.circular(28.w),
+          bottomRight: Radius.circular(28.w),
         ),
       ),
     );
@@ -180,5 +192,74 @@ class _NewChatPageState extends State<NewChatPage> {
       sliver: resultWidget,
     );
     return resultWidget;
+  }
+
+  Widget chatOptions() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.w),
+      height: 98.h,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(28.w),
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(0, 3),
+              color: Color(0x60FFC15E),
+              blurRadius: 40,
+            )
+          ]),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          chatButton(
+            backColor: const Color(0xFFFE7C59),
+            iconUrl: ImagesRes.icPrivateChat,
+            iconText: StrRes.privateChat,
+          ),
+          chatButton(
+            backColor: const Color(0xFF6F61FF),
+            iconUrl: ImagesRes.icGroupChat,
+            iconText: StrRes.groupChat,
+          ),
+          chatButton(
+            backColor: const Color(0xFFFA748E),
+            iconUrl: ImagesRes.icMassSend,
+            iconText: StrRes.massSend,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget chatButton({
+    required Color backColor,
+    required String iconUrl,
+    required String iconText,
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 44.w,
+          height: 44.w,
+          padding: EdgeInsets.all(14.w),
+          decoration: BoxDecoration(
+            color: backColor,
+            shape: BoxShape.circle,
+          ),
+          child: SvgPicture.asset(
+            iconUrl,
+          ),
+        ),
+        Text(
+          iconText,
+          style: TextStyle(
+            fontSize: 12.sp,
+          ),
+        )
+      ],
+    );
   }
 }

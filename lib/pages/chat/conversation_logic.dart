@@ -191,4 +191,9 @@ class ConversationLogic extends GetxController
   void startUserInfo(UserInfo userInfo) {
     AppNavigator.startMine(isMine: false, userInfo: userInfo);
   }
+
+  void toNewChat() {
+    AppNavigator.startNewChat();
+  }
+
 }

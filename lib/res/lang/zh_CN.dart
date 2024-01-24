@@ -86,4 +86,7 @@ const Map<String, String> zh_CN = {
   "converting": "转换中",
   "friendListIsEmpty": "好友数据为空",
   "notImageData": "暂无图片数据",
+  "privateChat": "私聊",
+  "groupChat": "群聊",
+  "massSend":"群发"
 };

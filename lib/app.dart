@@ -15,36 +15,37 @@ class ChatCraftApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppView(
-      builder: (locale, builder) => GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        enableLog: true,
-        builder: builder,
-        // logWriterCallback: Logger.print,
-        translations: TranslationService(),
-        navigatorObservers: [BotToastNavigatorObserver()],
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        fallbackLocale: TranslationService.fallbackLocale,
-        locale: locale,
-        localeResolutionCallback: (locale, list) {
-          Get.locale ??= locale;
-          return locale;
-        },
-        theme: ThemeData(
-          fontFamily: "bahnschrift",
-          useMaterial3: true,
-        ),
-        supportedLocales: const [
-          Locale('zh', 'CN'),
-          Locale('en', 'US'),
-        ],
-        getPages: AppPages.routes,
-        initialBinding: InitBinding(),
-        initialRoute: AppRoutes.splash,
-      ),
+      builder: (locale, builder) =>
+          GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            enableLog: true,
+            builder: builder,
+            // logWriterCallback: Logger.print,
+            translations: TranslationService(),
+            navigatorObservers: [BotToastNavigatorObserver()],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            fallbackLocale: TranslationService.fallbackLocale,
+            locale: locale,
+            localeResolutionCallback: (locale, list) {
+              Get.locale ??= locale;
+              return locale;
+            },
+            theme: ThemeData(
+              fontFamily: "bahnschrift",
+              useMaterial3: true,
+            ),
+            supportedLocales: const [
+              Locale('zh', 'CN'),
+              Locale('en', 'US'),
+            ],
+            getPages: AppPages.routes,
+            initialBinding: InitBinding(),
+            initialRoute: AppRoutes.splash,
+          ),
     );
   }
 }

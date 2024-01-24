@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_chat_craft/models/user_info.dart';
 import 'package:flutter_chat_craft/routes/app_navigator.dart';
 import 'package:get/get.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
@@ -37,7 +37,15 @@ class NewChatLogic extends GetxController {
         ContactModel(
           section: character,
           users: List.generate(Random().nextInt(8), (index) {
-            return '$character-$index';
+            return UserInfo(
+                userID: 1,
+                userName: "hello",
+                email: "email",
+                phone: "phone",
+                avatar: "https://img2.woyaogexing.com/2024/01/22/3dba841413d4342aca5a8b33aaba3be8.jpeg",
+                motto: "当生活给你柠檬时，做柠檬水。",
+                clientIp: "",
+                clientPort: "");
           }),
         ),
       );

@@ -91,4 +91,7 @@ const Map<String, String> en_US = {
   "converting": "Converting",
   "friendListIsEmpty": "Friend List is empty.",
   "notImageData": "No image data available at the moment.",
+  "privateChat": "Private Chat",
+  "groupChat": "Group Chat",
+  "massSend": "MassSend",
 };

@@ -20,6 +20,7 @@ myAppBar({
       ),
       onPressed: backOnTap,
     ),
+    scrolledUnderElevation: 0,
     title: Text(
       title,
       style: TextStyle(

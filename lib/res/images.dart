@@ -46,11 +46,14 @@ class ImagesRes {
       '${_dir}voice/ic_voice_record_cancel_white.webp';
   static const icVoiceRecordSpeaker =
       '${_dir}voice/ic_voice_record_speaker.webp';
-  static const icVoiceRecordZiGrey = '${_dir}voice/ic_voice_record_zi_grey.webp';
+  static const icVoiceRecordZiGrey =
+      '${_dir}voice/ic_voice_record_zi_grey.webp';
   static const icVoiceRecordZiWhite =
       '${_dir}voice/ic_voice_record_zi_white.webp';
-  static const icVoiceBlack =
-      '${_dir}voice/ic_voice_black.webp';
-  static const icVoiceBlue =
-      '${_dir}voice/ic_voice_blue.webp';
+  static const icVoiceBlack = '${_dir}voice/ic_voice_black.webp';
+  static const icVoiceBlue = '${_dir}voice/ic_voice_blue.webp';
+
+  static const icPrivateChat = '${_dir}ic_private_chat.svg';
+  static const icGroupChat = '${_dir}ic_group_chat.svg';
+  static const icMassSend = '${_dir}ic_mass_send.svg';
 }

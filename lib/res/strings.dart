@@ -189,4 +189,10 @@ class StrRes {
   static get friendListIsEmpty => 'friendListIsEmpty'.tr;
 
   static get notImageData => 'notImageData'.tr;
+
+  static get privateChat => 'privateChat'.tr;
+
+  static get groupChat => 'groupChat'.tr;
+
+  static get massSend => 'massSend'.tr;
 }

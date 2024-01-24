@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_craft/res/styles.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 
 class NewChatIndexBar extends StatefulWidget {
@@ -70,7 +71,7 @@ class _NewChatIndexBarState extends State<NewChatIndexBar> {
               height: 18,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: isSelected ? Colors.blue : Colors.transparent,
+                color: isSelected ? PageStyle.chatColor : Colors.transparent,
                 borderRadius: BorderRadius.circular(9),
               ),
               child: resultWidget,

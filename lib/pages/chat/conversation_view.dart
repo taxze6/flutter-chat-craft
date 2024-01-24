@@ -88,32 +88,35 @@ class _ConversationPageState extends State<ConversationPage> {
         children: [
           Padding(
             padding: EdgeInsets.only(right: 20.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DashedCircleBorder(
-                  color: const Color(0xFFE2E2E2),
-                  child: Container(
-                    width: 60.w,
-                    height: 60.w,
-                    padding: EdgeInsets.all(20.w),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: SvgPicture.asset(
-                      ImagesRes.icAdd,
-                      colorFilter:
-                          const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+            child: GestureDetector(
+              onTap: conversationLogic.toNewChat,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DashedCircleBorder(
+                    color: const Color(0xFFE2E2E2),
+                    child: Container(
+                      width: 60.w,
+                      height: 60.w,
+                      padding: EdgeInsets.all(20.w),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: SvgPicture.asset(
+                        ImagesRes.icAdd,
+                        colorFilter:
+                            const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                      ),
                     ),
                   ),
-                ),
-                Text(
-                  StrRes.newChat,
-                  style: TextStyle(
-                    fontSize: 14.sp,
+                  Text(
+                    StrRes.newChat,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Expanded(
