@@ -53,7 +53,11 @@ class AvatarWidget extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(radius)),
             color: Colors.grey.shade100,
           ),
-          child: const Center(child: CircularProgressIndicator()),
+          child: Center(
+              child: SizedBox(
+                  width: imageSize.width / 3,
+                  height: imageSize.width / 3,
+                  child: const CircularProgressIndicator())),
         ),
         errorWidget: (context, url, error) => Container(
           decoration: BoxDecoration(

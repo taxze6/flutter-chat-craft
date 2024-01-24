@@ -60,6 +60,7 @@ dependencies:
   just_audio: 0.9.36
   flutter_sticky_header: 0.6.5
   scrollview_observer: 1.19.0
+  url_launcher: 6.2.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -86,6 +87,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/voice/
+    - assets/images/share/
     - assets/key/
     - assets/anim/
 

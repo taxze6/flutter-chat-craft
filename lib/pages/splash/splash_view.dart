@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
+import 'package:flutter_chat_craft/widget/avatar_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../res/images.dart';
 import 'splash_logic.dart';
@@ -64,7 +66,13 @@ class _SplashPageState extends State<SplashPage> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return contactMe();
+                            });
+                      },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateColor.resolveWith(
                           (states) => const Color(0xFFEFEFEF),
@@ -80,18 +88,19 @@ class _SplashPageState extends State<SplashPage> {
                     width: 10.w,
                   ),
                   ElevatedButton(
-                      onPressed: () => logic.enterChatCraft(),
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.resolveWith(
-                            (states) => EdgeInsets.symmetric(horizontal: 52.w)),
-                        backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => const Color(0xFFFCC504),
-                        ),
+                    onPressed: () => logic.enterChatCraft(),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.resolveWith(
+                          (states) => EdgeInsets.symmetric(horizontal: 52.w)),
+                      backgroundColor: MaterialStateColor.resolveWith(
+                        (states) => const Color(0xFFFCC504),
                       ),
-                      child: Text(
-                        StrRes.enterChatCraft,
-                        style: TextStyle(fontSize: 14.sp),
-                      ))
+                    ),
+                    child: Text(
+                      StrRes.enterChatCraft,
+                      style: TextStyle(fontSize: 14.sp),
+                    ),
+                  )
                 ],
               ),
             )
@@ -99,5 +108,101 @@ class _SplashPageState extends State<SplashPage> {
         ),
       ),
     );
+  }
+
+  Widget contactMe() {
+    return AlertDialog(
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              AvatarWidget(
+                imageSize: Size(68.w, 68.w),
+                radius: 68.w,
+                imageUrl:
+                    "https://p9-passport.byteacctimg.com/img/user-avatar/af5f7ee5f0c449f25fc0b32c050bf100~90x90.awebp",
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Taxze",
+                    style: TextStyle(
+                      fontSize: 22.sp,
+                    ),
+                  ),
+                  Text(
+                    "Hi, I’m taxze.",
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Text(
+            "I'm looking for a Flutter software engineer position in Hangzhou or remotely. Please feel free to contact me.",
+            style: TextStyle(
+              fontSize: 16.sp,
+              color: Colors.black,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
+              "Contact information",
+              style: TextStyle(
+                fontSize: 18.sp,
+                // fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                "assets/images/share/wechat.png",
+                width: 48.w,
+                height: 48.w,
+                fit: BoxFit.cover,
+              ),
+              GestureDetector(
+                onTap: () {
+                  _launchUrl(
+                      Uri.parse("https://juejin.cn/user/598591926699358"));
+                },
+                child: Image.asset(
+                  "assets/images/share/juejin.png",
+                  width: 48.w,
+                  height: 48.w,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Image.asset(
+                "assets/images/share/github.png",
+                width: 48.w,
+                height: 48.w,
+                fit: BoxFit.cover,
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> _launchUrl(Uri url) async {
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
