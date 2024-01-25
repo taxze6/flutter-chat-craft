@@ -60,6 +60,7 @@ dependencies:
   flutter_sticky_header: 0.6.5
   scrollview_observer: 1.19.0
   url_launcher: 6.2.4
+  sqflite: ^2.3.1
 dependency_overrides:
   photo_manager: ^3.0.0-dev.2
 dev_dependencies:

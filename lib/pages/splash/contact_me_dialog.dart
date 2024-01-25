@@ -60,7 +60,7 @@ class _ContactMeDialogState extends State<ContactMeDialog>
         color: const Color(0x00000000),
         child: Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: 18.w, vertical: 0.5.sh - 314.w),
+              EdgeInsets.symmetric(horizontal: 18.w, vertical: 0.5.sh - 364.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -74,7 +74,7 @@ class _ContactMeDialogState extends State<ContactMeDialog>
                         vertical: 24.w,
                         horizontal: 14.w,
                       ),
-                      height: 626.h,
+                      height: 666.h,
                       decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(38))),

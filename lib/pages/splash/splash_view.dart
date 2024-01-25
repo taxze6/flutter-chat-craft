@@ -219,7 +219,8 @@ class _SplashPageState extends State<SplashPage> {
   Future<void> _launchUrl(Uri url) async {
     try {
       LoadingView.singleton.wrap(
-        asyncFunction: () => launchUrl(url),
+        asyncFunction: () =>
+            Future.delayed(const Duration(seconds: 1), () => launchUrl(url)),
       );
     } catch (e) {
       throw Exception('Could not launch $url');
