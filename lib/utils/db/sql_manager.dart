@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_chat_craft/utils/db/session_db_provider.dart';
+import 'package:flutter_chat_craft/utils/db/conversation_db_provider.dart';
 import "package:sqflite/sqflite.dart";
 import 'package:path/path.dart';
 
@@ -20,12 +20,15 @@ class SQLManager {
     _database = await openDatabase(path,
         version: _version, onCreate: (Database db, int version) async {});
 
-    //Initialize local Session table.
-    SessionDbProvider session = SessionDbProvider();
-    var exist = await isTableExits(session.tableName());
+    //Initialize local Conversation table.
+    ConversationDbProvider conversation = ConversationDbProvider();
+    var exist = await isTableExits(conversation.tableName());
+    if (!exist) {
+      await _database?.execute(conversation.createTableString());
+    }
   }
 
-  /// 获取当前数据库对象
+  /// Get the current database object
   static Future<Database> getCurrentDatabase() async {
     if (_isInit == false) {
       await init();
@@ -33,7 +36,7 @@ class SQLManager {
     return _database!;
   }
 
-  /// 判断表是否存在
+  /// Check if the table exists
   static isTableExits(String tableName) async {
     await getCurrentDatabase();
     var res = await _database?.rawQuery(

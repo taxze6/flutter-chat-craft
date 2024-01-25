@@ -6,6 +6,7 @@ import 'package:flutter_chat_craft/common/urls.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_chat_craft/routes/app_navigator.dart';
+import 'package:flutter_chat_craft/utils/db/conversation_db_provider.dart';
 import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,10 +23,12 @@ class ConversationLogic extends GetxController
   List<UserInfo> friendsInfo = [];
   final WebSocketManager webSocketManager = WebSocketManager();
   RxList<ConversationInfo> conversationsInfo = <ConversationInfo>[].obs;
+  ConversationDbProvider conversationDbProvider = ConversationDbProvider();
 
   @override
   void onInit() {
     super.onInit();
+    getAllConversations();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       LoadingView.singleton.wrap(
         asyncFunction: loadFriends,
@@ -36,6 +39,12 @@ class ConversationLogic extends GetxController
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void getAllConversations() async {
+    await conversationDbProvider.getAllConversations().then(
+          (value) => conversationsInfo.addAll(value),
+        );
   }
 
   Future<void> loadFriends() async {
@@ -63,7 +72,7 @@ class ConversationLogic extends GetxController
       //   refreshController.loadNoData();
       // }
       loadFriends();
-      Future.delayed(Duration(seconds: 3), () {
+      Future.delayed(const Duration(seconds: 3), () {
         refreshController.loadNoData();
       });
     } finally {
@@ -150,7 +159,6 @@ class ConversationLogic extends GetxController
     if (message.formId == GlobalData.userInfo.userID) {
       self = true;
     }
-
     UserInfo userInfo = friendsInfo.firstWhere(
       (element) => element.userID == (self ? message.targetId : message.formId),
     );
@@ -178,6 +186,7 @@ class ConversationLogic extends GetxController
       conversationsInfo[index] = info;
     } else {
       conversationsInfo.add(info);
+      conversationDbProvider.insert(info.userInfo, info.message, 0);
     }
   }
 

@@ -3,10 +3,11 @@ import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/models/user_info.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../res/strings.dart';
 import 'base_db_provider.dart';
 
 ///conversation
-class SessionDbProvider extends BaseDbProvider {
+class ConversationDbProvider extends BaseDbProvider {
   final String name = "im_session";
   final String chatOwnerUserId = "chat_owner_user_id";
   final String chatUserID = "chat_user_id";
@@ -24,7 +25,7 @@ class SessionDbProvider extends BaseDbProvider {
   final String latestMessageContent = "latest_message_content";
   final String chatUnreadCount = "chat_unread_count";
 
-  SessionDbProvider();
+  ConversationDbProvider();
 
   @override
   tableName() {
@@ -54,7 +55,7 @@ class SessionDbProvider extends BaseDbProvider {
       ''';
   }
 
-  final UserInfo ownerUser = GlobalData.userInfo;
+  late UserInfo ownerUser = GlobalData.userInfo;
 
   //Check if the record exists.
   Future<List<Map<String, dynamic>>> _getConversationProvider(
@@ -69,8 +70,7 @@ class SessionDbProvider extends BaseDbProvider {
   }
 
   ///Insert to database
-  Future<bool> insert(
-      UserInfo user, Message message, int chatUnreadCount) async {
+  Future<bool> insert(UserInfo user, Message message, int unreadCount) async {
     Database db = await getDataBase();
     var userProvider = await _getConversationProvider(
       db,
@@ -84,8 +84,7 @@ class SessionDbProvider extends BaseDbProvider {
     }
     var sql = '''
     insert into $name ($chatOwnerUserId, $chatUserID, $chatUserName, $chatEmail, $chatPhone, $chatAvatar, $chatMotto, $chatClientIp, $chatClientPort,
-        $chatUpdatedTime, $latestMessageId, $latestMessageSendTime, $latestMessageContentType, $latestMessageContent, $chatUnreadCount
-    ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        $chatUpdatedTime, $latestMessageId, $latestMessageSendTime, $latestMessageContentType, $latestMessageContent, $chatUnreadCount) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     ''';
     int result = await db.rawInsert(sql, [
       ownerUser.userID,
@@ -102,7 +101,7 @@ class SessionDbProvider extends BaseDbProvider {
       message.sendTime,
       message.contentType,
       message.content,
-      chatUnreadCount,
+      unreadCount,
     ]);
     return result > 0;
   }
@@ -203,7 +202,16 @@ class SessionDbProvider extends BaseDbProvider {
       content: conversationMap[latestMessageContent],
       sound: null,
     );
-    String previewText = conversationMap[latestMessageContent];
+    String previewText = "";
+    if (message.contentType == MessageType.text) {
+      previewText = message.content ?? "";
+    } else if (message.contentType == MessageType.picture) {
+      previewText = "[${StrRes.picture}]";
+    } else if (message.contentType == MessageType.video) {
+      previewText = "[${StrRes.video}]";
+    } else if (message.contentType == MessageType.voice) {
+      previewText = "[${StrRes.voice}]";
+    }
     int messageLength = conversationMap[latestMessageContent].length;
 
     return ConversationInfo(

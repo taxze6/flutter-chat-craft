@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../utils/db/sql_manager.dart';
 import '../utils/sp/sp_util.dart';
 
 class Config {
@@ -13,12 +14,14 @@ class Config {
 
   static const ip = "192.168.31.123:8889";
   static const apiUrl = "http://$ip/v1";
+
   // static const imgIp = "http://$ip/";
 
   static Future init(Function() runApp) async {
     // Initialize a WidgetsBinding to ensure that the Flutter framework has been initialized
     WidgetsFlutterBinding.ensureInitialized();
     await SpUtil.getInstance();
+    SQLManager.init();
     runApp();
     // Set screen orientation
     SystemChrome.setPreferredOrientations([
