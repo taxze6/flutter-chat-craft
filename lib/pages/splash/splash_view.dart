@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../res/images.dart';
+import '../../widget/loading_view.dart';
+import 'contact_me_dialog.dart';
 import 'splash_logic.dart';
 
 class SplashPage extends StatefulWidget {
@@ -137,7 +139,7 @@ class _SplashPageState extends State<SplashPage> {
                     ),
                   ),
                   Text(
-                    "Hi, I’m taxze.",
+                    "👋Hi, I’m taxze.",
                     style: TextStyle(
                       fontSize: 18.sp,
                     ),
@@ -169,11 +171,20 @@ class _SplashPageState extends State<SplashPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset(
-                "assets/images/share/wechat.png",
-                width: 48.w,
-                height: 48.w,
-                fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const ContactMeDialog();
+                      });
+                },
+                child: Image.asset(
+                  "assets/images/share/wechat.png",
+                  width: 48.w,
+                  height: 48.w,
+                  fit: BoxFit.cover,
+                ),
               ),
               GestureDetector(
                 onTap: () {
@@ -187,11 +198,16 @@ class _SplashPageState extends State<SplashPage> {
                   fit: BoxFit.cover,
                 ),
               ),
-              Image.asset(
-                "assets/images/share/github.png",
-                width: 48.w,
-                height: 48.w,
-                fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  _launchUrl(Uri.parse("https://github.com/taxze6"));
+                },
+                child: Image.asset(
+                  "assets/images/share/github.png",
+                  width: 48.w,
+                  height: 48.w,
+                  fit: BoxFit.cover,
+                ),
               ),
             ],
           )
@@ -201,7 +217,11 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _launchUrl(Uri url) async {
-    if (!await launchUrl(url)) {
+    try {
+      LoadingView.singleton.wrap(
+        asyncFunction: () => launchUrl(url),
+      );
+    } catch (e) {
       throw Exception('Could not launch $url');
     }
   }

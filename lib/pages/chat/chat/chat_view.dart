@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../im/im_utils.dart';
+import '../../../utils/touch_close_keyboard.dart';
 import '../../../widget/water_mark_view.dart';
 import 'widget/chat_input_box_view.dart';
 import 'widget/chat_item_view.dart';
@@ -28,7 +29,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    return TouchCloseSoftKeyboard(
         child: ChatVoiceRecordLayout(
       builder: (recordBar) {
         return Obx(() => Scaffold(

@@ -51,16 +51,17 @@ dependencies:
   pull_to_refresh: 2.0.0
   flutter_slidable: 3.0.1
   web_socket_channel: 2.4.0
-  wechat_camera_picker: 4.2.0-dev.3
-  wechat_assets_picker: 9.0.0-dev.2
-  extended_image: 8.2.0
+  wechat_camera_picker: any
+  wechat_assets_picker: any
   cached_network_image: 3.3.0
   record: 4.4.3
-  lottie: 3.0.0
+  lottie: any
   just_audio: 0.9.36
   flutter_sticky_header: 0.6.5
   scrollview_observer: 1.19.0
   url_launcher: 6.2.4
+dependency_overrides:
+  photo_manager: ^3.0.0-dev.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
