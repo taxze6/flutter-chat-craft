@@ -60,7 +60,7 @@ class _ContactMeDialogState extends State<ContactMeDialog>
         color: const Color(0x00000000),
         child: Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: 18.w, vertical: 0.5.sh - 364.w),
+              EdgeInsets.symmetric(horizontal: 18.w,vertical: 12.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -74,7 +74,7 @@ class _ContactMeDialogState extends State<ContactMeDialog>
                         vertical: 24.w,
                         horizontal: 14.w,
                       ),
-                      height: 666.h,
+                      height: 0.9.sh,
                       decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(38))),
@@ -101,11 +101,11 @@ class _ContactMeDialogState extends State<ContactMeDialog>
                           const SizedBox(
                             height: 8,
                           ),
-                          Image.asset(
-                            "assets/images/share/wechat_taxze.jpg",
-                            width: 1.sw - 36.w,
-                            height: 426.h,
-                            fit: BoxFit.cover,
+                          Expanded(
+                            child: Image.asset(
+                              "assets/images/share/wechat_taxze.jpg",
+                              fit: BoxFit.cover,
+                            ),
                           )
                         ],
                       ),

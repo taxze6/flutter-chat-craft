@@ -14,6 +14,7 @@ class ConversationInfo {
     required this.previewText,
     this.messageLength = 0,
   });
+
 }
 
 class Message {
