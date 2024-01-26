@@ -19,12 +19,17 @@ class ChatPictureView extends StatelessWidget {
       required this.msgId,
       required this.imgUrl,
       required this.isFromMsg,
-      required this.msgProgressControllerStream});
+      required this.msgProgressControllerStream,
+      required this.imageWidth,
+      required this.imageHeight});
 
   final String msgId;
   final String imgUrl;
   final bool isFromMsg;
   final Stream<MsgStreamEv<double>> msgProgressControllerStream;
+
+  final double imageWidth;
+  final double imageHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -61,92 +66,43 @@ class ChatPictureView extends StatelessWidget {
 
   Widget _pathView({required String path}) => Stack(
         children: [
-          AspectRatioImage.file(
-            imageFile: File(path),
-            fileBuilder: (context, snapshot, url) {
-              //Image maximum size
-              double width = 0.5.sw;
-              double height = 0.25.sh;
-
-              double actualWidth = snapshot.data?.width.toDouble() ?? 0.0;
-              double actualHeight = snapshot.data?.height.toDouble() ?? 0.0;
-
-              double scale = 1.0;
-              if (actualWidth > width || actualHeight > height) {
-                double widthScale = width / actualWidth;
-                double heightScale = height / actualHeight;
-                //Choose the smaller ratio as the scaling factor.
-                scale = widthScale < heightScale ? widthScale : heightScale;
-              }
-
-              width = actualWidth * scale;
-              height = actualHeight * scale;
-              return Stack(
-                children: [
-                  Container(
-                    width: width,
-                    height: height,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8.0)),
-                        image: DecorationImage(
-                          image: FileImage(url),
-                          fit: BoxFit.fill,
-                        )),
-                  ),
-                  ChatSendProgressView(
-                    width: width,
-                    height: height,
-                    msgProgressControllerStream: msgProgressControllerStream,
-                    msgId: msgId,
-                  ),
-                ],
-              );
-            },
+          Container(
+            width: imageWidth,
+            height: imageHeight,
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                image: DecorationImage(
+                  image: FileImage(File(path)),
+                  fit: BoxFit.fill,
+                )),
+          ),
+          ChatSendProgressView(
+            width: imageWidth,
+            height: imageHeight,
+            msgProgressControllerStream: msgProgressControllerStream,
+            msgId: msgId,
           ),
         ],
       );
 
   Widget _urlView({required String url}) {
-    return AspectRatioImage.network(
-      url: url,
-      builder: (context, snapshot, url) {
-        //Image maximum size
-        double width = 0.5.sw;
-        double height = 0.25.sh;
-
-        double actualWidth = snapshot.data?.width.toDouble() ?? 0.0;
-        double actualHeight = snapshot.data?.height.toDouble() ?? 0.0;
-
-        double scale = 1.0;
-        if (actualWidth > width || actualHeight > height) {
-          double widthScale = width / actualWidth;
-          double heightScale = height / actualHeight;
-          //Choose the smaller ratio as the scaling factor.
-          scale = widthScale < heightScale ? widthScale : heightScale;
-        }
-
-        width = actualWidth * scale;
-        height = actualHeight * scale;
-        return CachedNetworkImage(
-          imageUrl: url,
-          width: width,
-          height: height,
-          imageBuilder: (context, imageProvider) => Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-            ),
-          ),
-          placeholder: (context, url) => Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              color: Colors.grey.shade100,
-            ),
-          ),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        );
-      },
+    return CachedNetworkImage(
+      imageUrl: url,
+      width: imageWidth,
+      height: imageHeight,
+      imageBuilder: (context, imageProvider) => Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+        ),
+      ),
+      placeholder: (context, url) => Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          color: Colors.grey.shade100,
+        ),
+      ),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 

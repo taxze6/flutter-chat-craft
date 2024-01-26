@@ -81,8 +81,10 @@ class _ChatItemViewState extends State<ChatItemView> {
             child: ChatPictureView(
               msgId: widget.message.msgId!,
               msgProgressControllerStream: widget.msgSendProgressSubjectStream,
-              imgUrl: widget.message.content!,
+              imgUrl: widget.message.image!.image!,
               isFromMsg: isFromMsg,
+              imageWidth: widget.message.image!.imageWidth!,
+              imageHeight: widget.message.image!.imageHeight!,
             ),
           );
         }

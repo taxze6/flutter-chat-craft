@@ -33,7 +33,6 @@ class ExpandedViewport extends Viewport {
 
   @override
   RenderViewport createRenderObject(BuildContext context) {
-    // TODO: implement createRenderObject
     return _RenderExpandedViewport(
       axisDirection: axisDirection,
       crossAxisDirection: crossAxisDirection ??
@@ -65,26 +64,25 @@ class _RenderExpandedViewport extends RenderViewport {
 
   @override
   void performLayout() {
-    // TODO: implement performLayout
     super.performLayout();
     RenderSliver? expand;
     RenderSliver? p = firstChild;
     double totalLayoutExtent = 0;
-    double BehindExtent = 0.0, FrontExtent = 0.0;
+    double behindExtent = 0.0, frontExtent = 0.0;
     while (p != null) {
       totalLayoutExtent += p.geometry!.scrollExtent;
       if (p is _RenderExpanded) {
         expand = p;
-        FrontExtent = totalLayoutExtent;
+        frontExtent = totalLayoutExtent;
       }
 
       p = childAfter(p);
     }
     double count = 0;
-    BehindExtent = totalLayoutExtent - FrontExtent;
+    behindExtent = totalLayoutExtent - frontExtent;
     if (expand != null && size.height > totalLayoutExtent) {
       _attemptLayout(expand, size.height, size.width,
-          offset.pixels - FrontExtent - (size.height - totalLayoutExtent));
+          offset.pixels - frontExtent - (size.height - totalLayoutExtent));
     }
   }
 
@@ -113,7 +111,7 @@ class _RenderExpandedViewport extends RenderViewport {
     final double forwardDirectionRemainingCacheExtent =
         (fullCacheExtent - centerCacheOffset).clamp(0.0, fullCacheExtent);
 
-    final RenderSliver leadingNegativeChild = childBefore(center!)!;
+    final RenderSliver? leadingNegativeChild = childBefore(center!);
     // positive scroll offsets
     return layoutChildSequence(
       child: expandPosition,
@@ -136,11 +134,10 @@ class _RenderExpandedViewport extends RenderViewport {
 
 //tag
 class SliverExpanded extends SingleChildRenderObjectWidget {
-  SliverExpanded() : super(child: Container());
+  SliverExpanded({super.key}) : super(child: Container());
 
   @override
   RenderSliver createRenderObject(BuildContext context) {
-    // TODO: implement createRenderObject
     return _RenderExpanded();
   }
 }
@@ -149,7 +146,6 @@ class _RenderExpanded extends RenderSliver
     with RenderObjectWithChildMixin<RenderBox> {
   @override
   void performLayout() {
-    // TODO: implement performLayout
     geometry = SliverGeometry.zero;
   }
 }

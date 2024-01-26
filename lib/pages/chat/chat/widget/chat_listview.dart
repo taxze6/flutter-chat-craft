@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -94,31 +96,33 @@ class _ChatListViewState extends State<ChatListView> {
     return TouchCloseSoftKeyboard(
       child: Align(
         alignment: Alignment.topCenter,
-        // child:
-        // Padding(
-        //   padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
-          // child: Scrollable(
-          //   controller: widget.controller,
-          //   axisDirection: AxisDirection.up,
-          //   physics: const ScrollPhysics (),
-          //   viewportBuilder: (BuildContext context, ViewportOffset position) {
-          //     return ExpandedViewport(
-          //       offset: position,
-          //       axisDirection: AxisDirection.up,
-          //       slivers: [
-          //         SliverExpanded(),
-          //         SliverList(
-          //           delegate: SliverChildBuilderDelegate(
-          //             childCount: widget.itemCount ?? 0,
-          //             (BuildContext context, int index) {
-          //               return _wrapItem(index);
-          //             },
-          //           ),
-          //         ),
-          //       ],
-          //     );
-          //   },
-          // ),
+        child: Padding(
+          padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
+          child: ScrollConfiguration(
+            behavior: ChatBehavior(),
+            child: Scrollable(
+              controller: widget.controller,
+              axisDirection: AxisDirection.up,
+              physics: const ScrollPhysics(),
+              viewportBuilder: (BuildContext context, ViewportOffset position) {
+                return ExpandedViewport(
+                  offset: position,
+                  axisDirection: AxisDirection.up,
+                  slivers: [
+                    SliverExpanded(),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        childCount: widget.itemCount ?? 0,
+                        (BuildContext context, int index) {
+                          return _wrapItem(index);
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
           // child: CustomScrollView(
           //   controller: widget.controller,
           //   reverse: true,
@@ -132,18 +136,18 @@ class _ChatListViewState extends State<ChatListView> {
           //     }))
           //   ],
           // ),
-        // ),
-        child: ListView.builder(
-          reverse: true,
-          shrinkWrap: true,
-          itemCount: widget.itemCount ?? 0,
-          padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
-          controller: widget.controller,
-          dragStartBehavior: DragStartBehavior.down,
-          itemBuilder: (context, index) {
-            return _wrapItem(index);
-          },
         ),
+        // child: ListView.builder(
+        //   reverse: true,
+        //   shrinkWrap: true,
+        //   itemCount: widget.itemCount ?? 0,
+        //   padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
+        //   controller: widget.controller,
+        //   dragStartBehavior: DragStartBehavior.down,
+        //   itemBuilder: (context, index) {
+        //     return _wrapItem(index);
+        //   },
+        // ),
       ),
     );
   }
@@ -168,5 +172,17 @@ class _ChatListViewState extends State<ChatListView> {
       return Column(children: [child, loadView]);
     }
     return child;
+  }
+}
+
+class ChatBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    if (Platform.isAndroid || Platform.isFuchsia) {
+      return child;
+    } else {
+      return buildViewportChrome(context, child, axisDirection);
+    }
   }
 }
