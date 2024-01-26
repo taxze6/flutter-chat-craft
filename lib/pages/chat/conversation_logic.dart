@@ -164,7 +164,7 @@ class ConversationLogic extends GetxController
     );
     String content = "";
     if (message.contentType == MessageType.text) {
-      content = message.content ?? "";
+      content = message.content;
     } else if (message.contentType == MessageType.picture) {
       content = "[${StrRes.picture}]";
     } else if (message.contentType == MessageType.video) {
@@ -184,10 +184,24 @@ class ConversationLogic extends GetxController
       int index = conversationsInfo.indexWhere((info) =>
           info.userInfo.userID == (self ? message.targetId : message.formId));
       conversationsInfo[index] = info;
+      conversationDbProvider.update(info.userInfo, info.message, 0);
+      sortConversation();
     } else {
       conversationsInfo.add(info);
       conversationDbProvider.insert(info.userInfo, info.message, 0);
+      sortConversation();
     }
+  }
+
+  void sortConversation() {
+    conversationsInfo
+        .sort((a, b) => b.message.sendTime!.compareTo(a.message.sendTime!));
+  }
+
+  void deleteConversation(UserInfo info) {
+    conversationDbProvider.delete(info);
+    conversationsInfo.removeWhere(
+        (conversation) => conversation.userInfo.userID == info.userID);
   }
 
   void toChat(int index) {

@@ -14,7 +14,6 @@ class ConversationInfo {
     required this.previewText,
     this.messageLength = 0,
   });
-
 }
 
 class Message {
@@ -25,8 +24,9 @@ class Message {
   int? type;
   int? contentType;
   int? status;
-  String? content;
-  SoundElem? sound;
+  String content;
+  ImageElement? image;
+  SoundElement? sound;
 
   Message({
     this.msgId,
@@ -36,7 +36,8 @@ class Message {
     this.type,
     this.contentType,
     this.status,
-    this.content,
+    required this.content,
+    this.image,
     this.sound,
   });
 
@@ -49,7 +50,8 @@ class Message {
         contentType = json['contentType'],
         status = json['status'],
         content = json['content'],
-        sound = SoundElem.fromJson(json['sound'] ?? {});
+        image = ImageElement.fromJson(json['image'] ?? {}),
+        sound = SoundElement.fromJson(json['sound'] ?? {});
 
   factory Message.fromHeartbeat() {
     return Message(
@@ -72,6 +74,7 @@ class Message {
       "status": status,
       "content": content,
       "sendTime": sendTime,
+      "image": image,
       "sound": sound,
     };
   }
@@ -91,6 +94,7 @@ class Message {
         'contentType: $contentType, '
         'status:$status,'
         'content: $content,'
+        'image:${image.toString()},'
         'sound:${sound.toString()},'
         '}';
   }
@@ -105,7 +109,80 @@ class Message {
     contentType = message.contentType;
     status = message.status;
     content = message.content;
+    image = message.image;
     sound = message.sound;
+  }
+}
+
+class ImageElement {
+  String? image;
+  double? imageWidth;
+  double? imageHeight;
+  double? fileSize;
+
+  ImageElement({
+    this.image,
+    this.imageWidth,
+    this.imageHeight,
+    this.fileSize,
+  });
+
+  ImageElement.fromJson(Map<String, dynamic> json)
+      : image = json['imageUrl'],
+        imageWidth = json['imageWidth']?.toDouble(),
+        imageHeight = json['imageHeight']?.toDouble(),
+        fileSize = json['fileSize']?.toDouble();
+
+  Map<String, dynamic> toJson() {
+    return {
+      "imageUrl": image,
+      "imageWidth": imageWidth,
+      "imageHeight": imageHeight,
+      "fileSize": fileSize,
+    };
+  }
+
+  String toJsonString() {
+    return jsonEncode(toJson());
+  }
+}
+
+/// Voice message content
+class SoundElement {
+  /// URL address
+  String? sourceUrl;
+
+  /// Local address
+
+  String? soundPath;
+
+  /// Voice file size
+  double? dataSize;
+
+  /// time
+  int? duration;
+
+  SoundElement({this.sourceUrl, this.soundPath, this.dataSize, this.duration});
+
+  SoundElement.fromJson(Map<String, dynamic> json) {
+    sourceUrl = json['sourceUrl'];
+    soundPath = json['soundPath'];
+    dataSize = json['dataSize'];
+    duration = json['duration'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['sourceUrl'] = sourceUrl;
+    data['soundPath'] = soundPath;
+    data['dataSize'] = dataSize;
+    data['duration'] = duration;
+    return data;
+  }
+
+  @override
+  String toString() {
+    return 'SoundElem{sourceUrl: $sourceUrl, soundPath: $soundPath, dataSize: $dataSize, duration: $duration}';
   }
 }
 
@@ -145,43 +222,4 @@ class MessageStatus {
   static const failed = 3;
 
   static const deleted = 4;
-}
-
-/// 语音消息内容
-class SoundElem {
-  /// url地址
-  String? sourceUrl;
-
-  /// 本地地址
-
-  String? soundPath;
-
-  /// 大小
-  double? dataSize;
-
-  /// 时间s
-  int? duration;
-
-  SoundElem({this.sourceUrl, this.soundPath, this.dataSize, this.duration});
-
-  SoundElem.fromJson(Map<String, dynamic> json) {
-    sourceUrl = json['sourceUrl'];
-    soundPath = json['soundPath'];
-    dataSize = json['dataSize'];
-    duration = json['duration'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['sourceUrl'] = sourceUrl;
-    data['soundPath'] = soundPath;
-    data['dataSize'] = dataSize;
-    data['duration'] = duration;
-    return data;
-  }
-
-  @override
-  String toString() {
-    return 'SoundElem{sourceUrl: $sourceUrl, soundPath: $soundPath, dataSize: $dataSize, duration: $duration}';
-  }
 }

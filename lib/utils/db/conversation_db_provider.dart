@@ -108,7 +108,7 @@ class ConversationDbProvider extends BaseDbProvider {
 
   ///Update to Database
   Future<bool> update(
-      UserInfo user, Message message, int chatUnreadCount) async {
+      UserInfo user, Message message, int unreadCount) async {
     Database db = await getDataBase();
     var sql = '''
     update $name set
@@ -142,7 +142,7 @@ class ConversationDbProvider extends BaseDbProvider {
       message.sendTime,
       message.contentType,
       message.content,
-      chatUnreadCount,
+      unreadCount,
       message.msgId,
     ]);
     return result > 0;
@@ -160,6 +160,21 @@ class ConversationDbProvider extends BaseDbProvider {
       newUnreadCount,
       ownerUser.userID,
       userId,
+    ]);
+    return result > 0;
+  }
+
+  ///Delete to Database
+  Future<bool> delete(UserInfo user) async {
+    Database db = await getDataBase();
+    var sql = '''
+    delete from $name where 
+    $chatOwnerUserId = ? and 
+    $chatUserID = ?
+  ''';
+    int result = await db.rawDelete(sql, [
+      ownerUser.userID,
+      user.userID,
     ]);
     return result > 0;
   }
@@ -204,7 +219,7 @@ class ConversationDbProvider extends BaseDbProvider {
     );
     String previewText = "";
     if (message.contentType == MessageType.text) {
-      previewText = message.content ?? "";
+      previewText = message.content;
     } else if (message.contentType == MessageType.picture) {
       previewText = "[${StrRes.picture}]";
     } else if (message.contentType == MessageType.video) {

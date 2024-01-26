@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/models/user_info.dart';
 import 'package:flutter_chat_craft/pages/chat/conversation_logic.dart';
@@ -8,7 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
-
 import '../../../common/apis.dart';
 import '../../../common/global_data.dart';
 import '../../../widget/toast_utils.dart';
@@ -222,7 +223,7 @@ class ChatLogic extends GetxController {
       switch (assetEntity.type) {
         case AssetType.image:
           //upload image
-          sendPicture(imagePath: path, imageName: name);
+          sendPicture(imageFile: file, imageName: name);
           break;
         default:
           break;
@@ -244,21 +245,57 @@ class ChatLogic extends GetxController {
     _sendMessage(message);
   }
 
-  void sendPicture(
-      {required String imagePath, required String imageName}) async {
+  void sendPicture({required File imageFile, required String imageName}) async {
+    double imageWidth = 0.0;
+    double imageHeight = 0.0;
+    double fileSize = await imageFile.length() / (1024 * 1024);
+    Image image = Image.file(imageFile);
+    Completer<Size> completer = Completer<Size>();
+    image.image.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener((ImageInfo info, bool _) {
+        completer.complete(Size(
+          info.image.width.toDouble(),
+          info.image.height.toDouble(),
+        ));
+      }),
+    );
+    Size imageSize = await completer.future;
+    double width = 0.5.sw;
+    double height = 0.25.sh;
+    double actualWidth = imageSize.width;
+    double actualHeight = imageSize.height;
+    double scale = 1.0;
+    if (actualWidth > width || actualHeight > height) {
+      double widthScale = width / actualWidth;
+      double heightScale = height / actualHeight;
+      scale = widthScale < heightScale ? widthScale : heightScale;
+    }
+    width = actualWidth * scale;
+    height = actualHeight * scale;
+    imageWidth = width;
+    imageHeight = height;
+    print("imageWidth:$imageWidth");
+    print("imageHeight:$imageHeight");
+    ImageElement imageElement = ImageElement(
+      image: imageFile.path,
+      imageWidth: imageWidth,
+      imageHeight: imageHeight,
+      fileSize: fileSize,
+    );
     Message message = Message(
       msgId: generateMessageId(userInfo.userID),
       targetId: userInfo.userID,
       type: ConversationType.single,
       formId: GlobalData.userInfo.userID,
       contentType: MessageType.picture,
-      content: imagePath,
+      content: imageFile.path,
+      image: imageElement,
       sendTime: DateTime.now().toString(),
       status: MessageStatus.sending,
     );
-    print("imagePath:$imagePath");
+    print("imagePath:${imageFile.path}");
     var data = await Apis.uploadFile(
-      filePath: imagePath,
+      filePath: imageFile.path,
       fileName: imageName,
       fileType: MessageType.picture,
       onSendProgress: (int sent, int total) {
@@ -268,10 +305,16 @@ class ChatLogic extends GetxController {
             value: sent / total * 100,
           ),
         );
-        print('上传进度：${sent / total * 100}%');
+        print('Upload progress：${sent / total * 100}%');
       },
     );
     if (data != false) {
+      ImageElement imageElement = ImageElement(
+        image: data,
+        imageWidth: imageWidth,
+        imageHeight: imageHeight,
+        fileSize: fileSize,
+      );
       message = Message(
         msgId: generateMessageId(userInfo.userID),
         targetId: userInfo.userID,
@@ -279,6 +322,7 @@ class ChatLogic extends GetxController {
         formId: GlobalData.userInfo.userID,
         contentType: MessageType.picture,
         content: data,
+        image: imageElement,
         sendTime: DateTime.now().toString(),
         status: MessageStatus.sending,
       );
@@ -293,7 +337,7 @@ class ChatLogic extends GetxController {
     required int fileSize,
   }) async {
     double fileSizeInMB = fileSize / (1024 * 1024);
-    print("duration${duration},path:${path},fileSize:${fileSizeInMB}");
+    print("duration$duration,path:$path,fileSize:$fileSizeInMB");
     Message message = Message(
       msgId: generateMessageId(userInfo.userID),
       targetId: userInfo.userID,
@@ -302,7 +346,7 @@ class ChatLogic extends GetxController {
       contentType: MessageType.voice,
       content: path,
       sendTime: DateTime.now().toString(),
-      sound: SoundElem(
+      sound: SoundElement(
         sourceUrl: "",
         soundPath: path,
         dataSize: fileSizeInMB,
@@ -320,7 +364,7 @@ class ChatLogic extends GetxController {
           msgId: message.msgId!,
           value: sent / total * 100,
         ));
-        print('上传进度：${sent / total * 100}%');
+        print('Upload progress：${sent / total * 100}%');
       },
     );
     if (data != false) {
@@ -330,9 +374,9 @@ class ChatLogic extends GetxController {
         type: ConversationType.single,
         formId: GlobalData.userInfo.userID,
         contentType: MessageType.voice,
-        content: path,
+        content: data,
         sendTime: DateTime.now().toString(),
-        sound: SoundElem(
+        sound: SoundElement(
           sourceUrl: data,
           soundPath: path,
           dataSize: fileSizeInMB,

@@ -87,9 +87,9 @@ class WebSocketManager {
       _connectStatus = ConnectStatusEnum.connect;
       _socketStatusController.add(ConnectStatusEnum.connect);
       if (_reconnectTimes == 0) {
-        print("第一次socket连接成功");
+        print("First successful socket connection.");
       } else {
-        print("重连成功");
+        print("Reconnection successful.");
       }
       _reconnectTimes = 0;
       if (_reconnectTimer != null) {
@@ -123,7 +123,7 @@ class WebSocketManager {
     print("----------------------------");
     if (_reconnectTimes < _reconnectCount) {
       _reconnectTimes++;
-      print("开始重连，这是第$_reconnectTimes次重连");
+      print("Reconnecting, this is the $_reconnectTimes reconnection");
       _reconnectTimer =
           Timer.periodic(Duration(milliseconds: _heartTimes), (timer) async {
         await disconnect();

@@ -104,8 +104,8 @@ class _ConversationPageState extends State<ConversationPage> {
                       ),
                       child: SvgPicture.asset(
                         ImagesRes.icAdd,
-                        colorFilter:
-                            const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                        colorFilter: const ColorFilter.mode(
+                            Colors.black, BlendMode.srcIn),
                       ),
                     ),
                   ),
@@ -201,7 +201,8 @@ class _ConversationPageState extends State<ConversationPage> {
                   text: StrRes.remove,
                   colors: deleteColors,
                   width: 77.w,
-                  onTap: () {},
+                  onTap: () => conversationLogic.deleteConversation(
+                      conversationLogic.conversationsInfo[index].userInfo),
                 ),
               ],
             ),
