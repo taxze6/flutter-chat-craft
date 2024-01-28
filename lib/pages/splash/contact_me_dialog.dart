@@ -51,7 +51,6 @@ class _ContactMeDialogState extends State<ContactMeDialog>
 
   @override
   Widget build(BuildContext context) {
-    final w = widget;
     return GestureDetector(
       onTap: () {
         _closeDialogWithAnimation();
@@ -104,7 +103,7 @@ class _ContactMeDialogState extends State<ContactMeDialog>
                           Expanded(
                             child: Image.asset(
                               "assets/images/share/wechat_taxze.jpg",
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                             ),
                           )
                         ],
