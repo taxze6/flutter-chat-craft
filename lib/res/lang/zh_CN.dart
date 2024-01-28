@@ -88,5 +88,6 @@ const Map<String, String> zh_CN = {
   "notImageData": "暂无图片数据",
   "privateChat": "私聊",
   "groupChat": "群聊",
-  "massSend":"群发"
+  "massSend": "群发",
+  "notImplemented": "该功能还未完成",
 };

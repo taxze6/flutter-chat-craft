@@ -94,4 +94,5 @@ const Map<String, String> en_US = {
   "privateChat": "Private Chat",
   "groupChat": "Group Chat",
   "massSend": "MassSend",
+  "notImplemented": "The feature is not yet completed."
 };

@@ -4,6 +4,7 @@ import 'package:flutter_chat_craft/pages/chat/conversation_logic.dart';
 import 'package:flutter_chat_craft/pages/chat/widget/conversation_item_view.dart';
 import 'package:flutter_chat_craft/pages/chat/widget/dashed_circle_border.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
+import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -194,7 +195,9 @@ class _ConversationPageState extends State<ConversationPage> {
                       : StrRes.top,
                   colors: pinColors,
                   width: 77.w,
-                  onTap: () {},
+                  onTap: () {
+                    ToastUtils.toastText(StrRes.notImplemented);
+                  },
                 ),
                 SlideItemInfo(
                   flex: 2,

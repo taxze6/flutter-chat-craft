@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_chat_craft/res/styles.dart';
@@ -175,6 +174,7 @@ class _ChatListViewState extends State<ChatListView> {
   }
 }
 
+//Scroll processing(Not yet implemented)
 class ChatBehavior extends ScrollBehavior {
   @override
   Widget buildViewportChrome(

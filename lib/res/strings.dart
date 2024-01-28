@@ -195,4 +195,6 @@ class StrRes {
   static get groupChat => 'groupChat'.tr;
 
   static get massSend => 'massSend'.tr;
+
+  static get notImplemented => 'notImplemented'.tr;
 }

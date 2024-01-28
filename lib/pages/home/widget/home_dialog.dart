@@ -9,9 +9,11 @@ class HomeDialog extends StatefulWidget {
     super.key,
     required this.toAddFriend,
     required this.toAddNewChat,
+    required this.toAddGroup,
   });
 
   final GestureTapCallback toAddFriend;
+  final GestureTapCallback toAddGroup;
   final GestureTapCallback toAddNewChat;
 
   @override
@@ -103,7 +105,7 @@ class _HomeDialogState extends State<HomeDialog>
                               imagePath: ImagesRes.icNewGroupIcon,
                               title: StrRes.newGroup,
                               content: StrRes.newGroupContent,
-                              onTap: w.toAddFriend,
+                              onTap: w.toAddGroup,
                             ),
                             homeDivider(),
                             homeItem(

@@ -10,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../widget/toast_utils.dart';
+
 class MinePage extends StatefulWidget {
   const MinePage({Key? key, required this.controller}) : super(key: key);
   final MineLogic controller;
@@ -89,10 +91,16 @@ class _MinePageState extends State<MinePage>
                           preferencesItem(
                             icon: ImagesRes.icFriendSetting,
                             title: StrRes.friendSetting,
+                            onTap: () {
+                              ToastUtils.toastText(StrRes.notImplemented);
+                            },
                           ),
                           preferencesItem(
                             icon: ImagesRes.icShareApp,
                             title: StrRes.shareApp,
+                            onTap: () {
+                              ToastUtils.toastText(StrRes.notImplemented);
+                            },
                           ),
                           appVersion(),
                         ],
@@ -150,7 +158,9 @@ class _MinePageState extends State<MinePage>
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 6.w),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          ToastUtils.toastText(StrRes.notImplemented);
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -205,7 +215,9 @@ class _MinePageState extends State<MinePage>
             child: otherUserInteractionItem(
               iconImage: ImagesRes.icAudio,
               itemText: StrRes.audio,
-              onTap: () {},
+              onTap: () {
+                ToastUtils.toastText(StrRes.notImplemented);
+              },
             ),
           ),
         ],
@@ -270,7 +282,9 @@ class _MinePageState extends State<MinePage>
         ),
         const Spacer(),
         GestureDetector(
-            onTap: () {},
+            onTap: () {
+              ToastUtils.toastText(StrRes.notImplemented);
+            },
             child: Text(
               StrRes.viewAllStory,
               style: TextStyle(
@@ -396,9 +410,10 @@ class _MinePageState extends State<MinePage>
   Widget preferencesItem({
     required String icon,
     required String title,
+    required GestureTapCallback onTap,
   }) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Column(
         children: [
           Padding(

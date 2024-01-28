@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/routes/app_navigator.dart';
 import 'package:get/get.dart';
 import '../../res/images.dart';
+import '../../res/strings.dart';
+import '../../widget/toast_utils.dart';
 import '../chat/conversation_view.dart';
 import 'home_view.dart';
 import 'widget/home_dialog.dart';
@@ -26,6 +28,9 @@ class HomeLogic extends GetxController {
       barrierColor: const Color(0x573D3D3D),
       HomeDialog(
         toAddNewChat: () => toNewChat(),
+        toAddGroup: () {
+          ToastUtils.toastText(StrRes.notImplemented);
+        },
         toAddFriend: () => toAddFriendPage(),
       ),
     ).then((value) {

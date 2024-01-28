@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_chat_craft/common/ip_config.dart';
 
 import '../utils/db/sql_manager.dart';
 import '../utils/sp/sp_util.dart';
@@ -12,10 +13,7 @@ class Config {
   static const UI_W = 375.0;
   static const UI_H = 812.0;
 
-  static const ip = "192.168.31.123:8889";
-  static const apiUrl = "http://$ip/v1";
-
-  // static const imgIp = "http://$ip/";
+  static const apiUrl = "http://${IpConfig.ip}/v1";
 
   static Future init(Function() runApp) async {
     // Initialize a WidgetsBinding to ensure that the Flutter framework has been initialized
