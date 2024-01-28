@@ -45,3 +45,6 @@ app.*.map.json
 
 # Ignore pubspec.lock
 pubspec.lock
+
+# Ignore ip_config.dart
+/lib/common/ip_config.dart
