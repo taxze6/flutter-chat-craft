@@ -89,5 +89,5 @@ const Map<String, String> zh_CN = {
   "privateChat": "私聊",
   "groupChat": "群聊",
   "massSend": "群发",
-  "notImplemented": "该功能还未完成",
+  "notImplemented": "该功能暂未实现，期待下吧~",
 };
