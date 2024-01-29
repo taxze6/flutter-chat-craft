@@ -53,7 +53,8 @@ dependencies:
   web_socket_channel: 2.4.0
   wechat_camera_picker: 4.2.0-dev.3
   wechat_assets_picker: 9.0.0-dev.2
-  cached_network_image: 3.3.0
+  cached_network_image: 3.3.1
+  flutter_cache_manager: 3.3.1
   record: 4.4.3
   lottie: any
   just_audio: 0.9.36

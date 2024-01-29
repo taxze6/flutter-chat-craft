@@ -5,7 +5,7 @@ const Map<String, String> en_US = {
   "contactMe": "Contact Me",
   "enterChatCraft": "Enter Chat Craft",
   "login": "Login",
-  "loginContent": "Join our commurity and Exparionco asnossfinding your relntonship.",
+  "loginContent": "Join our community to find and grow your connections with us.",
   "username": "Username",
   "usernameInputHintText": "Enter your username",
   "password": "Password",
