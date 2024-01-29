@@ -90,4 +90,6 @@ const Map<String, String> zh_CN = {
   "groupChat": "群聊",
   "massSend": "群发",
   "notImplemented": "该功能暂未实现，期待下吧~",
+  "collect": "收藏",
+  "logout": "退出登录",
 };

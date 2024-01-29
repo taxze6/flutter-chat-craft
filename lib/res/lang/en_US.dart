@@ -1,13 +1,11 @@
 const Map<String, String> en_US = {
   "chatCraft": "Chat Craft",
   'welcomeUse': "Welcome to Chat Craft",
-  "welcomeUseContent":
-      "If you think the project is good, please give me a star and share it. Thank you. ",
+  "welcomeUseContent": "If you think the project is good, please give me a star and share it. Thank you. ",
   "contactMe": "Contact Me",
   "enterChatCraft": "Enter Chat Craft",
   "login": "Login",
-  "loginContent":
-      "Join our commurity and Exparionco asnossfinding your relntonship.",
+  "loginContent": "Join our commurity and Exparionco asnossfinding your relntonship.",
   "username": "Username",
   "usernameInputHintText": "Enter your username",
   "password": "Password",
@@ -23,8 +21,7 @@ const Map<String, String> en_US = {
   "createAccount": "Create Account",
   "confirmPasswordInputHintText": "Confirm your password",
   "confirmPassword": "Confirm Password",
-  "termsService":
-      "By agreeing to the terms and conditions, you are entering into a legally binding contract with the service provider.",
+  "termsService": "By agreeing to the terms and conditions, you are entering into a legally binding contract with the service provider.",
   "networkException": "Network exception.",
   "loginError": "Login error, please check your account password!",
   "inputEmptyReminder": "Please enter the complete content!",
@@ -36,10 +33,8 @@ const Map<String, String> en_US = {
   "sendCodeAgain": "Send code again",
   "checkCodeError": "Incorrect verification code.",
   "checkCodeSuccess": "The verification code is correct.",
-  "usernameRegistrationRules":
-      "The username should consist of letters with more than 3 characters.",
-  "passwordRegistrationRules":
-      "The password should consist of letters and numbers with more than 8 characters.",
+  "usernameRegistrationRules": "The username should consist of letters with more than 3 characters.",
+  "passwordRegistrationRules": "The password should consist of letters and numbers with more than 8 characters.",
   "newChat": "New Chat",
   "newChatContent": "Send a message to your contact",
   "cancel": "Cancel",
@@ -64,8 +59,7 @@ const Map<String, String> en_US = {
   "online": "Online",
   "offline": "Offline",
   "send": "Send",
-  "promotionalCardText":
-      "To experience more functions of ChatCraft, please contact Taxze2019 on wechat😘",
+  "promotionalCardText": "To experience more functions of ChatCraft, please contact Taxze2019 on wechat😘",
   "meMe": "Meme",
   "function": "Function",
   "myProfile": "My Profile",
@@ -94,5 +88,7 @@ const Map<String, String> en_US = {
   "privateChat": "Private Chat",
   "groupChat": "Group Chat",
   "massSend": "MassSend",
-  "notImplemented": "The feature is not yet completed."
+  "notImplemented": "The feature is not yet completed.",
+  "collect": "Collect",
+  "logout": "Log Out",
 };

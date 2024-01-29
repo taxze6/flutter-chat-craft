@@ -75,7 +75,7 @@ loginInput({
   required TextEditingController controller,
   required FocusNode focusNode,
   required String hintText,
-  TextInputAction textInputAction = TextInputAction.none,
+  TextInputAction textInputAction = TextInputAction.done,
   bool centerInput = false,
   bool obscureText = false,
   ValueChanged<String>? onSubmitted,

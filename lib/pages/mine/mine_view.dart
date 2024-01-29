@@ -20,8 +20,7 @@ class MinePage extends StatefulWidget {
   State<MinePage> createState() => _MinePageState();
 }
 
-class _MinePageState extends State<MinePage>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _MinePageState extends State<MinePage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late MineLogic mineLogic;
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
@@ -80,14 +79,19 @@ class _MinePageState extends State<MinePage>
                         children: [
                           closeButton(),
                           userInfoView(),
-                          if (mineLogic.isSelf)
-                            myProfile()
-                          else
-                            otherUserInteractionModule(),
+                          if (mineLogic.isSelf) myProfile() else otherUserInteractionModule(),
                           divider(),
                           storyTitle(),
                           stories(),
                           preferencesTitle(),
+                          if (mineLogic.isSelf)
+                            preferencesItem(
+                              icon: ImagesRes.icCollect,
+                              title: StrRes.collect,
+                              onTap: () {
+                                ToastUtils.toastText(StrRes.notImplemented);
+                              },
+                            ),
                           preferencesItem(
                             icon: ImagesRes.icFriendSetting,
                             title: StrRes.friendSetting,
@@ -102,6 +106,12 @@ class _MinePageState extends State<MinePage>
                               ToastUtils.toastText(StrRes.notImplemented);
                             },
                           ),
+                          if (mineLogic.isSelf)
+                            preferencesItem(
+                              icon: ImagesRes.icLogout,
+                              title: StrRes.logout,
+                              onTap: mineLogic.logout,
+                            ),
                           appVersion(),
                         ],
                       ),
@@ -322,8 +332,7 @@ class _MinePageState extends State<MinePage>
                   itemBuilder: (_, index) {
                     var data = mineLogic.userStories[index];
                     return LayoutBuilder(
-                      builder:
-                          (BuildContext context, BoxConstraints constraints) {
+                      builder: (BuildContext context, BoxConstraints constraints) {
                         return Padding(
                           padding: EdgeInsets.only(right: 12.w),
                           child: GestureDetector(
@@ -334,30 +343,22 @@ class _MinePageState extends State<MinePage>
                                   imageUrl: data.media![0],
                                   width: 130.w,
                                   height: constraints.maxHeight,
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
+                                  imageBuilder: (context, imageProvider) => Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(8)),
-                                      image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover),
+                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                      image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
                                     ),
                                   ),
                                   placeholder: (context, url) => Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(8)),
+                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
                                       color: Colors.grey.shade100,
                                     ),
-                                    child: const Center(
-                                        child: CircularProgressIndicator()),
+                                    child: const Center(child: CircularProgressIndicator()),
                                   ),
-                                  errorWidget: (context, url, error) =>
-                                      Container(
+                                  errorWidget: (context, url, error) => Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(8)),
+                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
                                       color: Colors.grey.shade100,
                                     ),
                                     child: const Center(
@@ -371,9 +372,7 @@ class _MinePageState extends State<MinePage>
                                     left: 5,
                                     right: 5,
                                     child: Text(
-                                      (data.content?.length ?? 0) > 30
-                                          ? '${data.content!.substring(0, 30)}...'
-                                          : (data.content ?? ""),
+                                      (data.content?.length ?? 0) > 30 ? '${data.content!.substring(0, 30)}...' : (data.content ?? ""),
                                       style: TextStyle(
                                         fontSize: 10.sp,
                                         color: Colors.white,

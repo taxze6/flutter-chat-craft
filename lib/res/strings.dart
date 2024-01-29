@@ -197,4 +197,8 @@ class StrRes {
   static get massSend => 'massSend'.tr;
 
   static get notImplemented => 'notImplemented'.tr;
+
+  static get collect => 'collect'.tr;
+
+  static get logout => 'logout'.tr;
 }

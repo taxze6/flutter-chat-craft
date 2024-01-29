@@ -1,5 +1,7 @@
 import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/user_story.dart';
+import 'package:flutter_chat_craft/utils/sp/data_persistence.dart';
+import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:get/get.dart';
 import '../../common/apis.dart';
 import '../../models/user_info.dart';
@@ -62,5 +64,11 @@ class MineLogic extends GetxController {
 
   void startMineStoryDetails(UserStory story) {
     AppNavigator.startMineStoryDetails(userInfo: userInfo, userStory: story);
+  }
+
+  void logout() {
+    DataPersistence.removeToken();
+    DataPersistence.removeUser();
+    AppNavigator.startLogin();
   }
 }

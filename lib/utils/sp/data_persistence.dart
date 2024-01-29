@@ -23,7 +23,7 @@ class DataPersistence {
     return SpUtil.getString(_token) ?? "";
   }
 
-  static Future<bool>? removeToken(String token) {
+  static Future<bool>? removeToken() {
     return SpUtil.remove(_token);
   }
 
@@ -33,5 +33,9 @@ class DataPersistence {
 
   static UserInfo getUserInfo() {
     return UserInfo.fromJson(SpUtil.getObject(_user)!.cast<String, dynamic>());
+  }
+
+  static Future<bool>? removeUser() {
+    return SpUtil.remove(_user);
   }
 }
