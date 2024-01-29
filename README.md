@@ -1,6 +1,6 @@
 ![back.png](https://cdn.nlark.com/yuque/0/2024/png/34940884/1706452639127-13565545-9978-4296-8ee1-ff2f4b982170.png#averageHue=%2394908b&clientId=u311e081c-a6cb-4&from=drop&id=Gtb5o&originHeight=1233&originWidth=1812&originalType=binary&ratio=1&rotation=0&showTitle=false&size=1033034&status=done&style=none&taskId=u22e42aa0-226b-4af7-b773-2f7d827fa68&title=)
 
-【English | 中文文档】
+【English | [中文文档](https://github.com/taxze6/flutter-chat-craft/blob/master/README-CN.md)】
 
 Client project address:[https://github.com/taxze6/flutter-chat-craft](https://github.com/taxze6/flutter-chat-craft)
 
