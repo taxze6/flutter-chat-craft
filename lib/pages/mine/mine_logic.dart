@@ -69,6 +69,6 @@ class MineLogic extends GetxController {
   void logout() {
     DataPersistence.removeToken();
     DataPersistence.removeUser();
-    AppNavigator.startLogin();
+    AppNavigator.logout();
   }
 }

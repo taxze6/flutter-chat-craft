@@ -16,6 +16,10 @@ abstract class AppNavigator {
     Get.toNamed(AppRoutes.login);
   }
 
+  static void logout() {
+    Get.offAllNamed(AppRoutes.login);
+  }
+
   static void startLoginEmail() {
     Get.toNamed(AppRoutes.loginEmail);
   }
