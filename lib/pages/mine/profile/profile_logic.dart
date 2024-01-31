@@ -112,7 +112,9 @@ class ProfileLogic extends GetxController {
       print('--------assets path-----$path');
       switch (assetEntity.type) {
         case AssetType.image:
-          uploadPicture(imageFile: file, imageName: name);
+          LoadingView.singleton.wrap(
+              asyncFunction: () =>
+                  uploadPicture(imageFile: file, imageName: name));
           break;
         default:
           break;
@@ -120,8 +122,8 @@ class ProfileLogic extends GetxController {
     }
   }
 
-  void uploadPicture({required File imageFile, required String imageName}) async {
-    ///todo 这里需要一个loading遮罩
+  Future<bool> uploadPicture(
+      {required File imageFile, required String imageName}) async {
     Image image = Image.file(imageFile);
     Completer<Size> completer = Completer<Size>();
     image.image.resolve(const ImageConfiguration()).addListener(
@@ -151,11 +153,12 @@ class ProfileLogic extends GetxController {
       fileType: MessageType.picture,
       onSendProgress: (int sent, int total) {},
     );
-    ///todo 解除loading遮罩
     if (data != false) {
       state.userInfo.avatar = data;
       update(['avatar']);
+      return true;
     }
+    return false;
   }
 
   void modifyMotto() {
@@ -223,7 +226,8 @@ class ProfileLogic extends GetxController {
   }
 
   void save() async {
-    var data = await LoadingView.singleton.wrap(asyncFunction: () => Apis.modifyUserInfo(userInfo: state.userInfo));
+    var data = await LoadingView.singleton.wrap(
+        asyncFunction: () => Apis.modifyUserInfo(userInfo: state.userInfo));
     if (data == false) {
       ToastUtils.toastText(StrRes.saveFailed);
     } else {
