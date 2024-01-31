@@ -62,6 +62,7 @@ dependencies:
   scrollview_observer: 1.19.0
   url_launcher: 6.2.4
   sqflite: ^2.3.1
+  modal_bottom_sheet: 3.0.0-pre
 dependency_overrides:
   photo_manager: ^3.0.0-dev.2
 dev_dependencies:
@@ -90,6 +91,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/voice/
+    - assets/images/replaced/
     - assets/images/share/
     - assets/key/
     - assets/anim/

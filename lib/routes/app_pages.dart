@@ -19,6 +19,8 @@ import 'package:flutter_chat_craft/pages/mine/mine_binding.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_details_binding.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_details_view.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_view.dart';
+import 'package:flutter_chat_craft/pages/mine/profile/profile_binding.dart';
+import 'package:flutter_chat_craft/pages/mine/profile/profile_view.dart';
 import 'package:flutter_chat_craft/pages/splash/splash_binding.dart';
 import 'package:flutter_chat_craft/pages/splash/splash_view.dart';
 import 'package:get/get.dart';
@@ -88,5 +90,10 @@ class AppPages {
         transition: Transition.rightToLeft,
         page: () => NewChatPage(),
         binding: NewChatBinding()),
+    GetPage(
+        name: AppRoutes.profile,
+        transition: Transition.rightToLeft,
+        page: () => ProfilePage(),
+        binding: ProfileBinding()),
   ];
 }

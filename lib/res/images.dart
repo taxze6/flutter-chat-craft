@@ -58,4 +58,5 @@ class ImagesRes {
   static const icMassSend = '${_dir}ic_mass_send.svg';
   static const icCollect = '${_dir}ic_collect.svg';
   static const icLogout = '${_dir}ic_logout.svg';
+  static const icArrow = "${_dir}ic_arrow.svg";
 }

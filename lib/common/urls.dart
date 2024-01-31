@@ -21,6 +21,8 @@ class Urls {
   static var addOrRemoveUserStoryLike = "${Config.apiUrl}/user/add_story_like";
 
   static var addUserStoryComment = "${Config.apiUrl}/user/add_story_comment";
+  static var modifyUserInfo = "${Config.apiUrl}/user/user_info_update";
+  static var modifyPassword = "${Config.apiUrl}/user/user_info_password_update";
 
   //relation
   static var addFriendWithUserName = "${Config.apiUrl}/relation/add_username";
