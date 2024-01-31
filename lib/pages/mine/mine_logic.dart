@@ -1,5 +1,6 @@
 import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/user_story.dart';
+import 'package:flutter_chat_craft/routes/app_routes.dart';
 import 'package:flutter_chat_craft/utils/sp/data_persistence.dart';
 import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:get/get.dart';
@@ -42,16 +43,11 @@ class MineLogic extends GetxController {
       for (var story in storyData) {
         UserStory info = UserStory.fromJson(story["story"]);
 
-        List<UserStoryLike> storyLikes = story["story_likes"] != null
-            ? (story["story_likes"] as List<dynamic>)
-                .map((likeJson) => UserStoryLike.fromJson(likeJson))
-                .toList()
-            : [];
+        List<UserStoryLike> storyLikes =
+            story["story_likes"] != null ? (story["story_likes"] as List<dynamic>).map((likeJson) => UserStoryLike.fromJson(likeJson)).toList() : [];
 
         List<UserStoryComment> storyComments = story["story_comments"] != null
-            ? (story["story_comments"] as List<dynamic>)
-                .map((commentJson) => UserStoryComment.fromJson(commentJson))
-                .toList()
+            ? (story["story_comments"] as List<dynamic>).map((commentJson) => UserStoryComment.fromJson(commentJson)).toList()
             : [];
         info.storyLikes = storyLikes;
         info.storyComments = storyComments;
@@ -70,5 +66,9 @@ class MineLogic extends GetxController {
     DataPersistence.removeToken();
     DataPersistence.removeUser();
     AppNavigator.logout();
+  }
+
+  void toProfile() {
+    Get.toNamed(AppRoutes.profile, arguments: {'userInfo': userInfo});
   }
 }

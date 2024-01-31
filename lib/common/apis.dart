@@ -72,12 +72,7 @@ class Apis {
         options: Options(
           contentType: 'application/json',
         ),
-        data: {
-          "name": name,
-          "email": email,
-          "password": password,
-          "repassword": repassword
-        });
+        data: {"name": name, "email": email, "password": password, "repassword": repassword});
     if (data == null) {
       return false;
     }
@@ -193,8 +188,7 @@ class Apis {
     required Function(int sent, int total) onSendProgress,
   }) async {
     FormData formData = FormData.fromMap({
-      "file": MultipartFile.fromBytes(File(filePath).readAsBytesSync(),
-          filename: fileName),
+      "file": MultipartFile.fromBytes(File(filePath).readAsBytesSync(), filename: fileName),
       "type": fileType,
     });
     var le = formData.length;
@@ -277,6 +271,52 @@ class Apis {
           "ownerId": userId.toString(),
           "content": content,
           "type": type.toString(),
+        });
+    if (data == null) {
+      return false;
+    }
+    return data;
+  }
+
+  static Future<dynamic> modifyUserInfo({
+    required UserInfo userInfo,
+  }) async {
+    var data = await HttpUtil.post(Urls.modifyUserInfo,
+        options: Options(
+          headers: {
+            "Authorization": GlobalData.token,
+            "UserId": GlobalData.userInfo.userID,
+          },
+          contentType: 'application/json',
+        ),
+        data: {
+          "userName": userInfo.userName,
+          "email": userInfo.email,
+          "phone": userInfo.phone,
+          "avatar": userInfo.avatar,
+          "motto": userInfo.motto,
+        });
+    if (data == null) {
+      return false;
+    }
+    return data;
+  }
+
+  static Future<dynamic> modifyPassword({
+    required String password,
+    required String newPassword,
+  }) async {
+    var data = await HttpUtil.post(Urls.modifyPassword,
+        options: Options(
+          headers: {
+            "Authorization": GlobalData.token,
+            "UserId": GlobalData.userInfo.userID,
+          },
+          contentType: 'application/json',
+        ),
+        data: {
+          "password": password,
+          "newPassword": newPassword,
         });
     if (data == null) {
       return false;

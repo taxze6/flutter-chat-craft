@@ -53,7 +53,8 @@ dependencies:
   web_socket_channel: 2.4.0
   wechat_camera_picker: 4.2.0-dev.3
   wechat_assets_picker: 9.0.0-dev.2
-  cached_network_image: 3.3.0
+  cached_network_image: 3.3.1
+  flutter_cache_manager: 3.3.1
   record: 4.4.3
   lottie: any
   just_audio: 0.9.36
@@ -61,6 +62,7 @@ dependencies:
   scrollview_observer: 1.19.0
   url_launcher: 6.2.4
   sqflite: ^2.3.1
+  modal_bottom_sheet: 3.0.0-pre
 dependency_overrides:
   photo_manager: ^3.0.0-dev.2
 dev_dependencies:
@@ -89,6 +91,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/voice/
+    - assets/images/replaced/
     - assets/images/share/
     - assets/key/
     - assets/anim/

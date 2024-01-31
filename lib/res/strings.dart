@@ -201,4 +201,56 @@ class StrRes {
   static get collect => 'collect'.tr;
 
   static get logout => 'logout'.tr;
+
+  static get profile => 'profile'.tr;
+
+  static get avatar => 'avatar'.tr;
+
+  static get motto => 'motto'.tr;
+
+  static get nickname => 'nickname'.tr;
+
+  static get phone => 'phone'.tr;
+
+  static get save => 'save'.tr;
+
+  static get saveSuccess => 'saveSuccess'.tr;
+
+  static get saveFailed => 'saveFailed'.tr;
+
+  static get camera => 'camera'.tr;
+
+  static get album => 'album'.tr;
+
+  static get settingMotto => 'settingMotto'.tr;
+
+  static get enterMotto => 'enterMotto'.tr;
+
+  static get settingEmail => 'settingEmail'.tr;
+
+  static get enterEmail => 'enterEmail'.tr;
+
+  static get settingPhone => 'settingPhone'.tr;
+
+  static get enterPhone => 'enterPhone'.tr;
+
+  static get settingNickname => 'settingNickname'.tr;
+
+  static get enterNickname => 'enterNickname'.tr;
+
+  static get settingPassword => 'settingPassword'.tr;
+
+  static get enterCurrentPassword => 'enterCurrentPassword'.tr;
+
+  static get enterNewPassword => 'enterNewPassword'.tr;
+
+  static get enterRepeatPassword => 'enterRepeatPassword'.tr;
+
+  static get passwordNotEqual => 'passwordNotEqual'.tr;
+
+  static get confirm => 'confirm'.tr;
+
+  static get maxInput => 'maxInput'.tr;
+
+  static get word => 'word'.tr;
 }

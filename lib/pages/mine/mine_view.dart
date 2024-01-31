@@ -95,9 +95,7 @@ class _MinePageState extends State<MinePage> with SingleTickerProviderStateMixin
                           preferencesItem(
                             icon: ImagesRes.icFriendSetting,
                             title: StrRes.friendSetting,
-                            onTap: () {
-                              ToastUtils.toastText(StrRes.notImplemented);
-                            },
+                            onTap: mineLogic.toProfile,
                           ),
                           preferencesItem(
                             icon: ImagesRes.icShareApp,

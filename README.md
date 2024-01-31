@@ -24,6 +24,8 @@ Chat-Craft has currently implemented the basic functions of instant messaging an
 
 Click on the picture to view the demonstration video.
 
+Thanks to the friend who helped me make this video. If you also need to make a similar video, you can contact him through this email: tjl2945428088@icloud.com
+
 [![Demo video](https://i.ytimg.com/vi/S0c2FW29nNg/maxresdefault.jpg)](https://www.youtube.com/watch?v=S0c2FW29nNg "Demo video")
 
 ## 📖 Overview
