@@ -107,8 +107,7 @@ class ConversationDbProvider extends BaseDbProvider {
   }
 
   ///Update to Database
-  Future<bool> update(
-      UserInfo user, Message message, int unreadCount) async {
+  Future<bool> update(UserInfo user, Message message, int unreadCount) async {
     Database db = await getDataBase();
     var sql = '''
     update $name set
@@ -129,6 +128,7 @@ class ConversationDbProvider extends BaseDbProvider {
     $chatUnreadCount = ?
     ''';
     int result = await db.rawUpdate(sql, [
+      ownerUser.userID,
       user.userID,
       user.userName,
       user.email,
@@ -143,7 +143,6 @@ class ConversationDbProvider extends BaseDbProvider {
       message.contentType,
       message.content,
       unreadCount,
-      message.msgId,
     ]);
     return result > 0;
   }
