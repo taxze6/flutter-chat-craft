@@ -13,6 +13,8 @@ import 'package:get/get.dart';
 import 'profile_logic.dart';
 
 class ProfilePage extends StatelessWidget {
+  ProfilePage({super.key});
+
   final logic = Get.find<ProfileLogic>();
   final state = Get.find<ProfileLogic>().state;
 
@@ -70,7 +72,8 @@ class ProfilePage extends StatelessWidget {
                   return ClickItem(
                     title: StrRes.phone,
                     content: ObjectUtil.isNotEmpty(state.userInfo.phone)
-                        ? state.userInfo.phone.replaceFirst(RegExp(r'\d{7}'), '****')
+                        ? state.userInfo.phone
+                            .replaceFirst(RegExp(r'\d{7}'), '****')
                         : state.userInfo.phone,
                     onTap: logic.modifyPhone,
                   );
@@ -118,25 +121,29 @@ class SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 32.w),
-      child: ElevatedButton(
-        onPressed: logic.save,
-        style: ButtonStyle(
-          minimumSize: MaterialStateProperty.all(Size(double.infinity, 50.w)),
-          elevation: MaterialStateProperty.all(0),
-          padding: MaterialStateProperty.all(EdgeInsets.zero),
-          backgroundColor: MaterialStateProperty.all(PageStyle.btnBgColor),
-          alignment: Alignment.center,
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.w),
+      child: Obx(
+        () => ElevatedButton(
+          onPressed: logic.save,
+          style: ButtonStyle(
+            minimumSize: MaterialStateProperty.all(Size(double.infinity, 50.w)),
+            elevation: MaterialStateProperty.all(0),
+            padding: MaterialStateProperty.all(EdgeInsets.zero),
+            backgroundColor: logic.state.hasAnyChange.value
+                ? MaterialStateProperty.all(PageStyle.chatColor)
+                : MaterialStateProperty.all(PageStyle.btnBgColor),
+            alignment: Alignment.center,
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.w),
+              ),
             ),
           ),
-        ),
-        child: Text(
-          StrRes.save,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: Colors.black,
+          child: Text(
+            StrRes.save,
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: Colors.black,
+            ),
           ),
         ),
       ),

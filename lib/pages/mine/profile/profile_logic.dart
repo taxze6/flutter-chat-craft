@@ -170,6 +170,7 @@ class ProfileLogic extends GetxController {
         value: state.userInfo.motto,
         onConfirm: (value) async {
           state.userInfo.motto = value;
+          state.hasAnyChange.value = true;
           update(['motto']);
         },
       ),
@@ -185,6 +186,7 @@ class ProfileLogic extends GetxController {
         value: state.userInfo.phone,
         onConfirm: (value) async {
           state.userInfo.phone = value;
+          state.hasAnyChange.value = true;
           update(['phone']);
         },
       ),
@@ -200,6 +202,7 @@ class ProfileLogic extends GetxController {
         value: state.userInfo.email,
         onConfirm: (value) async {
           state.userInfo.email = value;
+          state.hasAnyChange.value = true;
           update(['email']);
         },
       ),
@@ -215,6 +218,7 @@ class ProfileLogic extends GetxController {
         value: state.userInfo.userName,
         onConfirm: (value) async {
           state.userInfo.userName = value;
+          state.hasAnyChange.value = true;
           update(['nickname']);
         },
       ),

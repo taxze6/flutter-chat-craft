@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 class ProfileState {
   late UserInfo userInfo;
 
+  late Rx<bool> hasAnyChange;
+
   ProfileState() {
     userInfo = Get.arguments['userInfo'];
+    hasAnyChange = false.obs;
   }
 }
