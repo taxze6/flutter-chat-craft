@@ -12,6 +12,7 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import '../../../common/apis.dart';
 import '../../../common/global_data.dart';
+import '../../../im/im_utils.dart';
 import '../../../widget/toast_utils.dart';
 import 'widget/chat_item_view.dart';
 import 'widget/interactive_dialog/interactive_dialog.dart';
@@ -24,6 +25,7 @@ class ChatLogic extends GetxController {
   FocusNode textFocusNode = FocusNode();
   RxList<Message> messageList = <Message>[].obs;
   ScrollController scrollController = ScrollController();
+  IntervalDo intervalSendTypingMsg = IntervalDo();
 
   /// The status of message sending,
   /// there are two kinds of success or failure, true success, false failure
@@ -40,6 +42,8 @@ class ChatLogic extends GetxController {
   int chatListSize = 30;
 
   bool isShowToolsDialog = false;
+  Timer? typingTimer;
+  Rx<bool> typing = false.obs;
 
   @override
   void onInit() {
@@ -50,6 +54,7 @@ class ChatLogic extends GetxController {
       print('index:$index');
       // parseClickEvent(indexOfMessage(index, calculate: false));
     });
+    inputListener();
   }
 
   @override
@@ -62,6 +67,22 @@ class ChatLogic extends GetxController {
     clickSubjectController.close();
   }
 
+  void inputListener() {
+    textEditingController.addListener(() {
+      //There is text in the input box
+      intervalSendTypingMsg.run(
+        fuc: () => sendTypingMsg(focus: true),
+        milliseconds: 2000,
+      );
+    });
+    textFocusNode.addListener(() {
+      //Lost input box focus
+      if (!textFocusNode.hasFocus) {
+        sendTypingMsg(focus: false);
+      }
+    });
+  }
+
   void messageAddListen() {
     conversationLogic.webSocketManager.listen((msg) {
       Message message = Message.fromJson(
@@ -69,12 +90,50 @@ class ChatLogic extends GetxController {
       );
       print('Received: ${message.toString()}');
       if (message.formId == userInfo.userID) {
-        // messageList.insert(0, message);
-        messageList.add(message);
+        //Monitor input status
+        if (message.contentType == MessageType.typing) {
+          _typing(message);
+        } else {
+          // messageList.insert(0, message);
+          messageList.add(message);
+        }
       }
     }, onError: (error) {
       ToastUtils.toastText(error.toString());
     });
+  }
+
+  void _typing(Message message) {
+    if (message.content == 'yes') {
+      // Other party is typing
+      if (null == typingTimer) {
+        typing.value = true;
+        typingTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
+          // Cancel the timer in two seconds
+          typing.value = false;
+          typingTimer?.cancel();
+          typingTimer = null;
+        });
+      }
+    } else {
+      // Stop typing
+      typing.value = false;
+      typingTimer?.cancel();
+      typingTimer = null;
+    }
+  }
+
+  /// Prompt the other party for the current user’s input status
+  void sendTypingMsg({bool focus = false}) async {
+    Message message = Message(
+      msgId: typingId,
+      targetId: userInfo.userID,
+      type: ConversationType.single,
+      formId: GlobalData.userInfo.userID,
+      contentType: MessageType.typing,
+      content: focus ? "yes" : "no",
+    );
+    _sendMessage(message,addToUI: false);
   }
 
   void _sendMessage(
@@ -94,15 +153,19 @@ class ChatLogic extends GetxController {
           .sendMsg(message)
           .then((value) => _sendSucceeded(message, value))
           .catchError((e) => _senFailed(message, e))
-          .whenComplete(() => _sendCompleted());
+          .whenComplete(() => _sendCompleted(message));
+      _reset(message);
     }
-    _reset(message);
   }
 
   /// The logic after processing the message flow is completed.
-  void _sendCompleted() {
+  void _sendCompleted(Message message) {
     print("has completed");
-    messageList.refresh();
+    if (message.contentType == MessageType.typing ||
+        message.type == ConversationType.heart) {
+    } else {
+      messageList.refresh();
+    }
   }
 
   /// Message sent successfully.

@@ -54,4 +54,20 @@ class IMUtils {
     // 其他情况，显示年月日
     return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
   }
+
+
+}
+
+/// complete something within a time interval
+class IntervalDo {
+  DateTime? last;
+
+  void run({required Function() fuc, int milliseconds = 0}) {
+    DateTime now = DateTime.now();
+    if (null == last ||
+        now.difference(last ?? now).inMilliseconds > milliseconds) {
+      last = now;
+      fuc();
+    }
+  }
 }

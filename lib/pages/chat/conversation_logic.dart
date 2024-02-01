@@ -107,7 +107,7 @@ class ConversationLogic extends GetxController
           Message data = Message.fromJson(
             json.decode(msg),
           );
-          if (data.msgId == "-1") {
+          if (data.type == ConversationType.heart) {
             //It's heart message;
           } else {
             onMessage(data);
@@ -123,7 +123,6 @@ class ConversationLogic extends GetxController
     // test();
   }
 
-  void heartbeat() {}
 
   // void test() {
   //   int count = 0;

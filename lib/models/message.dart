@@ -212,6 +212,8 @@ class MessageType {
   static const atText = 106;
 
   static const location = 109;
+
+  static const typing = 1000;
 }
 
 class MessageStatus {
@@ -223,3 +225,5 @@ class MessageStatus {
 
   static const deleted = 4;
 }
+
+const typingId = "typingId";
