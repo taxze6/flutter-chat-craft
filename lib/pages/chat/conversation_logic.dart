@@ -107,7 +107,7 @@ class ConversationLogic extends GetxController
           Message data = Message.fromJson(
             json.decode(msg),
           );
-          if (data.type == ConversationType.heart) {
+          if (data.type == ConversationType.heart || data.contentType == MessageType.typing) {
             //It's heart message;
           } else {
             onMessage(data);

@@ -91,7 +91,7 @@ class ChatLogic extends GetxController {
       print('Received: ${message.toString()}');
       if (message.formId == userInfo.userID) {
         //Monitor input status
-        if (message.contentType == MessageType.typing) {
+        if (message.msgId == typingId) {
           _typing(message);
         } else {
           // messageList.insert(0, message);
@@ -104,13 +104,15 @@ class ChatLogic extends GetxController {
   }
 
   void _typing(Message message) {
-    if (message.content == 'yes') {
+    if (message.content == "yes") {
       // Other party is typing
       if (null == typingTimer) {
         typing.value = true;
+        _addOrRemoveTypingMessageWidget(message, true);
         typingTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
           // Cancel the timer in two seconds
           typing.value = false;
+          _addOrRemoveTypingMessageWidget(message, false);
           typingTimer?.cancel();
           typingTimer = null;
         });
@@ -118,9 +120,23 @@ class ChatLogic extends GetxController {
     } else {
       // Stop typing
       typing.value = false;
+      _addOrRemoveTypingMessageWidget(message, false);
       typingTimer?.cancel();
       typingTimer = null;
     }
+  }
+
+  void _addOrRemoveTypingMessageWidget(Message message, bool focus) {
+    if (focus) {
+      Iterable<Message> hasMessage =
+          messageList.where((message) => message.msgId == typingId);
+      if (hasMessage.isEmpty) {
+        messageList.add(message);
+      }
+    } else {
+      messageList.removeWhere((element) => element.msgId == typingId);
+    }
+    messageList.refresh();
   }
 
   /// Prompt the other party for the current user’s input status
@@ -133,7 +149,7 @@ class ChatLogic extends GetxController {
       contentType: MessageType.typing,
       content: focus ? "yes" : "no",
     );
-    _sendMessage(message,addToUI: false);
+    _sendMessage(message, addToUI: false);
   }
 
   void _sendMessage(

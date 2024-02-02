@@ -177,7 +177,7 @@ class _ChatPageState extends State<ChatPage> {
         child: Text(IMUtils.formatTime(nearTime) ?? ""),
       );
     } else {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 }

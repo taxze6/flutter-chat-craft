@@ -70,8 +70,8 @@ class _AppBarTitleState extends State<AppBarTitle>
 
   @override
   void dispose() {
+    super.dispose();
     _controller.dispose();
     _timer.cancel();
-    super.dispose();
   }
 }

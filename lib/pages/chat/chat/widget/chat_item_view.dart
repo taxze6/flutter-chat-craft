@@ -5,6 +5,7 @@ import 'package:flutter_chat_craft/common/config.dart';
 import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_single_layout.dart';
+import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_typing_view.dart';
 
 import 'chat_picture.dart';
 import 'chat_text.dart';
@@ -110,6 +111,28 @@ class _ChatItemViewState extends State<ChatItemView> {
               ));
         }
         break;
+      case MessageType.typing:
+        {
+          print("${widget.message.formId} ${GlobalData.userInfo.userID}");
+          child = ChatSingleLayout(
+            index: widget.index,
+            isFromMsg: isFromMsg,
+            clickSink: widget.clickSubjectController.sink,
+            sendStatusStream: widget.msgSendStatusSubjectStream,
+            message: widget.message,
+            isSending: widget.message.status == MessageStatus.sending,
+            isSendFailed: widget.message.status == MessageStatus.failed,
+            child: ChatSingleLayout(
+              index: widget.index,
+              isFromMsg: isFromMsg,
+              clickSink: widget.clickSubjectController.sink,
+              message: widget.message,
+              isSending: widget.message.status == MessageStatus.sending,
+              isSendFailed: widget.message.status == MessageStatus.failed,
+              child: const ChatTypingWidget(),
+            ),
+          );
+        }
     }
 
     return child;
