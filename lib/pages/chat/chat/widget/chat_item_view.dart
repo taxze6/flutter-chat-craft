@@ -113,24 +113,14 @@ class _ChatItemViewState extends State<ChatItemView> {
         break;
       case MessageType.typing:
         {
-          print("${widget.message.formId} ${GlobalData.userInfo.userID}");
           child = ChatSingleLayout(
             index: widget.index,
             isFromMsg: isFromMsg,
             clickSink: widget.clickSubjectController.sink,
-            sendStatusStream: widget.msgSendStatusSubjectStream,
             message: widget.message,
             isSending: widget.message.status == MessageStatus.sending,
             isSendFailed: widget.message.status == MessageStatus.failed,
-            child: ChatSingleLayout(
-              index: widget.index,
-              isFromMsg: isFromMsg,
-              clickSink: widget.clickSubjectController.sink,
-              message: widget.message,
-              isSending: widget.message.status == MessageStatus.sending,
-              isSendFailed: widget.message.status == MessageStatus.failed,
-              child: const ChatTypingWidget(),
-            ),
+            child: const ChatTypingWidget(),
           );
         }
     }

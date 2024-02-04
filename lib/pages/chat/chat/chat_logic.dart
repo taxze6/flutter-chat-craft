@@ -79,6 +79,8 @@ class ChatLogic extends GetxController {
       //Lost input box focus
       if (!textFocusNode.hasFocus) {
         sendTypingMsg(focus: false);
+      } else {
+        sendTypingMsg(focus: true);
       }
     });
   }
@@ -95,6 +97,7 @@ class ChatLogic extends GetxController {
           _typing(message);
         } else {
           // messageList.insert(0, message);
+          messageList.removeWhere((element) => element.msgId == typingId);
           messageList.add(message);
         }
       }
@@ -109,7 +112,7 @@ class ChatLogic extends GetxController {
       if (null == typingTimer) {
         typing.value = true;
         _addOrRemoveTypingMessageWidget(message, true);
-        typingTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
+        typingTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
           // Cancel the timer in two seconds
           typing.value = false;
           _addOrRemoveTypingMessageWidget(message, false);

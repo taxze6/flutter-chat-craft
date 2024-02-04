@@ -96,7 +96,8 @@ class _ChatListViewState extends State<ChatListView> {
       child: Align(
         alignment: Alignment.topCenter,
         child: Padding(
-          padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
+          // padding: EdgeInsets.only(top: 10.h, left: 18.w, right: 18.w),
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
           child: ScrollConfiguration(
             behavior: ChatBehavior(),
             child: Scrollable(
