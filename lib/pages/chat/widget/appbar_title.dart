@@ -35,11 +35,13 @@ class _AppBarTitleState extends State<AppBarTitle>
       curve: Curves.fastLinearToSlowEaseIn,
     ));
     _controller.forward();
-    startTimer();
+    Future.delayed(const Duration(seconds: 3), () {
+      startTimer();
+    });
   }
 
   void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
       setState(() {
         if (_controller.isCompleted) {
           _controller
@@ -48,6 +50,11 @@ class _AppBarTitleState extends State<AppBarTitle>
         } else {
           _controller.forward();
         }
+      });
+      // 在运行一段时间后暂停动画
+      Future.delayed(const Duration(seconds: 12), () {
+        _timer.cancel(); // 取消定时器
+        _controller.stop(); // 停止动画
       });
     });
   }
