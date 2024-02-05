@@ -6,10 +6,13 @@ import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_single_layout.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_typing_view.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'chat_picture.dart';
 import 'chat_text.dart';
 import 'chat_voice_view.dart';
+import 'menu/chat_menu.dart';
+import 'menu/custom_popup_menu.dart';
 
 class MsgStreamEv<T> {
   final String msgId;
@@ -27,6 +30,7 @@ class ChatItemView extends StatefulWidget {
     required this.msgSendProgressSubjectStream,
     required this.clickSubjectController,
     this.onFailedResend,
+    this.onTapCopyMenu,
   }) : super(key: key);
   final int index;
   final Message message;
@@ -38,12 +42,23 @@ class ChatItemView extends StatefulWidget {
   /// Retry on failure.
   final Function()? onFailedResend;
 
+  /// Click the copy button event on the menu
+  final Function()? onTapCopyMenu;
+
   @override
   State<ChatItemView> createState() => _ChatItemViewState();
 }
 
 class _ChatItemViewState extends State<ChatItemView> {
   bool get isFromMsg => widget.message.formId != GlobalData.userInfo.userID;
+
+  final _popupCtrl = CustomPopupMenuController();
+
+  @override
+  void dispose() {
+    _popupCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +70,7 @@ class _ChatItemViewState extends State<ChatItemView> {
     switch (widget.message.contentType) {
       case MessageType.text:
         {
-          child = ChatSingleLayout(
-            index: widget.index,
-            isFromMsg: isFromMsg,
-            clickSink: widget.clickSubjectController.sink,
-            sendStatusStream: widget.msgSendStatusSubjectStream,
-            message: widget.message,
-            isSending: widget.message.status == MessageStatus.sending,
-            isSendFailed: widget.message.status == MessageStatus.failed,
+          child = _buildCommonItemView(
             child: ChatText(
               isFromMsg: isFromMsg,
               text: widget.message.content,
@@ -72,13 +80,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         break;
       case MessageType.picture:
         {
-          child = ChatSingleLayout(
-            index: widget.index,
-            isFromMsg: isFromMsg,
-            clickSink: widget.clickSubjectController.sink,
-            message: widget.message,
-            isSending: widget.message.status == MessageStatus.sending,
-            isSendFailed: widget.message.status == MessageStatus.failed,
+          child = _buildCommonItemView(
             child: ChatPictureView(
               msgId: widget.message.msgId!,
               msgProgressControllerStream: widget.msgSendProgressSubjectStream,
@@ -93,38 +95,67 @@ class _ChatItemViewState extends State<ChatItemView> {
       case MessageType.voice:
         {
           var sound = widget.message.sound;
-          child = ChatSingleLayout(
+          child = _buildCommonItemView(
+            child: ChatVoiceView(
+              isReceived: isFromMsg,
+              soundPath: sound?.soundPath,
+              soundUrl: sound?.sourceUrl,
+              duration: sound?.duration,
               index: widget.index,
-              isFromMsg: isFromMsg,
-              clickSink: widget.clickSubjectController.sink,
-              sendStatusStream: widget.msgSendStatusSubjectStream,
-              message: widget.message,
-              isSending: widget.message.status == MessageStatus.sending,
-              isSendFailed: widget.message.status == MessageStatus.failed,
-              child: ChatVoiceView(
-                isReceived: isFromMsg,
-                soundPath: sound?.soundPath,
-                soundUrl: sound?.sourceUrl,
-                duration: sound?.duration,
-                index: widget.index,
-                clickStream: widget.clickSubjectController.stream,
-              ));
+              clickStream: widget.clickSubjectController.stream,
+            ),
+          );
         }
         break;
       case MessageType.typing:
         {
-          child = ChatSingleLayout(
-            index: widget.index,
-            isFromMsg: isFromMsg,
-            clickSink: widget.clickSubjectController.sink,
-            message: widget.message,
-            isSending: widget.message.status == MessageStatus.sending,
-            isSendFailed: widget.message.status == MessageStatus.failed,
-            child: const ChatTypingWidget(),
-          );
+          child = _buildCommonItemView(child: const ChatTypingWidget());
         }
     }
 
     return child;
   }
+
+  Widget _menuBuilder() => ChatLongPressMenu(
+        controller: _popupCtrl,
+        menus: _menusItem(),
+        menuStyle: ChatMenuStyle(
+          crossAxisCount: 4,
+          mainAxisSpacing: 13.w,
+          crossAxisSpacing: 12.h,
+          radius: 4,
+          background: const Color(0xFF1D1D1D),
+        ),
+      );
+
+  Widget _buildCommonItemView({
+    required Widget child,
+  }) =>
+      ChatSingleLayout(
+        index: widget.index,
+        isFromMsg: isFromMsg,
+        clickSink: widget.clickSubjectController.sink,
+        message: widget.message,
+        isSending: widget.message.status == MessageStatus.sending,
+        isSendFailed: widget.message.status == MessageStatus.failed,
+        popupCtrl: _popupCtrl,
+        menuBuilder: _menuBuilder,
+        child: child,
+      );
+
+  List<MenuInfo> _menusItem() => [
+        MenuInfo(
+          icon: const Icon(
+            Icons.copy,
+            color: Colors.white,
+          ),
+          text: "复制",
+          enabled: true,
+          textStyle: TextStyle(
+            fontSize: 10.sp,
+            color: const Color(0xFFFFFFFF),
+          ),
+          onTap: widget.onTapCopyMenu,
+        ),
+      ];
 }
