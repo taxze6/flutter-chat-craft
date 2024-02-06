@@ -110,7 +110,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
                     if (widget.showArrow)
                       LayoutId(
                         id: _MenuLayoutId.downArrow,
-                       child: Transform.rotate(
+                        child: Transform.rotate(
                           angle: math.pi,
                           child: arrow,
                         ),
