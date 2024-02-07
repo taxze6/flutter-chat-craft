@@ -13,6 +13,7 @@ import 'chat_text.dart';
 import 'chat_voice_view.dart';
 import 'menu/chat_menu.dart';
 import 'menu/custom_popup_menu.dart';
+import 'menu/message_custom_popup.dart';
 
 class MsgStreamEv<T> {
   final String msgId;
@@ -52,7 +53,7 @@ class ChatItemView extends StatefulWidget {
 class _ChatItemViewState extends State<ChatItemView> {
   bool get isFromMsg => widget.message.formId != GlobalData.userInfo.userID;
 
-  final _popupCtrl = CustomPopupMenuController();
+  final _popupCtrl = MessageCustomPopupMenuController();
 
   @override
   void dispose() {
@@ -116,17 +117,21 @@ class _ChatItemViewState extends State<ChatItemView> {
     return child;
   }
 
-  Widget _menuBuilder() => ChatLongPressMenu(
-        controller: _popupCtrl,
-        menus: _menusItem(),
-        menuStyle: ChatMenuStyle(
-          crossAxisCount: 4,
-          mainAxisSpacing: 13.w,
-          crossAxisSpacing: 12.h,
-          radius: 4,
-          background: const Color(0xFF1D1D1D),
-        ),
-      );
+  // Widget _menuBuilder() => ChatLongPressMenu(
+  //       controller: _popupCtrl,
+  //       menus: _menusItem(),
+  //       menuStyle: ChatMenuStyle(
+  //         crossAxisCount: 4,
+  //         mainAxisSpacing: 13.w,
+  //         crossAxisSpacing: 12.h,
+  //         radius: 4,
+  //         background: const Color(0xFF1D1D1D),
+  //       ),
+  //     );
+
+  Widget _menuBuilder() {
+    return Icon(Icons.add);
+  }
 
   Widget _buildCommonItemView({
     required Widget child,
@@ -139,7 +144,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         isSending: widget.message.status == MessageStatus.sending,
         isSendFailed: widget.message.status == MessageStatus.failed,
         popupCtrl: _popupCtrl,
-        menuBuilder: _menuBuilder,
+        menuBuilder: _menuBuilder(),
         child: child,
       );
 
