@@ -57,14 +57,10 @@ class ChatSingleLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MessageCustomPopupMenu(
-      menuWidget: menuBuilder,
-      controller: popupCtrl,
-      child: GestureDetector(
-        onTap: () => _onItemClick?.add(index),
-        behavior: HitTestBehavior.deferToChild,
-        child: buildContentView(),
-      ),
+    return GestureDetector(
+      onTap: () => _onItemClick?.add(index),
+      behavior: HitTestBehavior.deferToChild,
+      child: buildContentView(),
     );
     // return Row(
     //   mainAxisAlignment: layoutAlignment,
@@ -103,7 +99,11 @@ class ChatSingleLayout extends StatelessWidget {
         const SizedBox(
           width: 4,
         ),
-        child,
+        MessageCustomPopupMenu(
+          menuWidget: menuBuilder,
+          controller: popupCtrl,
+          child: child,
+        )
       ],
     );
   }

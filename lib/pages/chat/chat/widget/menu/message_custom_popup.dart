@@ -41,6 +41,7 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
   OverlayEntry? _overlayEntry;
   RenderBox? _parentBox;
   LongPressStartDetails? _longPressStartDetails;
+  final LayerLink _layerLink = LayerLink();
 
   @override
   void initState() {
@@ -73,12 +74,10 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
   void _showMenu(BuildContext context, LongPressStartDetails details) {
     /// 防止重复创建，不然失去句柄的OverlayEntry将无法消除
     if (_overlayEntry == null) {
-      if (details.globalPosition.dx + 120.w > 1.sw) {
-
-      }
-      final Offset overlayOffset =
-          Offset(details.globalPosition.dx, details.globalPosition.dy);
-      _overlayEntry = _createOverlayEntry(overlayOffset);
+      // if (details.globalPosition.dx + 120.w > 1.sw) {}
+      // final Offset overlayOffset =
+      //     Offset(details.globalPosition.dx, details.globalPosition.dy);
+      _overlayEntry = _createOverlayEntry();
       if (_overlayEntry != null) {
         Overlay.of(context).insert(_overlayEntry!);
       }
@@ -96,17 +95,19 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
   }
 
   /// 创建浮层
-  OverlayEntry _createOverlayEntry(Offset offset) {
+  OverlayEntry _createOverlayEntry() {
     return OverlayEntry(
       builder: (BuildContext context) {
-        return Positioned(
-          left: offset.dx,
-          top: offset.dy,
-          child: GestureDetector(
-            onTap: () {
-              _hideMenu();
-            },
-            child: UnconstrainedBox(
+        return GestureDetector(
+          onTap: () {
+            _hideMenu();
+          },
+          child: UnconstrainedBox(
+            child: CompositedTransformFollower(
+              link: _layerLink,
+              targetAnchor: Alignment.centerRight,
+              followerAnchor: Alignment.bottomCenter,
+              offset: const Offset(50, 20),
               child: Material(
                 child: Container(
                   width: 100.w,
@@ -136,7 +137,10 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
       behavior: HitTestBehavior.opaque,
       onPanDown: (details) => _hideMenu(),
       onLongPressStart: (details) => _showMenu(context, details),
-      child: widget.child,
+      child: CompositedTransformTarget(
+        link: _layerLink,
+        child: widget.child,
+      ),
     );
   }
 }
