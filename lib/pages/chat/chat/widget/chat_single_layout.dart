@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/models/message.dart';
+import 'package:flutter_chat_craft/pages/chat/chat/widget/menu/chat_menu.dart';
 import 'chat_item_view.dart';
 import 'chat_send_failed_view.dart';
 import 'menu/custom_popup_menu.dart';
@@ -35,7 +36,7 @@ class ChatSingleLayout extends StatelessWidget {
 
   final Widget child;
 
-  final Widget menuBuilder;
+  final List<MenuInfo> menuBuilder;
 
   final bool isFromMsg;
 
@@ -100,7 +101,7 @@ class ChatSingleLayout extends StatelessWidget {
           width: 4,
         ),
         MessageCustomPopupMenu(
-          menuWidget: menuBuilder,
+          menuWidgets: menuBuilder,
           controller: popupCtrl,
           child: child,
         )

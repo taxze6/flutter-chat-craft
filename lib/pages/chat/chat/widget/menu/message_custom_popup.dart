@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'chat_menu.dart';
+
 class MessageCustomPopupMenuController extends ChangeNotifier {
   bool menuIsShowing = false;
 
@@ -12,6 +14,7 @@ class MessageCustomPopupMenuController extends ChangeNotifier {
 
   void hideMenu() {
     menuIsShowing = false;
+    notifyListeners();
   }
 
   void toggleMenu() {
@@ -25,12 +28,12 @@ class MessageCustomPopupMenu extends StatefulWidget {
     Key? key,
     required this.child,
     this.controller,
-    required this.menuWidget,
+    required this.menuWidgets,
   }) : super(key: key);
 
   final Widget child;
   final MessageCustomPopupMenuController? controller;
-  final Widget menuWidget;
+  final List<MenuInfo> menuWidgets;
 
   @override
   State<MessageCustomPopupMenu> createState() => _MessageCustomPopupMenuState();
@@ -74,10 +77,39 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
   void _showMenu(BuildContext context, LongPressStartDetails details) {
     /// 防止重复创建，不然失去句柄的OverlayEntry将无法消除
     if (_overlayEntry == null) {
-      // if (details.globalPosition.dx + 120.w > 1.sw) {}
-      // final Offset overlayOffset =
-      //     Offset(details.globalPosition.dx, details.globalPosition.dy);
-      _overlayEntry = _createOverlayEntry();
+      Alignment targetAlignment = Alignment.bottomRight;
+      Alignment followerAlignment = Alignment.topLeft;
+      Offset offset = const Offset(-20, -20);
+      if ((details.globalPosition.dx + 100.w) > 1.sw) {
+        targetAlignment = Alignment.bottomLeft;
+        followerAlignment = Alignment.topRight;
+        offset = const Offset(20, -20);
+        if ((details.globalPosition.dy +
+                widget.menuWidgets.length * 40.h +
+                88.h) >
+            1.sh) {
+          targetAlignment = Alignment.topLeft;
+          followerAlignment = Alignment.bottomRight;
+          offset = const Offset(20, 20);
+        }
+      }
+      if ((details.globalPosition.dy +
+              widget.menuWidgets.length * 40.h +
+              88.h) >
+          1.sh) {
+        targetAlignment = Alignment.topLeft;
+        followerAlignment = Alignment.bottomRight;
+        offset = const Offset(20, 20);
+        if ((details.globalPosition.dx + 100.w) < 1.sw) {
+          targetAlignment = Alignment.topRight;
+          followerAlignment = Alignment.bottomLeft;
+          offset = const Offset(-20, 20);
+        }
+      }
+      final Offset overlayOffset =
+          Offset(details.globalPosition.dx, details.globalPosition.dy);
+      _overlayEntry =
+          _createOverlayEntry(targetAlignment, followerAlignment, offset);
       if (_overlayEntry != null) {
         Overlay.of(context).insert(_overlayEntry!);
       }
@@ -95,7 +127,11 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
   }
 
   /// 创建浮层
-  OverlayEntry _createOverlayEntry() {
+  OverlayEntry _createOverlayEntry(
+    Alignment targetAlignment,
+    Alignment followerAlignment,
+    Offset offset,
+  ) {
     return OverlayEntry(
       builder: (BuildContext context) {
         return GestureDetector(
@@ -105,23 +141,14 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
           child: UnconstrainedBox(
             child: CompositedTransformFollower(
               link: _layerLink,
-              targetAnchor: Alignment.centerRight,
-              followerAnchor: Alignment.bottomCenter,
-              offset: const Offset(50, 20),
+              targetAnchor: targetAlignment,
+              followerAnchor: followerAlignment,
+              offset: offset,
               child: Material(
-                child: Container(
-                  width: 100.w,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade200,
-                          offset: const Offset(0, 3),
-                          blurRadius: 8,
-                        )
-                      ]),
-                  child: widget.menuWidget,
+                color: Colors.transparent,
+                child: ChatLongPressMenu(
+                  controller: _controller!,
+                  menus: widget.menuWidgets,
                 ),
               ),
             ),

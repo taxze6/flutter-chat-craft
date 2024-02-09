@@ -129,10 +129,6 @@ class _ChatItemViewState extends State<ChatItemView> {
   //       ),
   //     );
 
-  Widget _menuBuilder() {
-    return Icon(Icons.add);
-  }
-
   Widget _buildCommonItemView({
     required Widget child,
   }) =>
@@ -144,22 +140,33 @@ class _ChatItemViewState extends State<ChatItemView> {
         isSending: widget.message.status == MessageStatus.sending,
         isSendFailed: widget.message.status == MessageStatus.failed,
         popupCtrl: _popupCtrl,
-        menuBuilder: _menuBuilder(),
+        menuBuilder: _menusItem(),
         child: child,
       );
 
   List<MenuInfo> _menusItem() => [
         MenuInfo(
           icon: const Icon(
+            Icons.reply,
+            color: Colors.black,
+          ),
+          text: "回复",
+          onTap: widget.onTapCopyMenu,
+        ),
+        MenuInfo(
+          icon: const Icon(
             Icons.copy,
-            color: Colors.white,
+            color: Colors.black,
           ),
           text: "复制",
-          enabled: true,
-          textStyle: TextStyle(
-            fontSize: 10.sp,
-            color: const Color(0xFFFFFFFF),
+          onTap: widget.onTapCopyMenu,
+        ),
+        MenuInfo(
+          icon: const Icon(
+            Icons.share,
+            color: Colors.black,
           ),
+          text: "转发",
           onTap: widget.onTapCopyMenu,
         ),
       ];
