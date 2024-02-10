@@ -145,8 +145,8 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
               child: Material(
                 color: Colors.transparent,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     TweenAnimationBuilder(
                         duration: const Duration(milliseconds: 200),
@@ -158,7 +158,10 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
                             scale: value,
                             child: Opacity(
                               opacity: value,
-                              child: const ChatPopupEmoji(),
+                              child: ChatLongPressMenu(
+                                controller: _controller!,
+                                menus: widget.menuWidgets,
+                              ),
                             ),
                           );
                         }),
@@ -175,10 +178,7 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
                             scale: value,
                             child: Opacity(
                               opacity: value,
-                              child: ChatLongPressMenu(
-                                controller: _controller!,
-                                menus: widget.menuWidgets,
-                              ),
+                              child: const ChatPopupEmoji(),
                             ),
                           );
                         }),

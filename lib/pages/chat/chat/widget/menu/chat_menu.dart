@@ -34,7 +34,7 @@ class ChatLongPressMenu extends StatelessWidget {
 
   Widget _children() {
     return Container(
-      width: 100.w,
+      width: 120.w,
       padding: EdgeInsets.symmetric(vertical: 6.w, horizontal: 8.w),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -48,6 +48,7 @@ class ChatLongPressMenu extends StatelessWidget {
           ]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(
             menus.length,
@@ -89,7 +90,9 @@ class _ItemView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.w),
       child: Row(
-        mainAxisSize: MainAxisSize.max,
+        // mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           icon,
           SizedBox(width: 4.w),
@@ -111,10 +114,10 @@ class ChatPopupEmoji extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100.w,
+      width: 140.w,
       margin: const EdgeInsets.symmetric(horizontal: 10),
       padding: EdgeInsets.symmetric(vertical: 6.w, horizontal: 8.w),
-      height: 28.w,
+      height: 32.w,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.w),

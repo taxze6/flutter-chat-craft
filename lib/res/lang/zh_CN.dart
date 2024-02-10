@@ -118,4 +118,6 @@ const Map<String, String> zh_CN = {
   "confirm": "确认",
   "maxInput": "最多输入",
   "word": "个字",
+  "copy": "复制",
+  "forward": "转发",
 };

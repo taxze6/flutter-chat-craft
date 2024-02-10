@@ -59,4 +59,8 @@ class ImagesRes {
   static const icCollect = '${_dir}ic_collect.svg';
   static const icLogout = '${_dir}ic_logout.svg';
   static const icArrow = "${_dir}ic_arrow.svg";
+
+  static const icMessageReply = "${_dir}ic_message_reply.svg";
+  static const icMessageCopy = "${_dir}ic_message_copy.svg";
+  static const icMessageForWord = "${_dir}ic_message_forword.svg";
 }

@@ -253,4 +253,8 @@ class StrRes {
   static get maxInput => 'maxInput'.tr;
 
   static get word => 'word'.tr;
+
+  static get copy => 'copy'.tr;
+
+  static get forward => 'forward'.tr;
 }

@@ -6,7 +6,10 @@ import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_single_layout.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_typing_view.dart';
+import 'package:flutter_chat_craft/res/images.dart';
+import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'chat_picture.dart';
 import 'chat_text.dart';
@@ -146,27 +149,30 @@ class _ChatItemViewState extends State<ChatItemView> {
 
   List<MenuInfo> _menusItem() => [
         MenuInfo(
-          icon: const Icon(
-            Icons.reply,
-            color: Colors.black,
+          icon: SvgPicture.asset(
+            ImagesRes.icMessageReply,
+            width: 25.w,
+            height: 23.w,
           ),
-          text: "回复",
+          text: StrRes.reply,
           onTap: widget.onTapCopyMenu,
         ),
         MenuInfo(
-          icon: const Icon(
-            Icons.copy,
-            color: Colors.black,
+          icon: SvgPicture.asset(
+            ImagesRes.icMessageCopy,
+            width: 23.w,
+            height: 23.w,
           ),
-          text: "复制",
+          text: StrRes.copy,
           onTap: widget.onTapCopyMenu,
         ),
         MenuInfo(
-          icon: const Icon(
-            Icons.share,
-            color: Colors.black,
+          icon: SvgPicture.asset(
+            ImagesRes.icMessageForWord,
+            width: 23.w,
+            height: 23.w,
           ),
-          text: "转发",
+          text: StrRes.forward,
           onTap: widget.onTapCopyMenu,
         ),
       ];
