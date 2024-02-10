@@ -106,8 +106,6 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
           offset = const Offset(-20, 20);
         }
       }
-      final Offset overlayOffset =
-          Offset(details.globalPosition.dx, details.globalPosition.dy);
       _overlayEntry =
           _createOverlayEntry(targetAlignment, followerAlignment, offset);
       if (_overlayEntry != null) {
@@ -146,9 +144,45 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
               offset: offset,
               child: Material(
                 color: Colors.transparent,
-                child: ChatLongPressMenu(
-                  controller: _controller!,
-                  menus: widget.menuWidgets,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TweenAnimationBuilder(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        tween: Tween<double>(begin: 0.0, end: 1.0),
+                        builder: (BuildContext context, double value,
+                            Widget? child) {
+                          return Transform.scale(
+                            scale: value,
+                            child: Opacity(
+                              opacity: value,
+                              child: const ChatPopupEmoji(),
+                            ),
+                          );
+                        }),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    TweenAnimationBuilder(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        tween: Tween<double>(begin: 0.0, end: 1.0),
+                        builder: (BuildContext context, double value,
+                            Widget? child) {
+                          return Transform.scale(
+                            scale: value,
+                            child: Opacity(
+                              opacity: value,
+                              child: ChatLongPressMenu(
+                                controller: _controller!,
+                                menus: widget.menuWidgets,
+                              ),
+                            ),
+                          );
+                        }),
+                  ],
                 ),
               ),
             ),

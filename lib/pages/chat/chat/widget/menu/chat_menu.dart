@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'custom_popup_menu.dart';
 import 'message_custom_popup.dart';
 
 class MenuInfo {
@@ -104,6 +101,30 @@ class _ItemView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ChatPopupEmoji extends StatelessWidget {
+  const ChatPopupEmoji({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100.w,
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 6.w, horizontal: 8.w),
+      height: 28.w,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.w),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade200,
+              offset: const Offset(0, 3),
+              blurRadius: 8.0,
+            )
+          ]),
     );
   }
 }
