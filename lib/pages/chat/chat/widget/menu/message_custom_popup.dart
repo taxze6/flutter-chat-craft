@@ -80,10 +80,12 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
       Alignment targetAlignment = Alignment.bottomRight;
       Alignment followerAlignment = Alignment.topLeft;
       Offset offset = const Offset(-20, -20);
+      bool isReceived = false;
       if ((details.globalPosition.dx + 100.w) > 1.sw) {
         targetAlignment = Alignment.bottomLeft;
         followerAlignment = Alignment.topRight;
         offset = const Offset(20, -20);
+        isReceived = true;
         if ((details.globalPosition.dy +
                 widget.menuWidgets.length * 40.h +
                 88.h) >
@@ -106,8 +108,12 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
           offset = const Offset(-20, 20);
         }
       }
-      _overlayEntry =
-          _createOverlayEntry(targetAlignment, followerAlignment, offset);
+      _overlayEntry = _createOverlayEntry(
+        targetAlignment,
+        followerAlignment,
+        offset,
+        isReceived,
+      );
       if (_overlayEntry != null) {
         Overlay.of(context).insert(_overlayEntry!);
       }
@@ -129,60 +135,69 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
     Alignment targetAlignment,
     Alignment followerAlignment,
     Offset offset,
+    bool isReceived,
   ) {
     return OverlayEntry(
       builder: (BuildContext context) {
         return GestureDetector(
           onTap: () {
-            _hideMenu();
+            // _hideMenu();
           },
-          child: UnconstrainedBox(
-            child: CompositedTransformFollower(
-              link: _layerLink,
-              targetAnchor: targetAlignment,
-              followerAnchor: followerAlignment,
-              offset: offset,
-              child: Material(
-                color: Colors.transparent,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    TweenAnimationBuilder(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        tween: Tween<double>(begin: 0.0, end: 1.0),
-                        builder: (BuildContext context, double value,
-                            Widget? child) {
-                          return Transform.scale(
-                            scale: value,
-                            child: Opacity(
-                              opacity: value,
-                              child: ChatLongPressMenu(
-                                controller: _controller!,
-                                menus: widget.menuWidgets,
+          onPanDown: (details) => _hideMenu(),
+          child: Container(
+            width: 1.sw,
+            height: 1.sh,
+            color: Colors.transparent,
+            child: UnconstrainedBox(
+              child: CompositedTransformFollower(
+                link: _layerLink,
+                targetAnchor: targetAlignment,
+                followerAnchor: followerAlignment,
+                offset: offset,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: isReceived
+                        ? CrossAxisAlignment.end
+                        : CrossAxisAlignment.start,
+                    children: [
+                      TweenAnimationBuilder(
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeInOut,
+                          tween: Tween<double>(begin: 0.0, end: 1.0),
+                          builder: (BuildContext context, double value,
+                              Widget? child) {
+                            return Transform.scale(
+                              scale: value,
+                              child: Opacity(
+                                opacity: value,
+                                child: ChatLongPressMenu(
+                                  controller: _controller!,
+                                  menus: widget.menuWidgets,
+                                ),
                               ),
-                            ),
-                          );
-                        }),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    TweenAnimationBuilder(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        tween: Tween<double>(begin: 0.0, end: 1.0),
-                        builder: (BuildContext context, double value,
-                            Widget? child) {
-                          return Transform.scale(
-                            scale: value,
-                            child: Opacity(
-                              opacity: value,
-                              child: const ChatPopupEmoji(),
-                            ),
-                          );
-                        }),
-                  ],
+                            );
+                          }),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      TweenAnimationBuilder(
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeInOut,
+                          tween: Tween<double>(begin: 0.0, end: 1.0),
+                          builder: (BuildContext context, double value,
+                              Widget? child) {
+                            return Transform.scale(
+                              scale: value,
+                              child: Opacity(
+                                opacity: value,
+                                child: const ChatPopupEmoji(),
+                              ),
+                            );
+                          }),
+                    ],
+                  ),
                 ),
               ),
             ),

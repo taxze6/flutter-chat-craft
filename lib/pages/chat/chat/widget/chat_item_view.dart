@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_craft/common/config.dart';
 import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_single_layout.dart';
@@ -15,7 +14,6 @@ import 'chat_picture.dart';
 import 'chat_text.dart';
 import 'chat_voice_view.dart';
 import 'menu/chat_menu.dart';
-import 'menu/custom_popup_menu.dart';
 import 'menu/message_custom_popup.dart';
 
 class MsgStreamEv<T> {

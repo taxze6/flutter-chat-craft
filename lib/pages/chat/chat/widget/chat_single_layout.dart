@@ -4,7 +4,6 @@ import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/menu/chat_menu.dart';
 import 'chat_item_view.dart';
 import 'chat_send_failed_view.dart';
-import 'menu/custom_popup_menu.dart';
 import 'menu/message_custom_popup.dart';
 
 enum BubbleType {
