@@ -5,12 +5,12 @@ import 'message_custom_popup.dart';
 class MenuInfo {
   Widget icon;
   String text;
-  Function()? onTap;
+  Function() onTap;
 
   MenuInfo({
     required this.icon,
     required this.text,
-    this.onTap,
+    required this.onTap,
   });
 }
 
@@ -26,7 +26,7 @@ class ChatLongPressMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: _children(),
     );
@@ -51,12 +51,13 @@ class ChatLongPressMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(
-            menus.length,
-            (index) => _menuItem(
-                  icon: menus[index].icon,
-                  label: menus[index].text,
-                  onTap: menus[index].onTap,
-                )),
+          menus.length,
+          (index) => _menuItem(
+            icon: menus[index].icon,
+            label: menus[index].text,
+            onMenuItemTap: menus[index].onTap,
+          ),
+        ),
       ),
     );
   }
@@ -64,12 +65,12 @@ class ChatLongPressMenu extends StatelessWidget {
   Widget _menuItem({
     required Widget icon,
     required String label,
-    Function()? onTap,
+    required Function() onMenuItemTap,
   }) =>
       GestureDetector(
         onTap: () {
           controller.hideMenu();
-          if (null != onTap) onTap();
+          onMenuItemTap();
         },
         behavior: HitTestBehavior.translucent,
         child: _ItemView(icon: icon, label: label),

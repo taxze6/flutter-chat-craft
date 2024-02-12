@@ -9,7 +9,6 @@ import 'package:flutter_chat_craft/res/images.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'chat_picture.dart';
 import 'chat_text.dart';
 import 'chat_voice_view.dart';
@@ -31,8 +30,9 @@ class ChatItemView extends StatefulWidget {
     required this.msgSendStatusSubjectStream,
     required this.msgSendProgressSubjectStream,
     required this.clickSubjectController,
-    this.onFailedResend,
-    this.onTapCopyMenu,
+    required this.onFailedResend,
+    required this.onTapCopyMenu,
+    required this.onTapReplyMenu,
   }) : super(key: key);
   final int index;
   final Message message;
@@ -42,10 +42,13 @@ class ChatItemView extends StatefulWidget {
   final StreamController<int> clickSubjectController;
 
   /// Retry on failure.
-  final Function()? onFailedResend;
+  final Function() onFailedResend;
 
   /// Click the copy button event on the menu
-  final Function()? onTapCopyMenu;
+  final Function() onTapCopyMenu;
+
+  /// Click the reply button event on the menu
+  final Function() onTapReplyMenu;
 
   @override
   State<ChatItemView> createState() => _ChatItemViewState();
@@ -153,7 +156,7 @@ class _ChatItemViewState extends State<ChatItemView> {
             height: 23.w,
           ),
           text: StrRes.reply,
-          onTap: widget.onTapCopyMenu,
+          onTap: widget.onTapReplyMenu,
         ),
         MenuInfo(
           icon: SvgPicture.asset(

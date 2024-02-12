@@ -45,6 +45,9 @@ class ChatLogic extends GetxController {
   Timer? typingTimer;
   Rx<bool> typing = false.obs;
 
+  Message? quoteMsg;
+  Rx<String> quoteContent = "".obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -468,6 +471,21 @@ class ChatLogic extends GetxController {
       );
     }
     _sendMessage(message);
+  }
+
+  void onTapReplyMenu(Message? message) {
+    if (message == null) {
+      quoteMsg = null;
+      quoteContent.value = '';
+    } else {
+      quoteMsg = message;
+      var name = userInfo.userName;
+      quoteContent.value = "$name：${IMUtils.messageTypeToString(
+        messageType: message.contentType!,
+        content: message.content,
+      )}";
+      textFocusNode.requestFocus();
+    }
   }
 
   Message indexOfMessage(

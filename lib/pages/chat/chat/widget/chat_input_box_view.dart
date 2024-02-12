@@ -16,6 +16,7 @@ class ChatInputBoxView extends StatefulWidget {
     required this.onToolsBtnTap,
     required this.onSendTap,
     required this.voiceRecordBar,
+    required this.onClearQuote,
   }) : super(key: key);
   final String? quoteContent;
   final TextEditingController textEditingController;
@@ -23,6 +24,7 @@ class ChatInputBoxView extends StatefulWidget {
   final GestureTapCallback onToolsBtnTap;
   final GestureTapCallback onSendTap;
   final ChatVoiceRecordBar voiceRecordBar;
+  final GestureTapCallback onClearQuote;
 
   @override
   State<ChatInputBoxView> createState() => _ChatInputBoxViewState();
@@ -92,7 +94,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                         children: [
                           buildTextFiled(),
                           if (widget.quoteContent != null &&
-                              "" != widget.quoteContent)
+                              widget.quoteContent != "")
                             quoteView(),
                         ],
                       ),
@@ -179,12 +181,38 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
     );
   }
 
-  Widget voiceRecordBar() {
-    return Container();
-  }
-
   Widget quoteView() {
-    return Container();
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: widget.onClearQuote,
+      child: Container(
+        margin: EdgeInsets.only(top: 4.h),
+        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFFFFF),
+          borderRadius: BorderRadius.circular(2),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                widget.quoteContent!,
+                style: TextStyle(
+                  color: const Color(0xFF666666),
+                  fontSize: 12.sp,
+                ),
+              ),
+            ),
+            SvgPicture.asset(
+              ImagesRes.icLogout,
+              width: 16.w,
+              height: 16.w,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildSendButton() {

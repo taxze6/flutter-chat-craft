@@ -139,69 +139,71 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
   ) {
     return OverlayEntry(
       builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {
-            // _hideMenu();
-          },
-          onPanDown: (details) => _hideMenu(),
-          child: Container(
-            width: 1.sw,
-            height: 1.sh,
-            color: Colors.transparent,
-            child: UnconstrainedBox(
-              child: CompositedTransformFollower(
-                link: _layerLink,
-                targetAnchor: targetAlignment,
-                followerAnchor: followerAlignment,
-                offset: offset,
-                child: Material(
-                  color: Colors.transparent,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: isReceived
-                        ? CrossAxisAlignment.end
-                        : CrossAxisAlignment.start,
-                    children: [
-                      TweenAnimationBuilder(
-                          duration: const Duration(milliseconds: 200),
-                          curve: Curves.easeInOut,
-                          tween: Tween<double>(begin: 0.0, end: 1.0),
-                          builder: (BuildContext context, double value,
-                              Widget? child) {
-                            return Transform.scale(
-                              scale: value,
-                              child: Opacity(
-                                opacity: value,
-                                child: ChatLongPressMenu(
-                                  controller: _controller!,
-                                  menus: widget.menuWidgets,
-                                ),
-                              ),
-                            );
-                          }),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      TweenAnimationBuilder(
-                          duration: const Duration(milliseconds: 200),
-                          curve: Curves.easeInOut,
-                          tween: Tween<double>(begin: 0.0, end: 1.0),
-                          builder: (BuildContext context, double value,
-                              Widget? child) {
-                            return Transform.scale(
-                              scale: value,
-                              child: Opacity(
-                                opacity: value,
-                                child: const ChatPopupEmoji(),
-                              ),
-                            );
-                          }),
-                    ],
-                  ),
-                ),
+        return Stack(
+          children: [
+            GestureDetector(
+              // onTap: () {
+              //   _hideMenu();
+              // },
+              behavior: HitTestBehavior.translucent,
+              onPanDown: (details) => _hideMenu(),
+              child: Container(
+                color: Colors.transparent,
               ),
             ),
-          ),
+            //UnconstrainedBox
+            CompositedTransformFollower(
+              link: _layerLink,
+              targetAnchor: targetAlignment,
+              followerAnchor: followerAlignment,
+              offset: offset,
+              child: Material(
+                color: Colors.transparent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: isReceived
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.start,
+                  children: [
+                    TweenAnimationBuilder(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        tween: Tween<double>(begin: 0.0, end: 1.0),
+                        builder: (BuildContext context, double value,
+                            Widget? child) {
+                          return Transform.scale(
+                            scale: value,
+                            child: Opacity(
+                              opacity: value,
+                              child: ChatLongPressMenu(
+                                controller: _controller!,
+                                menus: widget.menuWidgets,
+                              ),
+                            ),
+                          );
+                        }),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    TweenAnimationBuilder(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        tween: Tween<double>(begin: 0.0, end: 1.0),
+                        builder: (BuildContext context, double value,
+                            Widget? child) {
+                          return Transform.scale(
+                            scale: value,
+                            child: Opacity(
+                              opacity: value,
+                              child: const ChatPopupEmoji(),
+                            ),
+                          );
+                        }),
+                  ],
+                ),
+              ),
+            )
+          ],
         );
       },
     );
