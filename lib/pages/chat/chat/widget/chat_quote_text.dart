@@ -79,7 +79,7 @@ class _ChatQuoteTextState extends State<ChatQuoteText> {
                     ),
                     Text(
                       IMUtils.messageTypeToString(
-                        messageType: widget.message!.contentType!,
+                        messageType: widget.message!.quoteMessage!.contentType!,
                         content: widget.message?.quoteMessage?.content ?? "",
                       ),
                       style: TextStyle(
