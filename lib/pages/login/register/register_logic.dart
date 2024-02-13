@@ -139,6 +139,7 @@ class RegisterLogic extends GetxController {
       } else {
         ToastUtils.toastText(StrRes.sendCodeSuccess);
         await AppNavigator.startCheckCode(
+          name:userNameController.text,
           email: emailController.text,
           checkCodeMethod: checkCodeMethod,
           regainVerifyCode: regainVerifyCode,

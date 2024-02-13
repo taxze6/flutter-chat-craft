@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_craft/routes/app_routes.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../../routes/app_navigator.dart';
@@ -11,7 +12,8 @@ enum SendVerificationCodeState {
 }
 
 class CheckCodeLogic extends GetxController {
-  late String email = "";
+  late String name;
+  late String email;
   late CheckCodeMethod checkCodeMethod;
   late Function() regainVerifyCode;
   late int countDown;
@@ -23,6 +25,7 @@ class CheckCodeLogic extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    name = Get.arguments["name"];
     email = Get.arguments["email"];
     regainVerifyCode = Get.arguments["regainVerifyCode"];
     checkCodeMethod = Get.arguments["checkCodeMethod"];
@@ -64,6 +67,7 @@ class CheckCodeLogic extends GetxController {
     //If the captcha is incorrect, enable the error animation and clear the captcha input field.
     if (isAgree) {
       countDownTimer.cancel();
+      Get.toNamed(AppRoutes.invite, arguments: {'email': email, 'name': name});
     } else {
       shake();
     }

@@ -10,15 +10,15 @@ import 'package:flutter_chat_craft/pages/common/check_code/check_code_binding.da
 import 'package:flutter_chat_craft/pages/common/check_code/check_code_view.dart';
 import 'package:flutter_chat_craft/pages/home/home_binding.dart';
 import 'package:flutter_chat_craft/pages/home/home_view.dart';
+import 'package:flutter_chat_craft/pages/login/invite/invite_binding.dart';
+import 'package:flutter_chat_craft/pages/login/invite/invite_view.dart';
 import 'package:flutter_chat_craft/pages/login/login_binding.dart';
 import 'package:flutter_chat_craft/pages/login/login_email/login_email_binding.dart';
 import 'package:flutter_chat_craft/pages/login/login_view.dart';
 import 'package:flutter_chat_craft/pages/login/register/register_binding.dart';
 import 'package:flutter_chat_craft/pages/login/register/register_view.dart';
-import 'package:flutter_chat_craft/pages/mine/mine_binding.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_details_binding.dart';
 import 'package:flutter_chat_craft/pages/mine/mine_story_details/mine_story_details_view.dart';
-import 'package:flutter_chat_craft/pages/mine/mine_view.dart';
 import 'package:flutter_chat_craft/pages/mine/profile/profile_binding.dart';
 import 'package:flutter_chat_craft/pages/mine/profile/profile_view.dart';
 import 'package:flutter_chat_craft/pages/splash/splash_binding.dart';
@@ -95,5 +95,10 @@ class AppPages {
         transition: Transition.rightToLeft,
         page: () => ProfilePage(),
         binding: ProfileBinding()),
+    GetPage(
+        name: AppRoutes.invite,
+        transition: Transition.rightToLeft,
+        page: () => InvitePage(),
+        binding: InviteBinding()),
   ];
 }

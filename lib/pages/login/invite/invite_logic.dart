@@ -3,26 +3,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/common/apis.dart';
-import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/message.dart';
-import 'package:flutter_chat_craft/pages/mine/profile/widget/password_dialog.dart';
 import 'package:flutter_chat_craft/pages/mine/profile/widget/setting_dialog.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
-import 'package:flutter_chat_craft/routes/app_routes.dart';
 import 'package:flutter_chat_craft/widget/loading_view.dart';
-import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
-import 'profile_state.dart';
+import 'invite_state.dart';
 
-class ProfileLogic extends GetxController {
-  final ProfileState state = ProfileState();
+class InviteLogic extends GetxController {
+  final InviteState state = InviteState();
 
-  void modifyAvatar() async {
+  void setAvatar() async {
     showMaterialModalBottomSheet(
       expand: false,
       context: Get.context!,
@@ -106,16 +102,12 @@ class ProfileLogic extends GetxController {
 
   void handleAssets(AssetEntity? assetEntity) async {
     if (assetEntity != null) {
-      print('--------assets type-----${assetEntity.type}');
       var file = await assetEntity.file;
       var path = file!.path;
       var name = assetEntity.title ?? "";
-      print('--------assets path-----$path');
       switch (assetEntity.type) {
         case AssetType.image:
-          LoadingView.singleton.wrap(
-              asyncFunction: () =>
-                  uploadPicture(imageFile: file, imageName: name));
+          LoadingView.singleton.wrap(asyncFunction: () => uploadPicture(imageFile: file, imageName: name));
           break;
         default:
           break;
@@ -123,8 +115,7 @@ class ProfileLogic extends GetxController {
     }
   }
 
-  Future<bool> uploadPicture(
-      {required File imageFile, required String imageName}) async {
+  Future<bool> uploadPicture({required File imageFile, required String imageName}) async {
     Image image = Image.file(imageFile);
     Completer<Size> completer = Completer<Size>();
     image.image.resolve(const ImageConfiguration()).addListener(
@@ -155,89 +146,50 @@ class ProfileLogic extends GetxController {
       onSendProgress: (int sent, int total) {},
     );
     if (data != false) {
-      state.userInfo.avatar = data;
+      state.avatar = data;
       update(['avatar']);
       return true;
     }
     return false;
   }
 
-  void modifyMotto() {
+  void toNext() async {
+    /*var data = await LoadingView.singleton.wrap(
+        asyncFunction: () => Apis.modifyUserInfo(userInfo: state.userInfo));
+    if (data == false) {
+      ToastUtils.toastText(StrRes.saveFailed);
+    } else {
+      ToastUtils.toastText(StrRes.saveSuccess);
+    }*/
+  }
+
+  void setMotto() {
     Get.dialog(
       SettingDialog(
         title: StrRes.settingMotto,
         hint: StrRes.enterMotto,
         inputDataType: InputDataType.motto,
-        value: state.userInfo.motto,
-        onConfirm: (value) async {
-          state.userInfo.motto = value;
-          state.hasAnyChange.value = true;
+        value: state.motto ?? '',
+        onConfirm: (value) {
+          state.motto = value;
           update(['motto']);
         },
       ),
     );
   }
 
-  void modifyPhone() {
+  void setPhone() {
     Get.dialog(
       SettingDialog(
         title: StrRes.settingPhone,
         hint: StrRes.enterPhone,
         inputDataType: InputDataType.phone,
-        value: state.userInfo.phone,
-        onConfirm: (value) async {
-          state.userInfo.phone = value;
-          state.hasAnyChange.value = true;
+        value: state.phone ?? '',
+        onConfirm: (value) {
+          state.phone = value;
           update(['phone']);
         },
       ),
     );
-  }
-
-  void modifyEmail() {
-    Get.dialog(
-      SettingDialog(
-        title: StrRes.settingEmail,
-        hint: StrRes.enterEmail,
-        inputDataType: InputDataType.email,
-        value: state.userInfo.email,
-        onConfirm: (value) async {
-          state.userInfo.email = value;
-          state.hasAnyChange.value = true;
-          update(['email']);
-        },
-      ),
-    );
-  }
-
-  void modifyNickname() {
-    Get.dialog(
-      SettingDialog(
-        title: StrRes.settingNickname,
-        hint: StrRes.enterNickname,
-        inputDataType: InputDataType.nickname,
-        value: state.userInfo.userName,
-        onConfirm: (value) async {
-          state.userInfo.userName = value;
-          state.hasAnyChange.value = true;
-          update(['nickname']);
-        },
-      ),
-    );
-  }
-
-  void modifyPassword() {
-    Get.dialog(const PasswordDialog());
-  }
-
-  void save() async {
-    var data = await LoadingView.singleton.wrap(
-        asyncFunction: () => Apis.modifyUserInfo(userInfo: state.userInfo));
-    if (data == false) {
-      ToastUtils.toastText(StrRes.saveFailed);
-    } else {
-      GlobalData.userInfo = state.userInfo;
-      ToastUtils.toastText(StrRes.saveSuccess);
-    }
   }
 }

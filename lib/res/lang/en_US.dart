@@ -117,4 +117,8 @@ const Map<String, String> en_US = {
   "confirm": "Confirm",
   "maxInput": "Max input",
   "word": "word",
+  "inviteStartPart": "Successfully registered at: ",
+  "inviteEndPart": " Now you can set your avatar, motto, and phone number.",
+  "whatsYourMotto": "What's your motto?",
+  "whatsYourPhone": "What's your Phone?",
 };
