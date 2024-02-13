@@ -54,26 +54,33 @@ class ConversationItemView extends StatelessWidget {
               SizedBox(
                 width: 10.w,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    userInfo.userName,
-                    style: TextStyle(
-                      fontSize: 16.sp,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      userInfo.userName,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                      ),
                     ),
-                  ),
-                  Text(
-                    content,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: const Color(0xFF383838),
+                    Text(
+                      content,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: const Color(0xFF383838),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              const Spacer(),
+              const SizedBox(
+                width: 8,
+              ),
+              // const Spacer(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
