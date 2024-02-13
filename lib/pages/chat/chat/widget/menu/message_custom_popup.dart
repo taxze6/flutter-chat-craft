@@ -160,6 +160,7 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
               child: Material(
                 color: Colors.transparent,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: isReceived
                       ? CrossAxisAlignment.end
