@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_craft/im/im_utils.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -6,7 +7,8 @@ class ChatQuoteText extends StatefulWidget {
   final Message? message;
   final bool isFromMsg;
 
-  const ChatQuoteText({Key? key, this.message, required this.isFromMsg}) : super(key: key);
+  const ChatQuoteText({Key? key, this.message, required this.isFromMsg})
+      : super(key: key);
 
   @override
   _ChatQuoteTextState createState() => _ChatQuoteTextState();
@@ -25,7 +27,8 @@ class _ChatQuoteTextState extends State<ChatQuoteText> {
   }
 
   void _updateColumnHeight() {
-    final RenderBox renderBox = _columnKey.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        _columnKey.currentContext!.findRenderObject() as RenderBox;
     setState(() {
       _columnHeight = renderBox.size.height;
     });
@@ -38,7 +41,9 @@ class _ChatQuoteTextState extends State<ChatQuoteText> {
       constraints: BoxConstraints(maxWidth: 0.7.sw),
       padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 12.w),
       decoration: BoxDecoration(
-        color: widget.isFromMsg ? const Color(0xFFF7F7F7) : const Color(0xFFFCC504),
+        color: widget.isFromMsg
+            ? const Color(0xFFF7F7F7)
+            : const Color(0xFFFCC504),
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Column(
@@ -73,7 +78,10 @@ class _ChatQuoteTextState extends State<ChatQuoteText> {
                       ),
                     ),
                     Text(
-                      widget.message?.quoteMessage?.content ?? "",
+                      IMUtils.messageTypeToString(
+                        messageType: widget.message!.contentType!,
+                        content: widget.message?.quoteMessage?.content ?? "",
+                      ),
                       style: TextStyle(
                         color: const Color(0xFF4A4A4A),
                         fontSize: 10.sp,
