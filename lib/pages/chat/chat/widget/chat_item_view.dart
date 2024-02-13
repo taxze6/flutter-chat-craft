@@ -1,18 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_craft/common/config.dart';
 import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/message.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_single_layout.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_typing_view.dart';
+import 'package:flutter_chat_craft/res/images.dart';
+import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'chat_picture.dart';
+import 'chat_quote_text.dart';
 import 'chat_text.dart';
 import 'chat_voice_view.dart';
 import 'menu/chat_menu.dart';
-import 'menu/custom_popup_menu.dart';
+import 'menu/message_custom_popup.dart';
 
 class MsgStreamEv<T> {
   final String msgId;
@@ -29,8 +31,9 @@ class ChatItemView extends StatefulWidget {
     required this.msgSendStatusSubjectStream,
     required this.msgSendProgressSubjectStream,
     required this.clickSubjectController,
-    this.onFailedResend,
-    this.onTapCopyMenu,
+    required this.onFailedResend,
+    required this.onTapCopyMenu,
+    required this.onTapReplyMenu,
   }) : super(key: key);
   final int index;
   final Message message;
@@ -40,10 +43,13 @@ class ChatItemView extends StatefulWidget {
   final StreamController<int> clickSubjectController;
 
   /// Retry on failure.
-  final Function()? onFailedResend;
+  final Function() onFailedResend;
 
   /// Click the copy button event on the menu
-  final Function()? onTapCopyMenu;
+  final Function() onTapCopyMenu;
+
+  /// Click the reply button event on the menu
+  final Function() onTapReplyMenu;
 
   @override
   State<ChatItemView> createState() => _ChatItemViewState();
@@ -52,7 +58,7 @@ class ChatItemView extends StatefulWidget {
 class _ChatItemViewState extends State<ChatItemView> {
   bool get isFromMsg => widget.message.formId != GlobalData.userInfo.userID;
 
-  final _popupCtrl = CustomPopupMenuController();
+  final _popupCtrl = MessageCustomPopupMenuController();
 
   @override
   void dispose() {
@@ -107,26 +113,37 @@ class _ChatItemViewState extends State<ChatItemView> {
           );
         }
         break;
+      case MessageType.quote:
+        {
+          child = _buildCommonItemView(
+            child: ChatQuoteText(
+              message: widget.message,
+              isFromMsg: isFromMsg,
+            ),
+          );
+        }
+        break;
       case MessageType.typing:
         {
           child = _buildCommonItemView(child: const ChatTypingWidget());
         }
+        break;
     }
 
     return child;
   }
 
-  Widget _menuBuilder() => ChatLongPressMenu(
-        controller: _popupCtrl,
-        menus: _menusItem(),
-        menuStyle: ChatMenuStyle(
-          crossAxisCount: 4,
-          mainAxisSpacing: 13.w,
-          crossAxisSpacing: 12.h,
-          radius: 4,
-          background: const Color(0xFF1D1D1D),
-        ),
-      );
+  // Widget _menuBuilder() => ChatLongPressMenu(
+  //       controller: _popupCtrl,
+  //       menus: _menusItem(),
+  //       menuStyle: ChatMenuStyle(
+  //         crossAxisCount: 4,
+  //         mainAxisSpacing: 13.w,
+  //         crossAxisSpacing: 12.h,
+  //         radius: 4,
+  //         background: const Color(0xFF1D1D1D),
+  //       ),
+  //     );
 
   Widget _buildCommonItemView({
     required Widget child,
@@ -139,22 +156,36 @@ class _ChatItemViewState extends State<ChatItemView> {
         isSending: widget.message.status == MessageStatus.sending,
         isSendFailed: widget.message.status == MessageStatus.failed,
         popupCtrl: _popupCtrl,
-        menuBuilder: _menuBuilder,
+        menuBuilder: _menusItem(),
         child: child,
       );
 
   List<MenuInfo> _menusItem() => [
         MenuInfo(
-          icon: const Icon(
-            Icons.copy,
-            color: Colors.white,
+          icon: SvgPicture.asset(
+            ImagesRes.icMessageReply,
+            width: 25.w,
+            height: 23.w,
           ),
-          text: "复制",
-          enabled: true,
-          textStyle: TextStyle(
-            fontSize: 10.sp,
-            color: const Color(0xFFFFFFFF),
+          text: StrRes.reply,
+          onTap: widget.onTapReplyMenu,
+        ),
+        MenuInfo(
+          icon: SvgPicture.asset(
+            ImagesRes.icMessageCopy,
+            width: 23.w,
+            height: 23.w,
           ),
+          text: StrRes.copy,
+          onTap: widget.onTapCopyMenu,
+        ),
+        MenuInfo(
+          icon: SvgPicture.asset(
+            ImagesRes.icMessageForWord,
+            width: 23.w,
+            height: 23.w,
+          ),
+          text: StrRes.forward,
           onTap: widget.onTapCopyMenu,
         ),
       ];

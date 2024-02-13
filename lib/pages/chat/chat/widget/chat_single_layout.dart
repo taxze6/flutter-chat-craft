@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/models/message.dart';
+import 'package:flutter_chat_craft/pages/chat/chat/widget/menu/chat_menu.dart';
 import 'chat_item_view.dart';
 import 'chat_send_failed_view.dart';
-import 'menu/custom_popup_menu.dart';
+import 'menu/message_custom_popup.dart';
 
 enum BubbleType {
   send,
@@ -26,7 +27,7 @@ class ChatSingleLayout extends StatelessWidget {
     required this.menuBuilder,
   }) : super(key: key);
 
-  final CustomPopupMenuController popupCtrl;
+  final MessageCustomPopupMenuController popupCtrl;
 
   final int index;
 
@@ -34,7 +35,7 @@ class ChatSingleLayout extends StatelessWidget {
 
   final Widget child;
 
-  final Widget Function() menuBuilder;
+  final List<MenuInfo> menuBuilder;
 
   final bool isFromMsg;
 
@@ -54,28 +55,32 @@ class ChatSingleLayout extends StatelessWidget {
 
   Sink<int>? get _onItemClick => clickSink;
 
-
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: layoutAlignment,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomPopupMenu(
-          controller: popupCtrl,
-          verticalMargin: 0,
-          // horizontalMargin: null,
-          horizontalMargin: 0,
-          menuBuilder: menuBuilder,
-          pressType: PressType.longPress,
-          child: GestureDetector(
-            onTap: () => _onItemClick?.add(index),
-            behavior: HitTestBehavior.deferToChild,
-            child: buildContentView(),
-          ),
-        ),
-      ],
+    return GestureDetector(
+      onTap: () => _onItemClick?.add(index),
+      behavior: HitTestBehavior.deferToChild,
+      child: buildContentView(),
     );
+    // return Row(
+    //   mainAxisAlignment: layoutAlignment,
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: [
+    //     CustomPopupMenu(
+    //       controller: popupCtrl,
+    //       verticalMargin: 0,
+    //       // horizontalMargin: null,
+    //       horizontalMargin: 0,
+    //       menuBuilder: menuBuilder,
+    //       pressType: PressType.longPress,
+    //       child: GestureDetector(
+    //         onTap: () => _onItemClick?.add(index),
+    //         behavior: HitTestBehavior.deferToChild,
+    //         child: buildContentView(),
+    //       ),
+    //     ),
+    //   ],
+    // );
   }
 
   Widget buildContentView() {
@@ -94,7 +99,11 @@ class ChatSingleLayout extends StatelessWidget {
         const SizedBox(
           width: 4,
         ),
-        child,
+        MessageCustomPopupMenu(
+          menuWidgets: menuBuilder,
+          controller: popupCtrl,
+          child: child,
+        )
       ],
     );
   }

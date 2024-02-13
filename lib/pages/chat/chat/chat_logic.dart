@@ -30,13 +30,13 @@ class ChatLogic extends GetxController {
   /// The status of message sending,
   /// there are two kinds of success or failure, true success, false failure
   StreamController<MsgStreamEv<bool>> msgSendStatusSubject =
-      StreamController<MsgStreamEv<bool>>.broadcast();
+  StreamController<MsgStreamEv<bool>>.broadcast();
   StreamController<MsgStreamEv<double>> msgProgressController =
-      StreamController<MsgStreamEv<double>>.broadcast();
+  StreamController<MsgStreamEv<double>>.broadcast();
 
   ///Click on the message to process voice playback, video playback, picture preview, etc.
   StreamController<int> clickSubjectController =
-      StreamController<int>.broadcast();
+  StreamController<int>.broadcast();
   int chatStart = 0;
   int chatEnd = 30;
   int chatListSize = 30;
@@ -44,6 +44,9 @@ class ChatLogic extends GetxController {
   bool isShowToolsDialog = false;
   Timer? typingTimer;
   Rx<bool> typing = false.obs;
+
+  Message? quoteMessage;
+  Rx<String> quoteContent = "".obs;
 
   @override
   void onInit() {
@@ -132,7 +135,7 @@ class ChatLogic extends GetxController {
   void _addOrRemoveTypingMessageWidget(Message message, bool focus) {
     if (focus) {
       Iterable<Message> hasMessage =
-          messageList.where((message) => message.msgId == typingId);
+      messageList.where((message) => message.msgId == typingId);
       if (hasMessage.isEmpty) {
         messageList.add(message);
       }
@@ -151,12 +154,13 @@ class ChatLogic extends GetxController {
       formId: GlobalData.userInfo.userID,
       contentType: MessageType.typing,
       content: focus ? "yes" : "no",
+      messageSenderName: GlobalData.userInfo.userName,
+      messageSenderFaceUrl: GlobalData.userInfo.avatar,
     );
     _sendMessage(message, addToUI: false);
   }
 
-  void _sendMessage(
-    Message message, {
+  void _sendMessage(Message message, {
     int? userId,
     int? groupId,
     bool addToUI = true,
@@ -181,8 +185,7 @@ class ChatLogic extends GetxController {
   void _sendCompleted(Message message) {
     print("has completed");
     if (message.contentType == MessageType.typing ||
-        message.type == ConversationType.heart) {
-    } else {
+        message.type == ConversationType.heart) {} else {
       messageList.refresh();
     }
   }
@@ -213,7 +216,8 @@ class ChatLogic extends GetxController {
 
   void _reset(Message message) {
     if (message.contentType == MessageType.text ||
-        message.contentType == MessageType.atText) {
+        message.contentType == MessageType.atText ||
+        message.contentType == MessageType.quote) {
       textEditingController.clear();
     }
   }
@@ -304,7 +308,7 @@ class ChatLogic extends GetxController {
       print('--------assets path-----$path');
       switch (assetEntity.type) {
         case AssetType.image:
-          //upload image
+        //upload image
           sendPicture(imageFile: file, imageName: name);
           break;
         default:
@@ -321,9 +325,17 @@ class ChatLogic extends GetxController {
       formId: GlobalData.userInfo.userID,
       contentType: MessageType.text,
       content: textEditingController.text,
+      messageSenderName: GlobalData.userInfo.userName,
+      messageSenderFaceUrl: GlobalData.userInfo.avatar,
       sendTime: DateTime.now().toString(),
       status: MessageStatus.sending,
     );
+    if (quoteMessage != null) {
+      message.quoteMessage = quoteMessage;
+      message.contentType = MessageType.quote;
+      quoteMessage = null;
+      quoteContent.value = '';
+    }
     _sendMessage(message);
   }
 
@@ -371,6 +383,8 @@ class ChatLogic extends GetxController {
       formId: GlobalData.userInfo.userID,
       contentType: MessageType.picture,
       content: imageFile.path,
+      messageSenderName: GlobalData.userInfo.userName,
+      messageSenderFaceUrl: GlobalData.userInfo.avatar,
       image: imageElement,
       sendTime: DateTime.now().toString(),
       status: MessageStatus.sending,
@@ -404,6 +418,8 @@ class ChatLogic extends GetxController {
         formId: GlobalData.userInfo.userID,
         contentType: MessageType.picture,
         content: data,
+        messageSenderName: GlobalData.userInfo.userName,
+        messageSenderFaceUrl: GlobalData.userInfo.avatar,
         image: imageElement,
         sendTime: DateTime.now().toString(),
         status: MessageStatus.sending,
@@ -427,6 +443,8 @@ class ChatLogic extends GetxController {
       formId: GlobalData.userInfo.userID,
       contentType: MessageType.voice,
       content: path,
+      messageSenderName: GlobalData.userInfo.userName,
+      messageSenderFaceUrl: GlobalData.userInfo.avatar,
       sendTime: DateTime.now().toString(),
       sound: SoundElement(
         sourceUrl: "",
@@ -439,7 +457,9 @@ class ChatLogic extends GetxController {
     print("voicePath:$path");
     var data = await Apis.uploadFile(
       filePath: path,
-      fileName: path.split('/').last,
+      fileName: path
+          .split('/')
+          .last,
       fileType: MessageType.voice,
       onSendProgress: (int sent, int total) {
         msgProgressController.sink.add(MsgStreamEv(
@@ -457,6 +477,8 @@ class ChatLogic extends GetxController {
         formId: GlobalData.userInfo.userID,
         contentType: MessageType.voice,
         content: data,
+        messageSenderName: GlobalData.userInfo.userName,
+        messageSenderFaceUrl: GlobalData.userInfo.avatar,
         sendTime: DateTime.now().toString(),
         sound: SoundElement(
           sourceUrl: data,
@@ -470,13 +492,28 @@ class ChatLogic extends GetxController {
     _sendMessage(message);
   }
 
-  Message indexOfMessage(
-    int index,
-  ) =>
+  void onTapReplyMenu(Message? message) {
+    if (message == null) {
+      quoteMessage = null;
+      quoteContent.value = '';
+    } else {
+      quoteMessage = message;
+      var name = message.messageSenderName;
+      quoteContent.value = "$name：${IMUtils.messageTypeToString(
+        messageType: message.contentType!,
+        content: message.content,
+      )}";
+      textFocusNode.requestFocus();
+    }
+  }
+
+  Message indexOfMessage(int index,) =>
       messageList.reversed.elementAt(index);
 
   String generateMessageId(int targetUserId) {
-    final currentTime = DateTime.now().millisecondsSinceEpoch;
+    final currentTime = DateTime
+        .now()
+        .millisecondsSinceEpoch;
     return '$currentTime-${GlobalData.userInfo.userID}-$targetUserId';
   }
 }

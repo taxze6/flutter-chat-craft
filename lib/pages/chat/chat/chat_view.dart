@@ -67,10 +67,12 @@ class _ChatPageState extends State<ChatPage> {
                                     ),
                                   ))),
                       ChatInputBoxView(
+                        quoteContent: chatLogic.quoteContent.value,
                         textEditingController: chatLogic.textEditingController,
                         textFocusNode: chatLogic.textFocusNode,
                         onToolsBtnTap: () => chatLogic.showToolsDialog(context),
                         onSendTap: () => chatLogic.sendTextMessage(),
+                        onClearQuote: () => chatLogic.onTapReplyMenu(null),
                         voiceRecordBar: recordBar,
                       ),
                     ],
@@ -152,6 +154,9 @@ class _ChatPageState extends State<ChatPage> {
         msgSendStatusSubjectStream: chatLogic.msgSendStatusSubject.stream,
         msgSendProgressSubjectStream: chatLogic.msgProgressController.stream,
         clickSubjectController: chatLogic.clickSubjectController,
+        onFailedResend: () {},
+        onTapReplyMenu: () => chatLogic.onTapReplyMenu(message),
+        onTapCopyMenu: () {},
       );
 
   Widget onBuildTime(index) {

@@ -214,6 +214,8 @@ class ConversationDbProvider extends BaseDbProvider {
       contentType: conversationMap[latestMessageContentType],
       status: null,
       content: conversationMap[latestMessageContent],
+      messageSenderName: userInfo.userName,
+      messageSenderFaceUrl: userInfo.avatar,
       sound: null,
     );
     String previewText = "";

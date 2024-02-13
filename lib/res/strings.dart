@@ -261,4 +261,8 @@ class StrRes {
   static get whatsYourMotto => 'whatsYourMotto'.tr;
 
   static get whatsYourPhone => 'whatsYourPhone'.tr;
+
+  static get copy => 'copy'.tr;
+
+  static get forward => 'forward'.tr;
 }

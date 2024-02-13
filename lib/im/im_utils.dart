@@ -1,3 +1,6 @@
+import '../models/message.dart';
+import '../res/strings.dart';
+
 class IMUtils {
   //Format the time.
   static String? formatTime(String? iso8601Time) {
@@ -55,7 +58,23 @@ class IMUtils {
     return '${dateTime.year}-${dateTime.month}-${dateTime.day}';
   }
 
-
+  static String messageTypeToString({
+    required int messageType,
+    required String content,
+  }) {
+    switch (messageType) {
+      case MessageType.text:
+        return content;
+      case MessageType.picture:
+        return "[${StrRes.picture}]";
+      case MessageType.voice:
+        return "[${StrRes.voice}]";
+      case MessageType.video:
+        return "[${StrRes.video}]";
+      default:
+        return "";
+    }
+  }
 }
 
 /// complete something within a time interval
