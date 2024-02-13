@@ -25,8 +25,11 @@ class Message {
   int? contentType;
   int? status;
   String content;
+  String messageSenderName;
+  String messageSenderFaceUrl;
   ImageElement? image;
   SoundElement? sound;
+  Message? quoteMessage;
 
   Message({
     this.msgId,
@@ -37,8 +40,11 @@ class Message {
     this.contentType,
     this.status,
     required this.content,
+    required this.messageSenderName,
+    required this.messageSenderFaceUrl,
     this.image,
     this.sound,
+    this.quoteMessage,
   });
 
   Message.fromJson(Map<String, dynamic> json)
@@ -49,9 +55,12 @@ class Message {
         type = json['type'],
         contentType = json['contentType'],
         status = json['status'],
-        content = json['content'],
-        image = ImageElement.fromJson(json['image'] ?? {}),
-        sound = SoundElement.fromJson(json['sound'] ?? {});
+        content = json['content'] ?? "",
+        messageSenderName = json['messageSenderName'] ?? "",
+        messageSenderFaceUrl = json['messageSenderFaceUrl'] ?? "",
+        image = json['image'] != null ? ImageElement.fromJson(json['image']) : null,
+        sound = json['sound'] != null ? SoundElement.fromJson(json['sound']) : null,
+        quoteMessage = json['quoteMessage'] != null ? Message.fromJson(json['quoteMessage']) : null;
 
   factory Message.fromHeartbeat() {
     return Message(
@@ -61,6 +70,8 @@ class Message {
       formId: GlobalData.userInfo.userID,
       contentType: MessageType.text,
       content: "heart",
+      messageSenderName: GlobalData.userInfo.userName,
+      messageSenderFaceUrl: GlobalData.userInfo.avatar,
     );
   }
 
@@ -73,9 +84,12 @@ class Message {
       "contentType": contentType,
       "status": status,
       "content": content,
+      "messageSenderName": messageSenderName,
+      "messageSenderFaceUrl": messageSenderFaceUrl,
       "sendTime": sendTime,
       "image": image,
       "sound": sound,
+      "quoteMessage": quoteMessage,
     };
   }
 
@@ -94,8 +108,11 @@ class Message {
         'contentType: $contentType, '
         'status:$status,'
         'content: $content,'
+        'messageSenderName: $messageSenderName,'
+        'messageSenderFaceUrl: $messageSenderFaceUrl,'
         'image:${image.toString()},'
         'sound:${sound.toString()},'
+        'quoteMessage:${quoteMessage.toString()},'
         '}';
   }
 
@@ -109,8 +126,11 @@ class Message {
     contentType = message.contentType;
     status = message.status;
     content = message.content;
+    messageSenderName = message.messageSenderName;
+    messageSenderFaceUrl = message.messageSenderFaceUrl;
     image = message.image;
     sound = message.sound;
+    quoteMessage = message.quoteMessage;
   }
 }
 
@@ -209,9 +229,11 @@ class MessageType {
 
   static const video = 104;
 
-  static const atText = 106;
+  static const atText = 105;
 
-  static const location = 109;
+  static const location = 106;
+
+  static const quote = 107;
 
   static const typing = 1000;
 }
