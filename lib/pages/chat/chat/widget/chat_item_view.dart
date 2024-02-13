@@ -10,6 +10,7 @@ import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'chat_picture.dart';
+import 'chat_quote_text.dart';
 import 'chat_text.dart';
 import 'chat_voice_view.dart';
 import 'menu/chat_menu.dart';
@@ -112,10 +113,21 @@ class _ChatItemViewState extends State<ChatItemView> {
           );
         }
         break;
+      case MessageType.quote:
+        {
+          child = _buildCommonItemView(
+            child: ChatQuoteText(
+              message: widget.message,
+              isFromMsg: isFromMsg,
+            ),
+          );
+        }
+        break;
       case MessageType.typing:
         {
           child = _buildCommonItemView(child: const ChatTypingWidget());
         }
+        break;
     }
 
     return child;
