@@ -118,6 +118,10 @@ const Map<String, String> zh_CN = {
   "confirm": "确认",
   "maxInput": "最多输入",
   "word": "个字",
+  "inviteStartPart": "已成功注册",
+  "inviteEndPart": "现在你可以设置头像、座右铭和手机号",
+  "whatsYourMotto": "请输入座右铭",
+  "whatsYourPhone": "请输入手机号",
   "copy": "复制",
   "forward": "转发",
 };

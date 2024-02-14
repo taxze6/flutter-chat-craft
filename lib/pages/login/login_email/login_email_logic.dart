@@ -45,13 +45,13 @@ class LoginEmailLogic extends GetxController {
 
   Future<bool> sendCode() async {
     if (isClick.value) {
-      var data = await LoadingView.singleton
-          .wrap(asyncFunction: () => Apis.loginEmail(email: emailController.text));
+      var data = await LoadingView.singleton.wrap(asyncFunction: () => Apis.loginEmail(email: emailController.text));
       if (data == false) {
         ToastUtils.toastText(StrRes.sendCodeError);
       } else {
         ToastUtils.toastText(StrRes.sendCodeSuccess);
         await AppNavigator.startCheckCode(
+          name: '匿名', //todo 这里不知道传啥，看下
           email: emailController.text,
           regainVerifyCode: regainVerifyCode,
           checkCodeMethod: checkCodeMethod,
@@ -79,9 +79,7 @@ class LoginEmailLogic extends GetxController {
   }
 
   Future<bool> checkCodeMethod(String code) async {
-    var data = await LoadingView.singleton.wrap(
-        asyncFunction: () =>
-            Apis.checkLoginEmailCode(email: emailController.text, code: code));
+    var data = await LoadingView.singleton.wrap(asyncFunction: () => Apis.checkLoginEmailCode(email: emailController.text, code: code));
     if (data == false) {
       ToastUtils.toastText(StrRes.checkCodeError);
       return false;

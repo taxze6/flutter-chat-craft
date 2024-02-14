@@ -29,12 +29,14 @@ abstract class AppNavigator {
   }
 
   static Future<bool> startCheckCode({
+    required String name,
     required String email,
     required Function() regainVerifyCode,
     required CheckCodeMethod checkCodeMethod,
   }) {
     Completer<bool> completer = Completer<bool>();
     Get.toNamed(AppRoutes.checkCode, arguments: {
+      'name':name,
       'email': email,
       'regainVerifyCode': regainVerifyCode,
       'checkCodeMethod': checkCodeMethod,

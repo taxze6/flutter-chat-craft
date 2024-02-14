@@ -254,6 +254,14 @@ class StrRes {
 
   static get word => 'word'.tr;
 
+  static get inviteStartPart => 'inviteStartPart'.tr;
+
+  static get inviteEndPart => 'inviteEndPart'.tr;
+
+  static get whatsYourMotto => 'whatsYourMotto'.tr;
+
+  static get whatsYourPhone => 'whatsYourPhone'.tr;
+
   static get copy => 'copy'.tr;
 
   static get forward => 'forward'.tr;

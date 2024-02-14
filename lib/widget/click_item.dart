@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/res/images.dart';
 import 'package:flutter_chat_craft/res/styles.dart';
+import 'package:flutter_chat_craft/utils/object_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -44,24 +45,33 @@ class ClickItem extends StatelessWidget {
                         height: 18.w,
                       ),
                     ),
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  if (content != null)
-                    Text(
-                      content!,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: PageStyle.contentColor,
-                      ),
-                    ),
+                  Expanded(
+                    child: ObjectUtil.isNotEmpty(content)
+                        ? Padding(
+                          padding: EdgeInsets.only(left: 10.w),
+                          child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                content!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: PageStyle.contentColor,
+                                ),
+                              ),
+                            ),
+                        )
+                        : const SizedBox(),
+                  ),
                   if (onTap != null)
                     Padding(
                       padding: EdgeInsets.only(left: 4.w),
