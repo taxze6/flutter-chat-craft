@@ -76,12 +76,10 @@ class _CheckCodeViewState extends State<CheckCodeView> {
                   controller: logic.pinTextEditingController,
                   keyboardType: TextInputType.number,
                   onCompleted: (v) => logic.checkVerifyCode(v),
-                  onTap: () {
-                  },
-                  onChanged: (value) {
-                  },
+                  onTap: () {},
+                  onChanged: (value) {},
                   beforeTextPaste: (text) {
-                   return true;
+                    return true;
                   },
                 ),
                 GetBuilder<CheckCodeLogic>(builder: (c) {

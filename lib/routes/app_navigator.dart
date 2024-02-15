@@ -36,7 +36,7 @@ abstract class AppNavigator {
   }) {
     Completer<bool> completer = Completer<bool>();
     Get.toNamed(AppRoutes.checkCode, arguments: {
-      'name':name,
+      'name': name,
       'email': email,
       'regainVerifyCode': regainVerifyCode,
       'checkCodeMethod': checkCodeMethod,
@@ -94,5 +94,12 @@ abstract class AppNavigator {
 
   static void startNewChat() {
     Get.toNamed(AppRoutes.newChat);
+  }
+
+  static void startInvite({
+    required String email,
+    required String name,
+  }) {
+    Get.toNamed(AppRoutes.invite, arguments: {'email': email, 'name': name});
   }
 }

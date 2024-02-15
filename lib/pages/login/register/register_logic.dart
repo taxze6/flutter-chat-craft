@@ -139,7 +139,7 @@ class RegisterLogic extends GetxController {
       } else {
         ToastUtils.toastText(StrRes.sendCodeSuccess);
         await AppNavigator.startCheckCode(
-          name:userNameController.text,
+          name: userNameController.text,
           email: emailController.text,
           checkCodeMethod: checkCodeMethod,
           regainVerifyCode: regainVerifyCode,
@@ -196,10 +196,14 @@ class RegisterLogic extends GetxController {
       GlobalData.token = token;
       ToastUtils.toastText(StrRes.checkCodeSuccess);
       ToastUtils.toastText(StrRes.loginSuccess);
-      toHome();
+      // toHome();
+      toProfileSetting();
       return true;
     }
   }
 
   void toHome() => AppNavigator.startHome();
+
+  void toProfileSetting() => AppNavigator.startInvite(
+      email: emailController.text, name: userNameController.text);
 }

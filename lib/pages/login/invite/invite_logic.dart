@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/common/apis.dart';
 import 'package:flutter_chat_craft/models/message.dart';
+import 'package:flutter_chat_craft/models/user_info.dart';
 import 'package:flutter_chat_craft/pages/mine/profile/widget/setting_dialog.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_chat_craft/widget/loading_view.dart';
@@ -13,6 +14,9 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
+import '../../../common/global_data.dart';
+import '../../../routes/app_navigator.dart';
+import '../../../widget/toast_utils.dart';
 import 'invite_state.dart';
 
 class InviteLogic extends GetxController {
@@ -107,7 +111,9 @@ class InviteLogic extends GetxController {
       var name = assetEntity.title ?? "";
       switch (assetEntity.type) {
         case AssetType.image:
-          LoadingView.singleton.wrap(asyncFunction: () => uploadPicture(imageFile: file, imageName: name));
+          LoadingView.singleton.wrap(
+              asyncFunction: () =>
+                  uploadPicture(imageFile: file, imageName: name));
           break;
         default:
           break;
@@ -115,7 +121,8 @@ class InviteLogic extends GetxController {
     }
   }
 
-  Future<bool> uploadPicture({required File imageFile, required String imageName}) async {
+  Future<bool> uploadPicture(
+      {required File imageFile, required String imageName}) async {
     Image image = Image.file(imageFile);
     Completer<Size> completer = Completer<Size>();
     image.image.resolve(const ImageConfiguration()).addListener(
@@ -154,13 +161,35 @@ class InviteLogic extends GetxController {
   }
 
   void toNext() async {
-    /*var data = await LoadingView.singleton.wrap(
-        asyncFunction: () => Apis.modifyUserInfo(userInfo: state.userInfo));
-    if (data == false) {
-      ToastUtils.toastText(StrRes.saveFailed);
+    if (state.avatar == null) {
+      ToastUtils.toastText(StrRes.avatarCannotEmpty);
+    } else if (state.motto == null) {
+      ToastUtils.toastText(StrRes.mottoCannotEmpty);
+    } else if (state.phone == null) {
+      ToastUtils.toastText(StrRes.phoneCannotEmpty);
     } else {
-      ToastUtils.toastText(StrRes.saveSuccess);
-    }*/
+      UserInfo userInfo = UserInfo(
+        userID: GlobalData.userInfo.userID,
+        userName: state.name,
+        email: state.email,
+        phone: state.phone!,
+        avatar: state.avatar!,
+        motto: state.motto!,
+        clientIp: "",
+        clientPort: "",
+      );
+      var data = await LoadingView.singleton
+          .wrap(asyncFunction: () => Apis.modifyUserInfo(userInfo: userInfo));
+      if (data == false) {
+        ToastUtils.toastText(StrRes.saveFailed);
+      } else {
+        ToastUtils.toastText(StrRes.saveSuccess);
+        GlobalData.userInfo.avatar = state.avatar!;
+        GlobalData.userInfo.motto = state.motto!;
+        GlobalData.userInfo.phone = state.phone!;
+        toHome();
+      }
+    }
   }
 
   void setMotto() {
@@ -192,4 +221,6 @@ class InviteLogic extends GetxController {
       ),
     );
   }
+
+  void toHome() => AppNavigator.startHome();
 }

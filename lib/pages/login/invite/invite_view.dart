@@ -1,4 +1,3 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_chat_craft/widget/cached_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../widget/dashed_circle_border.dart';
 import 'invite_logic.dart';
 
 class InvitePage extends StatelessWidget {
@@ -31,7 +31,7 @@ class InvitePage extends StatelessWidget {
                       GetBuilder<InviteLogic>(
                           id: 'avatar',
                           builder: (_) {
-                            return InkWell(
+                            return GestureDetector(
                               onTap: logic.setAvatar,
                               child: ObjectUtil.isNotEmpty(state.avatar)
                                   ? LoadImage(
@@ -39,17 +39,14 @@ class InvitePage extends StatelessWidget {
                                       width: 97.w,
                                       height: 97.w,
                                       fit: BoxFit.cover,
-                                      radius: 24.w,
+                                      radius: 97.w,
                                     )
                                   : SizedBox(
                                       width: 97.w,
                                       height: 97.w,
-                                      child: DottedBorder(
-                                        color: const Color(0xFFFCC604),
-                                        strokeWidth: 4.w,
-                                        borderType: BorderType.RRect,
-                                        radius: Radius.circular(24.w),
-                                        dashPattern: [10.w, 2.w],
+                                      child: DashedCircleBorder(
+                                        strokeWidth: 2.0,
+                                        color: const Color(0xFFE2E2E2),
                                         child: Center(
                                           child: Container(
                                             width: 36.w,
@@ -68,7 +65,7 @@ class InvitePage extends StatelessWidget {
                                     ),
                             );
                           }),
-                      InkWell(
+                      GestureDetector(
                         onTap: logic.toNext,
                         child: Container(
                           decoration: BoxDecoration(
