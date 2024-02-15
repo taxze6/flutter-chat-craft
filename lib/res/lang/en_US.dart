@@ -129,4 +129,7 @@ const Map<String, String> en_US = {
   "whatsYourPhone": "What's your Phone?",
   "copy": "copy",
   "forward": "Forward",
+  "avatarCannotEmpty": "The avatar cannot be empty.",
+  "phoneCannotEmpty": "The phone number cannot be empty.",
+  "mottoCannotEmpty":"The motto cannot be empty."
 };

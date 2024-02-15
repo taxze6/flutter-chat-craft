@@ -265,4 +265,10 @@ class StrRes {
   static get copy => 'copy'.tr;
 
   static get forward => 'forward'.tr;
+
+  static get avatarCannotEmpty => 'avatarCannotEmpty'.tr;
+
+  static get phoneCannotEmpty => 'phoneCannotEmpty'.tr;
+
+  static get mottoCannotEmpty => 'mottoCannotEmpty'.tr;
 }

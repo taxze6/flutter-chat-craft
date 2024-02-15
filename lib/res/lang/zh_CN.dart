@@ -124,4 +124,7 @@ const Map<String, String> zh_CN = {
   "whatsYourPhone": "请输入手机号",
   "copy": "复制",
   "forward": "转发",
+  "avatarCannotEmpty": "头像不能为空",
+  "phoneCannotEmpty": "手机号不能为空",
+  "mottoCannotEmpty": "座右铭不能为空",
 };
