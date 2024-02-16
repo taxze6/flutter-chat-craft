@@ -21,7 +21,7 @@ class ChatText extends StatelessWidget {
         color: bubbleColor,
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: Text(
+      child: SelectableText(
         text ?? "",
         style: TextStyle(
           color: Colors.black,

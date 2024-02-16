@@ -97,7 +97,7 @@ class _ChatQuoteTextState extends State<ChatQuoteText> {
           const SizedBox(
             height: 4,
           ),
-          Text(
+          SelectableText(
             widget.message?.content ?? "",
             style: TextStyle(
               color: Colors.black,
