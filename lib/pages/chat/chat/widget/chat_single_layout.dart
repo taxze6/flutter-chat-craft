@@ -102,6 +102,7 @@ class ChatSingleLayout extends StatelessWidget {
         MessageCustomPopupMenu(
           menuWidgets: menuBuilder,
           controller: popupCtrl,
+          isFromMsg: isFromMsg,
           child: child,
         )
       ],

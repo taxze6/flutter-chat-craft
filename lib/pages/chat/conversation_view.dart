@@ -106,7 +106,9 @@ class _ConversationPageState extends State<ConversationPage> {
                       child: SvgPicture.asset(
                         ImagesRes.icAdd,
                         colorFilter: const ColorFilter.mode(
-                            Colors.black, BlendMode.srcIn),
+                          Colors.black,
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
                   ),

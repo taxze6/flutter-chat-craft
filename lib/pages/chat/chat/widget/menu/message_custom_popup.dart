@@ -29,9 +29,11 @@ class MessageCustomPopupMenu extends StatefulWidget {
     required this.child,
     this.controller,
     required this.menuWidgets,
+    required this.isFromMsg,
   }) : super(key: key);
 
   final Widget child;
+  final bool isFromMsg;
   final MessageCustomPopupMenuController? controller;
   final List<MenuInfo> menuWidgets;
 
@@ -43,7 +45,9 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
   MessageCustomPopupMenuController? _controller;
   OverlayEntry? _overlayEntry;
   RenderBox? _parentBox;
-  LongPressStartDetails? _longPressStartDetails;
+
+  // LongPressStartDetails? _longPressStartDetails;
+  TapDownDetails? _tapDownDetails;
   final LayerLink _layerLink = LayerLink();
 
   @override
@@ -67,25 +71,26 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
 
   _updateView() {
     if (_controller?.menuIsShowing ?? false) {
-      _showMenu(context, _longPressStartDetails!);
+      _showMenu(context, _tapDownDetails!);
     } else {
       _hideMenu();
     }
   }
 
   /// 显示浮层
-  void _showMenu(BuildContext context, LongPressStartDetails details) {
+  void _showMenu(BuildContext context, TapDownDetails details) {
     /// 防止重复创建，不然失去句柄的OverlayEntry将无法消除
     if (_overlayEntry == null) {
       Alignment targetAlignment = Alignment.bottomRight;
       Alignment followerAlignment = Alignment.topLeft;
       Offset offset = const Offset(-20, -20);
-      bool isReceived = false;
-      if ((details.globalPosition.dx + 100.w) > 1.sw) {
+      // bool isReceived = false;
+      // if ((details.globalPosition.dx + 100.w) > 1.sw) {
+      if (!widget.isFromMsg) {
         targetAlignment = Alignment.bottomLeft;
         followerAlignment = Alignment.topRight;
         offset = const Offset(20, -20);
-        isReceived = true;
+        // isReceived = true;
         if ((details.globalPosition.dy +
                 widget.menuWidgets.length * 40.h +
                 88.h) >
@@ -112,7 +117,8 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
         targetAlignment,
         followerAlignment,
         offset,
-        isReceived,
+        // isReceived,
+        !widget.isFromMsg,
       );
       if (_overlayEntry != null) {
         Overlay.of(context).insert(_overlayEntry!);
@@ -125,8 +131,8 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
       _overlayEntry?.remove();
       _overlayEntry = null;
     }
-    if (_longPressStartDetails != null) {
-      _longPressStartDetails = null;
+    if (_tapDownDetails != null) {
+      _tapDownDetails = null;
     }
   }
 
@@ -142,11 +148,9 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
         return Stack(
           children: [
             GestureDetector(
-              // onTap: () {
-              //   _hideMenu();
-              // },
+              onTap: () => _hideMenu(),
               behavior: HitTestBehavior.translucent,
-              onPanDown: (details) => _hideMenu(),
+              // onPanDown: (details) => _hideMenu(),
               child: Container(
                 color: Colors.transparent,
               ),
@@ -214,8 +218,13 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onPanDown: (details) => _hideMenu(),
-      onLongPressStart: (details) => _showMenu(context, details),
+      // onPanDown: (details) => _hideMenu(),
+      onDoubleTapDown: (details) {
+        _tapDownDetails = details;
+        print(details.globalPosition.dx);
+        _showMenu(context, details);
+      },
+      // onLongPressStart: (details) => _showMenu(context, details),
       child: CompositedTransformTarget(
         link: _layerLink,
         child: widget.child,

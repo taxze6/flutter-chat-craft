@@ -170,15 +170,15 @@ class _ChatItemViewState extends State<ChatItemView> {
           text: StrRes.reply,
           onTap: widget.onTapReplyMenu,
         ),
-        MenuInfo(
-          icon: SvgPicture.asset(
-            ImagesRes.icMessageCopy,
-            width: 23.w,
-            height: 23.w,
-          ),
-          text: StrRes.copy,
-          onTap: widget.onTapCopyMenu,
-        ),
+        // MenuInfo(
+        //   icon: SvgPicture.asset(
+        //     ImagesRes.icMessageCopy,
+        //     width: 23.w,
+        //     height: 23.w,
+        //   ),
+        //   text: StrRes.copy,
+        //   onTap: widget.onTapCopyMenu,
+        // ),
         MenuInfo(
           icon: SvgPicture.asset(
             ImagesRes.icMessageForWord,
