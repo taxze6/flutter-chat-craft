@@ -107,7 +107,7 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
         targetAlignment = Alignment.topLeft;
         followerAlignment = Alignment.bottomRight;
         offset = const Offset(20, 20);
-        if ((details.globalPosition.dx + 100.w) < 1.sw) {
+        if (widget.isFromMsg) {
           targetAlignment = Alignment.topRight;
           followerAlignment = Alignment.bottomLeft;
           offset = const Offset(-20, 20);
