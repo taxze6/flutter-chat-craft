@@ -51,7 +51,8 @@ class WebSocketManager {
   /// The flow of obtaining WebSocket messages.
   Stream<dynamic> getWebSocketChannelStream() {
     //Assign the value only once.
-    _webSocketChannelStream ??= _webSocketChannel!.stream.asBroadcastStream();
+    _webSocketChannelStream ??= _webSocketChannel
+    !.stream.asBroadcastStream();
     return _webSocketChannelStream!;
   }
 
@@ -179,6 +180,7 @@ class WebSocketManager {
         onError: (error) {
           print('Failed to send message: $error');
           completer.completeError(error);
+          reconnect(Urls.sendUserMsg);
         },
         cancelOnError: true,
       );
