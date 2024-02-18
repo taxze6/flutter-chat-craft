@@ -175,7 +175,7 @@ class ChatLogic extends GetxController {
       conversationLogic.webSocketManager
           .sendMsg(message)
           .then((value) => _sendSucceeded(message, value))
-          .catchError((e) => _senFailed(message, e))
+          .catchError((e) => _sendFailed(message, e))
           .whenComplete(() => _sendCompleted(message));
       _reset(message);
     }
@@ -205,7 +205,7 @@ class ChatLogic extends GetxController {
   }
 
   /// Message sending failed.
-  void _senFailed(Message message, e) {
+  void _sendFailed(Message message, e) {
     print('message send failed e :$e');
     message.status = MessageStatus.failed;
     msgSendStatusSubject.sink.add(MsgStreamEv<bool>(
