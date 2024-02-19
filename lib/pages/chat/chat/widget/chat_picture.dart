@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../widget/aspect_ratio_image.dart';
+import '../../../../widget/mimicking_hero_animation_image.dart';
 import '../../../../widget/photo_browser.dart';
 import 'chat_item_view.dart';
 import 'chat_send_progress.dart';
@@ -42,13 +43,13 @@ class ChatPictureView extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 6.w),
       child: GestureDetector(
           onTap: () {
-            Navigator.of(context).push(FadeRoute(
-              page: PhotoBrowser(
-                imgDataArr: [imgPath],
-                index: 0,
-                onLongPress: () {},
-              ),
-            ));
+            // Navigator.of(context).push(FadeRoute(
+            //   page: PhotoBrowser(
+            //     imgDataArr: [imgPath],
+            //     index: 0,
+            //     onLongPress: () {},
+            //   ),
+            // ));
           },
           child: child),
     );
@@ -61,7 +62,10 @@ class ChatPictureView extends StatelessWidget {
     } else {
       child = _pathView(path: imgPath);
     }
-    return child;
+    return MimickingHeroAnimationImage(
+      offset: Offset.zero,
+      child: child,
+    );
   }
 
   Widget _pathView({required String path}) => Stack(
