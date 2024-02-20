@@ -63,7 +63,8 @@ class ChatPictureView extends StatelessWidget {
       child = _pathView(path: imgPath);
     }
     return MimickingHeroAnimationImage(
-      offset: Offset.zero,
+      imageUrl: imgPath,
+      oldSize: Size(imageWidth, imageHeight),
       child: child,
     );
   }
