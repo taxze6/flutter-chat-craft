@@ -16,4 +16,8 @@ class SplashLogic extends GetxController {
       AppNavigator.startHome();
     }
   }
+
+  Future<bool> checkLocalFile() async {
+    return false;
+  }
 }
