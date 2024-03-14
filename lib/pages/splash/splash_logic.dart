@@ -18,6 +18,7 @@ class SplashLogic extends GetxController {
   }
 
   Future<bool> checkLocalFile() async {
+    //Check whether the App resource is complete.
     return false;
   }
 }
