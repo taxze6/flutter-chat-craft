@@ -63,6 +63,7 @@ dependencies:
   url_launcher: 6.2.4
   sqflite: ^2.3.1
   modal_bottom_sheet: 3.0.0-pre
+  crypto: 3.0.3
 dependency_overrides:
   photo_manager: ^3.0.0-dev.2
 dev_dependencies:
