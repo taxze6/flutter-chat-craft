@@ -35,4 +35,7 @@ class Urls {
 
   //upload
   static var uploadFile = "${Config.apiUrl}/upload/file";
+
+  //Init File-Download
+  static var downloadEmojiZip = "${Config.apiUrl}/upload/getEmojiZip";
 }
