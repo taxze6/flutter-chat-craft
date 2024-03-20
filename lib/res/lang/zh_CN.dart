@@ -127,4 +127,5 @@ const Map<String, String> zh_CN = {
   "avatarCannotEmpty": "头像不能为空",
   "phoneCannotEmpty": "手机号不能为空",
   "mottoCannotEmpty": "座右铭不能为空",
+  "loseEmojiFile": "监测到所需聊天表情包资源丢失，请下载！",
 };

@@ -1,8 +1,7 @@
-import 'dart:io';
-
-import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/user_info.dart';
+import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_chat_craft/routes/app_navigator.dart';
 import 'package:flutter_chat_craft/utils/file_util.dart';
 import 'package:flutter_chat_craft/utils/sp/data_persistence.dart';
@@ -25,8 +24,23 @@ class SplashLogic extends GetxController {
         }
       } else {
         //System file loss.
-        ToastUtils.toastText("");
-        FileUtil.downloadEmoji();
+        Get.dialog(
+          AlertDialog(
+            title: Text(StrRes.loseEmojiFile),
+            actions: [
+              ElevatedButton(
+                onPressed: () {},
+                child: Text(StrRes.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  FileUtil.downloadEmoji();
+                },
+                child: Text(StrRes.confirm),
+              ),
+            ],
+          ),
+        );
       }
     });
   }

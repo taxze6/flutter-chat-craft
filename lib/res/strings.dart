@@ -271,4 +271,7 @@ class StrRes {
   static get phoneCannotEmpty => 'phoneCannotEmpty'.tr;
 
   static get mottoCannotEmpty => 'mottoCannotEmpty'.tr;
+
+  static get loseEmojiFile => 'loseEmojiFile'.tr;
+
 }
