@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:archive/archive_io.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_chat_craft/common/urls.dart';
 import 'package:flutter_chat_craft/utils/http_util.dart';
 import 'package:get/get.dart';
@@ -92,13 +95,66 @@ class FileUtil {
 
   static Future<String> getEmojiCachePath() async {
     try {
-      final externalStorageDirectory = await getExternalStorageDirectory();
+      final externalStorageDirectory = await getApplicationDocumentsDirectory();
       String emojiCachePath =
-          "${externalStorageDirectory?.path}/chat-craft/emoji_icon_data.zip";
+          "${externalStorageDirectory.path}/chat-craft/emoji_icon_data.zip";
       return emojiCachePath;
     } catch (e) {
       print("Error setting emoji cache path: $e");
       return "";
     }
+  }
+
+  static Future<void> extractZipFile(String filePath) async {
+    try {
+      final zipFile = File(filePath);
+      final bytes = zipFile.readAsBytesSync();
+
+      final dir = await getApplicationDocumentsDirectory();
+      Directory destinationDir = Directory('${dir.path}/chat-craft');
+      if (await destinationDir.exists()) {
+        final deletedDir = await destinationDir.delete(recursive: true);
+        if (deletedDir is Directory) {
+          print('Directory deletion succeeded！');
+        } else {
+          print('Directory deletion failed！');
+        }
+      }
+      await destinationDir.create(recursive: true);
+      final archive = ZipDecoder().decodeBytes(bytes);
+      dynamic totalFiles = archive.numberOfFiles();
+      print('totalFiles ==== $totalFiles');
+      int extractedFiles = 0;
+      // Get current time.
+      String startTime = getTime;
+      print('Start Time ==== $startTime');
+      for (final file in archive) {
+        final filePath = '${destinationDir.path}/${file.name}';
+        print('filePath===$filePath');
+        if (file.isFile) {
+          final data = file.content as List<int>;
+          final decodedData = utf8.decode(data, allowMalformed: true);
+          final outFile = File(filePath);
+          await outFile.create(recursive: true);
+          await outFile.writeAsString(decodedData, flush: true);
+          // print(file.name);
+        } else {
+          await Directory(filePath).create(recursive: true);
+        }
+        extractedFiles++;
+        // setState(() {
+        //   _extractProgress = extractedFiles / totalFiles;
+        //   // print(_extractProgress);
+        // });
+      }
+      String endTime = getTime;
+      print('End Time ==== $endTime');
+    } catch (e) {
+      print('Error while extracting the zip file: $e');
+    }
+  }
+
+  static String get getTime {
+    return "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} ${DateTime.now().second}:${DateTime.now().millisecond}:${DateTime.now().microsecond}";
   }
 }

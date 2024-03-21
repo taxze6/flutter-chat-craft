@@ -65,6 +65,7 @@ dependencies:
   modal_bottom_sheet: 3.0.0-pre
   crypto: 3.0.3
   path_provider: 2.1.2
+  archive: 3.4.10
 dependency_overrides:
   photo_manager: ^3.0.0-dev.2
 dev_dependencies:

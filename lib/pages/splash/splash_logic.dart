@@ -35,12 +35,13 @@ class SplashLogic extends GetxController {
               ),
               ElevatedButton(
                 onPressed: () {
-                  FileUtil.downloadEmoji().then((value) {
+                  FileUtil.downloadEmoji().then((value) async {
                     if (value) {
                       Get.back();
-                    } else {
-
-                    }
+                      String emojiCachePath =
+                          await FileUtil.getEmojiCachePath();
+                      FileUtil.extractZipFile(emojiCachePath);
+                    } else {}
                   });
                 },
                 child: Text(StrRes.confirm),
