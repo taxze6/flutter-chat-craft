@@ -5,7 +5,6 @@ import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_chat_craft/routes/app_navigator.dart';
 import 'package:flutter_chat_craft/utils/file_util.dart';
 import 'package:flutter_chat_craft/utils/sp/data_persistence.dart';
-import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:get/get.dart';
 
 class SplashLogic extends GetxController {
@@ -29,12 +28,20 @@ class SplashLogic extends GetxController {
             title: Text(StrRes.loseEmojiFile),
             actions: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.back();
+                },
                 child: Text(StrRes.cancel),
               ),
               ElevatedButton(
                 onPressed: () {
-                  FileUtil.downloadEmoji();
+                  FileUtil.downloadEmoji().then((value) {
+                    if (value) {
+                      Get.back();
+                    } else {
+
+                    }
+                  });
                 },
                 child: Text(StrRes.confirm),
               ),
