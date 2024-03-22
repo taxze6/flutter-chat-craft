@@ -106,10 +106,11 @@ class FileUtil {
   }
 
   static Future<void> extractZipFile(String filePath) async {
+    // Set initial progress to 0%
+    Rx<int> progress = 0.obs;
     try {
       final zipFile = File(filePath);
       final bytes = zipFile.readAsBytesSync();
-
       final dir = await getApplicationDocumentsDirectory();
       Directory destinationDir = Directory('${dir.path}/chat-craft');
       if (await destinationDir.exists()) {
@@ -122,8 +123,25 @@ class FileUtil {
       }
       await destinationDir.create(recursive: true);
       final archive = ZipDecoder().decodeBytes(bytes);
-      dynamic totalFiles = archive.numberOfFiles();
+      int totalFiles = archive.numberOfFiles();
       print('totalFiles ==== $totalFiles');
+
+      Get.dialog(
+        Obx(
+          () => AlertDialog(
+            title: const Text("Unpacker Emoji Zip"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Number of decompressed files: $progress / $totalFiles"),
+                LinearProgressIndicator(
+                  value: progress / totalFiles,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
       int extractedFiles = 0;
       // Get current time.
       String startTime = getTime;
@@ -142,6 +160,7 @@ class FileUtil {
           await Directory(filePath).create(recursive: true);
         }
         extractedFiles++;
+        progress.value = extractedFiles ~/ totalFiles;
         // setState(() {
         //   _extractProgress = extractedFiles / totalFiles;
         //   // print(_extractProgress);
