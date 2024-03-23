@@ -7,24 +7,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_craft/common/urls.dart';
 import 'package:flutter_chat_craft/utils/http_util.dart';
+import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class FileUtil {
   ///Compare file sizes
   static Future<bool> isFileCompleteBySize(
-      String filePath, int expectedSize) async {
+      String filePath, double expectedSize) async {
     try {
       File file = File(filePath);
-      int fileSize = await file.length();
-      if (fileSize == expectedSize) {
-        print('File integrity');
-        return true;
+      if (await file.exists()) {
+        int fileSize = file.lengthSync();
+        if (fileSize == expectedSize) {
+          print('File integrity');
+          return true;
+        } else {
+          print('Incomplete file');
+          return false;
+        }
       } else {
-        print('Incomplete file');
+        print('File does not exist');
         return false;
       }
     } catch (e) {
+      print('Error: $e');
       return false;
     }
   }
@@ -57,6 +65,14 @@ class FileUtil {
     Rx<double> progress = 0.0.obs;
 
     try {
+      // Check and request storage permission
+      var status = await Permission.storage.request();
+      if (!status.isGranted) {
+        // Permission not granted, handle it accordingly
+        print('Storage permission not granted');
+        return false;
+      }
+
       String url = Urls.downloadEmojiZip;
       String cachePath = await getEmojiCachePath();
 
@@ -144,7 +160,8 @@ class FileUtil {
       );
       int extractedFiles = 0;
       // Get current time.
-      String startTime = getTime;
+      DateTime startTime = DateTime.now();
+      // String startTime = getTime;
       print('Start Time ==== $startTime');
       for (final file in archive) {
         final filePath = '${destinationDir.path}/${file.name}';
@@ -160,14 +177,19 @@ class FileUtil {
           await Directory(filePath).create(recursive: true);
         }
         extractedFiles++;
-        progress.value = extractedFiles ~/ totalFiles;
-        // setState(() {
-        //   _extractProgress = extractedFiles / totalFiles;
-        //   // print(_extractProgress);
-        // });
+        progress.value = extractedFiles;
       }
-      String endTime = getTime;
+      // String endTime = getTime;
+
+      DateTime endTime = DateTime.now();
       print('End Time ==== $endTime');
+
+      Duration timeDiff = endTime.difference(startTime);
+      print(
+          'Decompression time: ${(timeDiff.inMilliseconds / 1000).toStringAsFixed(2)} s');
+      Get.back();
+      ToastUtils.toastText(
+          "Decompression successful, time: ${(timeDiff.inMilliseconds / 1000).toStringAsFixed(2)} s");
     } catch (e) {
       print('Error while extracting the zip file: $e');
     }

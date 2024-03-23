@@ -10,7 +10,10 @@ import 'package:get/get.dart';
 class SplashLogic extends GetxController {
   void enterChatCraft() async {
     String emojiCachePath = await FileUtil.getEmojiCachePath();
-    FileUtil.isFileCompleteBySize(emojiCachePath, 20).then((value) {
+    FileUtil.isFileCompleteBySize(
+      emojiCachePath,
+      5.27,
+    ).then((value) {
       if (value) {
         String token = DataPersistence.getToken();
         if (token == '') {
