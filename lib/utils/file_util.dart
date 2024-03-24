@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_craft/common/urls.dart';
+import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_chat_craft/utils/http_util.dart';
 import 'package:flutter_chat_craft/widget/toast_utils.dart';
 import 'package:get/get.dart';
@@ -79,7 +80,7 @@ class FileUtil {
       Get.dialog(
         Obx(
           () => AlertDialog(
-            title: const Text("Downloading Emoji"),
+            title: Text(StrRes.download),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -145,7 +146,7 @@ class FileUtil {
       Get.dialog(
         Obx(
           () => AlertDialog(
-            title: const Text("Unpacker Emoji Zip"),
+            title: Text(StrRes.zipUnpacker),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

@@ -133,4 +133,6 @@ const Map<String, String> en_US = {
   "phoneCannotEmpty": "The phone number cannot be empty.",
   "mottoCannotEmpty": "The motto cannot be empty.",
   "loseEmojiFile": "The required chat memes are lost, please download!",
+  "zipUnpacker": "Zip Unpacker",
+  "download": "Download",
 };

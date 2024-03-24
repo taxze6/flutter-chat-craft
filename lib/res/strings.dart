@@ -274,4 +274,8 @@ class StrRes {
 
   static get loseEmojiFile => 'loseEmojiFile'.tr;
 
+  static get zipUnpacker => 'zipUnpacker'.tr;
+
+  static get download => 'download'.tr;
+
 }
