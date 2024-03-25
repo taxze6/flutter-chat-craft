@@ -7,12 +7,15 @@ import 'package:flutter_chat_craft/utils/file_util.dart';
 import 'package:flutter_chat_craft/utils/sp/data_persistence.dart';
 import 'package:get/get.dart';
 
+import '../../models/file_path.dart';
+
 class SplashLogic extends GetxController {
   void enterChatCraft() async {
-    String emojiCachePath = await FileUtil.getEmojiCachePath();
-    FileUtil.isFileCompleteBySize(
+    String emojiCachePath =
+        await FileUtil.getCachePath(FilePath.emojiPath);
+    FileUtil.isDirectoryCompleteBySize(
       emojiCachePath,
-      5.27,
+      36.65,
     ).then((value) {
       if (value) {
         String token = DataPersistence.getToken();
@@ -41,8 +44,8 @@ class SplashLogic extends GetxController {
                   FileUtil.downloadEmoji().then((value) async {
                     if (value) {
                       Get.back();
-                      String emojiCachePath =
-                          await FileUtil.getEmojiCachePath();
+                      String emojiCachePath = await FileUtil.getCachePath(
+                          FilePath.emojiZipDownloadPath);
                       FileUtil.extractZipFile(emojiCachePath);
                     } else {}
                   });

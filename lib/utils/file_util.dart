@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_craft/common/urls.dart';
+import 'package:flutter_chat_craft/models/file_path.dart';
 import 'package:flutter_chat_craft/res/strings.dart';
 import 'package:flutter_chat_craft/utils/http_util.dart';
 import 'package:flutter_chat_craft/widget/toast_utils.dart';
@@ -15,27 +16,46 @@ import 'package:permission_handler/permission_handler.dart';
 
 class FileUtil {
   ///Compare file sizes
-  static Future<bool> isFileCompleteBySize(
-      String filePath, double expectedSize) async {
+  static Future<bool> isDirectoryCompleteBySize(
+      String directoryPath, double expectedSize) async {
     try {
-      File file = File(filePath);
-      if (await file.exists()) {
-        int fileSize = file.lengthSync();
-        if (fileSize == expectedSize) {
-          print('File integrity');
+      print(directoryPath);
+      // Check if the directory exists
+      Directory directory = Directory(directoryPath);
+      if (await directory.exists()) {
+        int totalSizeBytes = await _calculateDirectorySize(directory);
+        // Convert bytes to megabytes
+        double totalSizeMB =
+            double.parse((totalSizeBytes / (1024 * 1024)).toStringAsFixed(2));
+        print('Directory size: $totalSizeMB MB');
+
+        if (totalSizeMB == expectedSize) {
+          print('Directory integrity');
           return true;
         } else {
-          print('Incomplete file');
+          print('Incomplete directory');
           return false;
         }
       } else {
-        print('File does not exist');
+        print('Directory does not exist');
         return false;
       }
     } catch (e) {
       print('Error: $e');
       return false;
     }
+  }
+
+  static Future<int> _calculateDirectorySize(Directory directory) async {
+    int totalSize = 0;
+
+    await for (FileSystemEntity entity in directory.list(recursive: true)) {
+      if (entity is File) {
+        totalSize += await entity.length();
+      }
+    }
+
+    return totalSize;
   }
 
   static Future<bool> isFileCompleteByHash(
@@ -75,7 +95,7 @@ class FileUtil {
       }
 
       String url = Urls.downloadEmojiZip;
-      String cachePath = await getEmojiCachePath();
+      String cachePath = await getCachePath(FilePath.emojiZipDownloadPath);
 
       Get.dialog(
         Obx(
@@ -110,11 +130,10 @@ class FileUtil {
     }
   }
 
-  static Future<String> getEmojiCachePath() async {
+  static Future<String> getCachePath(String path) async {
     try {
       final externalStorageDirectory = await getApplicationDocumentsDirectory();
-      String emojiCachePath =
-          "${externalStorageDirectory.path}/chat-craft/emoji_icon_data.zip";
+      String emojiCachePath = "${externalStorageDirectory.path}$path";
       return emojiCachePath;
     } catch (e) {
       print("Error setting emoji cache path: $e");
