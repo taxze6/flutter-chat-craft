@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'message_custom_popup.dart';
 
 class MenuInfo {
@@ -129,6 +130,71 @@ class ChatPopupEmoji extends StatelessWidget {
               blurRadius: 8.0,
             )
           ]),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: const [
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flGrinningFace,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flGrinningSquintingFace,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flSmilingFaceWithHearts,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flSmilingFaceWithHearts,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flSmilingFaceWithHalo,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flSmilingFaceWithSunglasses,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flMonkeyFace,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flTigerFace,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flHorseFace,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flPigFace,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flDogFace,
+          ),
+          FluentUiEmojiIcon(
+            w: 30,
+            h: 30,
+            fl: Fluents.flCatFace,
+          ),
+        ],
+      ),
     );
   }
 }

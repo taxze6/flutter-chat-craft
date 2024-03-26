@@ -66,6 +66,7 @@ dependencies:
   crypto: 3.0.3
   path_provider: 2.1.2
   archive: 3.4.10
+  fluentui_emoji_icon: 0.0.2
 dependency_overrides:
   photo_manager: ^3.0.0-dev.2
 dev_dependencies:
