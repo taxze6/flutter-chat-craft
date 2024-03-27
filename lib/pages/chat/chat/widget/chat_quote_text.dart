@@ -82,14 +82,6 @@ class _ChatQuoteTextState extends State<ChatQuoteText> {
                         ),
                       ),
                       Text(
-                        // IMUtils.messageTypeToString(
-                        //   messageType: widget.message!.quoteMessage!.contentType!,
-                        //   content: (widget.message?.quoteMessage?.content ?? "")
-                        //               .length >
-                        //       18
-                        //       ? "${widget.message?.quoteMessage?.content.substring(0, 18)}..."
-                        //       : (widget.message?.quoteMessage?.content ?? ""),
-                        // ),
                         IMUtils.messageTypeToString(
                           messageType: widget.message!.quoteMessage!.contentType!,
                           content: widget.message?.quoteMessage?.content ?? "",

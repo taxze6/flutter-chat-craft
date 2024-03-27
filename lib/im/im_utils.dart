@@ -71,6 +71,8 @@ class IMUtils {
         return "[${StrRes.voice}]";
       case MessageType.video:
         return "[${StrRes.video}]";
+      case MessageType.quote:
+        return "${StrRes.quote}:$content";
       default:
         return "";
     }

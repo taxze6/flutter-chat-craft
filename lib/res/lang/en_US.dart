@@ -135,4 +135,5 @@ const Map<String, String> en_US = {
   "loseEmojiFile": "The required chat memes are lost, please download!",
   "zipUnpacker": "Zip Unpacker",
   "download": "Download",
+  "quote": "Quote Message",
 };

@@ -132,6 +132,8 @@ class StrRes {
 
   static get voice => 'voice'.tr;
 
+  static get quote => 'quote'.tr;
+
   static get online => 'online'.tr;
 
   static get offline => 'offline'.tr;
@@ -277,5 +279,4 @@ class StrRes {
   static get zipUnpacker => 'zipUnpacker'.tr;
 
   static get download => 'download'.tr;
-
 }

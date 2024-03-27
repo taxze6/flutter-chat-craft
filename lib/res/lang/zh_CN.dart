@@ -129,5 +129,6 @@ const Map<String, String> zh_CN = {
   "mottoCannotEmpty": "座右铭不能为空",
   "loseEmojiFile": "监测到所需聊天表情包资源丢失，请下载！",
   "zipUnpacker": "解压Zip",
-  "c": "下载",
+  "download": "下载",
+  "quote": "引用信息",
 };
