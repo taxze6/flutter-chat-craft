@@ -86,11 +86,26 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
       Offset offset = const Offset(-20, -20);
       // bool isReceived = false;
       // if ((details.globalPosition.dx + 100.w) > 1.sw) {
-      if (!widget.isFromMsg) {
+      if (widget.isFromMsg) {
+        if ((details.globalPosition.dy +
+                widget.menuWidgets.length * 40.h +
+                88.h) >
+            1.sh) {
+          targetAlignment = Alignment.topRight;
+          followerAlignment = Alignment.bottomLeft;
+          offset = const Offset(-20, 20);
+        }
+        if ((details.globalPosition.dx + 212.w) > 1.sw) {
+          if (widget.isFromMsg) {
+            targetAlignment = Alignment.topRight;
+            followerAlignment = Alignment.bottomRight;
+            offset = const Offset(-20, 20);
+          }
+        }
+      } else {
         targetAlignment = Alignment.bottomLeft;
         followerAlignment = Alignment.topRight;
         offset = const Offset(20, -20);
-        // isReceived = true;
         if ((details.globalPosition.dy +
                 widget.menuWidgets.length * 40.h +
                 88.h) >
@@ -99,20 +114,13 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
           followerAlignment = Alignment.bottomRight;
           offset = const Offset(20, 20);
         }
-      }
-      if ((details.globalPosition.dy +
-              widget.menuWidgets.length * 40.h +
-              88.h) >
-          1.sh) {
-        targetAlignment = Alignment.topLeft;
-        followerAlignment = Alignment.bottomRight;
-        offset = const Offset(20, 20);
-        if (widget.isFromMsg) {
+        if ((details.globalPosition.dx - 212.w) < 0) {
           targetAlignment = Alignment.topRight;
-          followerAlignment = Alignment.bottomLeft;
-          offset = const Offset(-20, 20);
+          followerAlignment = Alignment.bottomRight;
+          offset = const Offset(20, 20);
         }
       }
+
       _overlayEntry = _createOverlayEntry(
         targetAlignment,
         followerAlignment,
