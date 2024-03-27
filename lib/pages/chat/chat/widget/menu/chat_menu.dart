@@ -115,86 +115,111 @@ class ChatPopupEmoji extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 140.w,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: EdgeInsets.symmetric(vertical: 6.w, horizontal: 8.w),
-      height: 32.w,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20.w),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade200,
-              offset: const Offset(0, 3),
-              blurRadius: 8.0,
-            )
-          ]),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: const [
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flGrinningFace,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+          onTap: () {
+
+          },
+          child: Container(
+            width: 32.w,
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            height: 32.w,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20.w),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: const Offset(0, 3),
+                    blurRadius: 8.0,
+                  )
+                ]),
+            child: const Icon(Icons.data_usage),
           ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flGrinningSquintingFace,
+        ),
+        Container(
+          width: 140.w,
+          padding: EdgeInsets.symmetric(vertical: 6.w, horizontal: 8.w),
+          height: 32.w,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20.w),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade200,
+                  offset: const Offset(0, 3),
+                  blurRadius: 8.0,
+                )
+              ]),
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: const [
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flGrinningFace,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flGrinningSquintingFace,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flSmilingFaceWithHearts,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flSmilingFaceWithHearts,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flSmilingFaceWithHalo,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flSmilingFaceWithSunglasses,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flMonkeyFace,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flTigerFace,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flHorseFace,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flPigFace,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flDogFace,
+              ),
+              FluentUiEmojiIcon(
+                w: 30,
+                h: 30,
+                fl: Fluents.flCatFace,
+              ),
+            ],
           ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flSmilingFaceWithHearts,
-          ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flSmilingFaceWithHearts,
-          ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flSmilingFaceWithHalo,
-          ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flSmilingFaceWithSunglasses,
-          ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flMonkeyFace,
-          ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flTigerFace,
-          ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flHorseFace,
-          ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flPigFace,
-          ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flDogFace,
-          ),
-          FluentUiEmojiIcon(
-            w: 30,
-            h: 30,
-            fl: Fluents.flCatFace,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
