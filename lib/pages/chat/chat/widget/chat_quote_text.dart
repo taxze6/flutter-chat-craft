@@ -64,32 +64,45 @@ class _ChatQuoteTextState extends State<ChatQuoteText> {
               const SizedBox(
                 width: 4,
               ),
-              Expanded(
-                child: Column(
-                  key: _columnKey,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.message?.quoteMessage?.messageSenderName ?? "",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12.sp,
+              Flexible(
+                child: Container(
+                  constraints: BoxConstraints(
+                    minWidth: 0.3.sw,
+                  ),
+                  child: Column(
+                    key: _columnKey,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.message?.quoteMessage?.messageSenderName ?? "",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.sp,
+                        ),
                       ),
-                    ),
-                    Text(
-                      IMUtils.messageTypeToString(
-                        messageType: widget.message!.quoteMessage!.contentType!,
-                        content: widget.message?.quoteMessage?.content ?? "",
+                      Text(
+                        // IMUtils.messageTypeToString(
+                        //   messageType: widget.message!.quoteMessage!.contentType!,
+                        //   content: (widget.message?.quoteMessage?.content ?? "")
+                        //               .length >
+                        //       18
+                        //       ? "${widget.message?.quoteMessage?.content.substring(0, 18)}..."
+                        //       : (widget.message?.quoteMessage?.content ?? ""),
+                        // ),
+                        IMUtils.messageTypeToString(
+                          messageType: widget.message!.quoteMessage!.contentType!,
+                          content: widget.message?.quoteMessage?.content ?? "",
+                        ),
+                        style: TextStyle(
+                          color: const Color(0xFF4A4A4A),
+                          fontSize: 10.sp,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      style: TextStyle(
-                        color: const Color(0xFF4A4A4A),
-                        fontSize: 10.sp,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],
