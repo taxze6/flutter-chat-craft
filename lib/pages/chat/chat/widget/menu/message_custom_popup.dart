@@ -5,7 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'chat_menu.dart';
 
 class MessageCustomPopupMenuController extends ChangeNotifier {
-  bool menuIsShowing = false;
+  bool menuIsShowing = true;
+  bool isShowMoreEmoji = false;
 
   void showMenu() {
     menuIsShowing = true;
@@ -19,6 +20,16 @@ class MessageCustomPopupMenuController extends ChangeNotifier {
 
   void toggleMenu() {
     menuIsShowing = !menuIsShowing;
+    notifyListeners();
+  }
+
+  void showMoreEmoji() {
+    isShowMoreEmoji = true;
+    notifyListeners();
+  }
+
+  void closeMoreEmoji() {
+    isShowMoreEmoji = false;
     notifyListeners();
   }
 }
@@ -71,6 +82,10 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
 
   _updateView() {
     if (_controller?.menuIsShowing ?? false) {
+      if (_overlayEntry != null) {
+        _overlayEntry?.remove();
+        _overlayEntry = null;
+      }
       _showMenu(context, _tapDownDetails!);
     } else {
       _hideMenu();
@@ -84,6 +99,11 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
       Alignment targetAlignment = Alignment.bottomRight;
       Alignment followerAlignment = Alignment.topLeft;
       Offset offset = const Offset(-20, -20);
+      if (_controller?.isShowMoreEmoji ?? false) {
+        targetAlignment = Alignment.center;
+        followerAlignment = Alignment.topCenter;
+        offset = const Offset(0, 0);
+      }
       // bool isReceived = false;
       // if ((details.globalPosition.dx + 100.w) > 1.sw) {
       if (widget.isFromMsg) {
@@ -120,7 +140,6 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
           offset = const Offset(20, 20);
         }
       }
-
       _overlayEntry = _createOverlayEntry(
         targetAlignment,
         followerAlignment,
@@ -163,7 +182,6 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
                 color: Colors.transparent,
               ),
             ),
-            //UnconstrainedBox
             CompositedTransformFollower(
               link: _layerLink,
               targetAnchor: targetAlignment,
@@ -178,40 +196,62 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
                       ? CrossAxisAlignment.end
                       : CrossAxisAlignment.start,
                   children: [
-                    TweenAnimationBuilder(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        tween: Tween<double>(begin: 0.0, end: 1.0),
-                        builder: (BuildContext context, double value,
-                            Widget? child) {
-                          return Transform.scale(
-                            scale: value,
-                            child: Opacity(
-                              opacity: value,
-                              child: ChatLongPressMenu(
-                                controller: _controller!,
-                                menus: widget.menuWidgets,
+                    if (!_controller!.isShowMoreEmoji)
+                      TweenAnimationBuilder(
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeInOut,
+                          tween: Tween<double>(begin: 0.0, end: 1.0),
+                          builder: (BuildContext context, double value,
+                              Widget? child) {
+                            return Transform.scale(
+                              scale: value,
+                              child: Opacity(
+                                opacity: value,
+                                child: ChatLongPressMenu(
+                                  controller: _controller!,
+                                  menus: widget.menuWidgets,
+                                ),
                               ),
-                            ),
-                          );
-                        }),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    TweenAnimationBuilder(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        tween: Tween<double>(begin: 0.0, end: 1.0),
-                        builder: (BuildContext context, double value,
-                            Widget? child) {
-                          return Transform.scale(
-                            scale: value,
-                            child: Opacity(
-                              opacity: value,
-                              child: const ChatPopupEmoji(),
-                            ),
-                          );
-                        }),
+                            );
+                          }),
+                    if (!_controller!.isShowMoreEmoji)
+                      const SizedBox(
+                        height: 6,
+                      ),
+                    if (!_controller!.isShowMoreEmoji)
+                      TweenAnimationBuilder(
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeInOut,
+                          tween: Tween<double>(begin: 0.0, end: 1.0),
+                          builder: (BuildContext context, double value,
+                              Widget? child) {
+                            return Transform.scale(
+                              scale: value,
+                              child: Opacity(
+                                opacity: value,
+                                child: ChatPopupPartEmoji(
+                                  controller: _controller!,
+                                ),
+                              ),
+                            );
+                          }),
+                    if (_controller!.isShowMoreEmoji)
+                      TweenAnimationBuilder(
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeInOut,
+                          tween: Tween<double>(begin: 0.0, end: 1.0),
+                          builder: (BuildContext context, double value,
+                              Widget? child) {
+                            return Transform.scale(
+                              scale: value,
+                              child: Opacity(
+                                opacity: value,
+                                child: ChatPopupAllEmoji(
+                                  controller: _controller!,
+                                ),
+                              ),
+                            );
+                          }),
                   ],
                 ),
               ),

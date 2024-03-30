@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_craft/common/fluent_emoji_icon_data.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluentui_emoji_icon/fluentui_emoji_icon.dart';
 import 'message_custom_popup.dart';
@@ -110,8 +111,10 @@ class _ItemView extends StatelessWidget {
   }
 }
 
-class ChatPopupEmoji extends StatelessWidget {
-  const ChatPopupEmoji({super.key});
+class ChatPopupPartEmoji extends StatelessWidget {
+  const ChatPopupPartEmoji({super.key, required this.controller});
+
+  final MessageCustomPopupMenuController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +123,7 @@ class ChatPopupEmoji extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-
+            controller.showMoreEmoji();
           },
           child: Container(
             width: 32.w,
@@ -153,70 +156,91 @@ class ChatPopupEmoji extends StatelessWidget {
                   blurRadius: 8.0,
                 )
               ]),
-          child: ListView(
+          child: ListView.builder(
+            itemCount: 6,
             scrollDirection: Axis.horizontal,
-            children: const [
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flGrinningFace,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flGrinningSquintingFace,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flSmilingFaceWithHearts,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flSmilingFaceWithHearts,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flSmilingFaceWithHalo,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flSmilingFaceWithSunglasses,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flMonkeyFace,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flTigerFace,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flHorseFace,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flPigFace,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flDogFace,
-              ),
-              FluentUiEmojiIcon(
-                w: 30,
-                h: 30,
-                fl: Fluents.flCatFace,
-              ),
-            ],
+            itemBuilder: (context, index) {
+              return FluentUiEmojiIcon(
+                w: 28.w,
+                h: 28.w,
+                fl: FluentEmojiIconData.stringGetFluentsData(
+                  FluentEmojiIconData.emojiNames[index],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ChatPopupAllEmoji extends StatelessWidget {
+  const ChatPopupAllEmoji({super.key, required this.controller});
+
+  final MessageCustomPopupMenuController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 172.w,
+          padding: EdgeInsets.symmetric(vertical: 8.w, horizontal: 10.w),
+          // height: 32.w,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20.w),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade200,
+                  offset: const Offset(0, 3),
+                  blurRadius: 8.0,
+                )
+              ]),
+          child: GridView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 6,
+              crossAxisSpacing: 6,
+              mainAxisSpacing: 6,
+            ),
+            itemCount: FluentEmojiIconData.emojiNames.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (context, index) {
+              print("${index +1}");
+              return FluentUiEmojiIcon(
+                w: 28.w,
+                h: 28.w,
+                fl: FluentEmojiIconData.stringGetFluentsData(
+                  FluentEmojiIconData.emojiNames[index],
+                ),
+              );
+            },
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            controller.closeMoreEmoji();
+          },
+          child: Container(
+            width: 32.w,
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            height: 32.w,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20.w),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: const Offset(0, 3),
+                    blurRadius: 8.0,
+                  )
+                ]),
+            child: const Icon(Icons.arrow_circle_up_sharp),
           ),
         ),
       ],
