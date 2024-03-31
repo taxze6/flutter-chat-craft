@@ -164,8 +164,8 @@ class ChatPopupPartEmoji extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  controller.hideMenu();
                   replyEmoji(FluentEmojiIconData.emojiNames[index]);
+                  controller.hideMenu();
                 },
                 child: FluentUiEmojiIcon(
                   w: 28.w,
@@ -224,8 +224,8 @@ class ChatPopupAllEmoji extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  controller.hideMenu();
                   replyEmoji(FluentEmojiIconData.emojiNames[index]);
+                  controller.hideMenu();
                 },
                 child: FluentUiEmojiIcon(
                   w: 28.w,
