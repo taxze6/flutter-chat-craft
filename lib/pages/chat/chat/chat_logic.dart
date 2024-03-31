@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_craft/models/message.dart';
@@ -54,7 +55,9 @@ class ChatLogic extends GetxController {
     messageAddListen();
     // 自定义消息点击事件
     clickSubjectController.stream.listen((index) {
-      print('index:$index');
+      if (kDebugMode) {
+        print('index:$index');
+      }
       // parseClickEvent(indexOfMessage(index, calculate: false));
     });
     inputListener();
@@ -93,7 +96,9 @@ class ChatLogic extends GetxController {
       Message message = Message.fromJson(
         json.decode(msg),
       );
-      print('Received: ${message.toString()}');
+      if (kDebugMode) {
+        print('Received: ${message.toString()}');
+      }
       if (message.formId == userInfo.userID) {
         //Monitor input status
         if (message.msgId == typingId) {
@@ -184,7 +189,9 @@ class ChatLogic extends GetxController {
 
   /// The logic after processing the message flow is completed.
   void _sendCompleted(Message message) {
-    print("has completed");
+    if (kDebugMode) {
+      print("has completed");
+    }
     if (message.contentType == MessageType.typing ||
         message.type == ConversationType.heart) {
     } else {
@@ -194,12 +201,16 @@ class ChatLogic extends GetxController {
 
   /// Message sent successfully.
   void _sendSucceeded(Message oldMsg, Message newMsg) {
-    print('message send success----');
+    if (kDebugMode) {
+      print('message send success----');
+    }
     // oldMsg.status = MessageStatus.succeeded;
     oldMsg.update(newMsg);
-    print("oldMsg:${oldMsg.toString()}");
-    print("newMsg:${newMsg.toString()}");
-    print("identical:${identical(oldMsg, newMsg)}");
+    if (kDebugMode) {
+      print("oldMsg:${oldMsg.toString()}");
+      print("newMsg:${newMsg.toString()}");
+      print("identical:${identical(oldMsg, newMsg)}");
+    }
     msgSendStatusSubject.sink.add(MsgStreamEv<bool>(
       msgId: oldMsg.msgId!,
       value: true,
@@ -208,7 +219,9 @@ class ChatLogic extends GetxController {
 
   /// Message sending failed.
   void _sendFailed(Message message, e) {
-    print('message send failed e :$e');
+    if (kDebugMode) {
+      print('message send failed e :$e');
+    }
     message.status = MessageStatus.failed;
     msgSendStatusSubject.sink.add(MsgStreamEv<bool>(
       msgId: message.msgId!,
@@ -237,7 +250,9 @@ class ChatLogic extends GetxController {
       for (var info in data) {
         Message message = Message.fromJson(json.decode(info));
         messageList.add(message);
-        print(message.toString());
+        if (kDebugMode) {
+          print(message.toString());
+        }
       }
       chatStart = chatEnd;
       chatEnd += chatListSize;
@@ -303,11 +318,15 @@ class ChatLogic extends GetxController {
 
   void handleAssets(AssetEntity? assetEntity) async {
     if (assetEntity != null) {
-      print('--------assets type-----${assetEntity.type}');
+      if (kDebugMode) {
+        print('--------assets type-----${assetEntity.type}');
+      }
       var file = await assetEntity.file;
       var path = file!.path;
       var name = assetEntity.title ?? "";
-      print('--------assets path-----$path');
+      if (kDebugMode) {
+        print('--------assets path-----$path');
+      }
       switch (assetEntity.type) {
         case AssetType.image:
           //upload image
@@ -370,8 +389,10 @@ class ChatLogic extends GetxController {
     height = actualHeight * scale;
     imageWidth = width;
     imageHeight = height;
-    print("imageWidth:$imageWidth");
-    print("imageHeight:$imageHeight");
+    if (kDebugMode) {
+      print("imageWidth:$imageWidth");
+      print("imageHeight:$imageHeight");
+    }
     ImageElement imageElement = ImageElement(
       image: imageFile.path,
       imageWidth: imageWidth,
@@ -391,7 +412,9 @@ class ChatLogic extends GetxController {
       sendTime: DateTime.now().toString(),
       status: MessageStatus.sending,
     );
-    print("imagePath:${imageFile.path}");
+    if (kDebugMode) {
+      print("imagePath:${imageFile.path}");
+    }
     var data = await Apis.uploadFile(
       filePath: imageFile.path,
       fileName: imageName,
@@ -403,7 +426,9 @@ class ChatLogic extends GetxController {
             value: sent / total * 100,
           ),
         );
-        print('Upload progress：${sent / total * 100}%');
+        if (kDebugMode) {
+          print('Upload progress：${sent / total * 100}%');
+        }
       },
     );
     if (data != false) {
@@ -437,7 +462,9 @@ class ChatLogic extends GetxController {
     required int fileSize,
   }) async {
     double fileSizeInMB = fileSize / (1024 * 1024);
-    print("duration$duration,path:$path,fileSize:$fileSizeInMB");
+    if (kDebugMode) {
+      print("duration$duration,path:$path,fileSize:$fileSizeInMB");
+    }
     Message message = Message(
       msgId: generateMessageId(userInfo.userID),
       targetId: userInfo.userID,
@@ -456,7 +483,9 @@ class ChatLogic extends GetxController {
       ),
       status: MessageStatus.sending,
     );
-    print("voicePath:$path");
+    if (kDebugMode) {
+      print("voicePath:$path");
+    }
     var data = await Apis.uploadFile(
       filePath: path,
       fileName: path.split('/').last,
@@ -466,7 +495,9 @@ class ChatLogic extends GetxController {
           msgId: message.msgId!,
           value: sent / total * 100,
         ));
-        print('Upload progress：${sent / total * 100}%');
+        if (kDebugMode) {
+          print('Upload progress：${sent / total * 100}%');
+        }
       },
     );
     if (data != false) {
