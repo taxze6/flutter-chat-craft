@@ -30,6 +30,7 @@ class Message {
   ImageElement? image;
   SoundElement? sound;
   Message? quoteMessage;
+  List<String>? replyEmojis;
 
   Message({
     this.msgId,
@@ -45,6 +46,7 @@ class Message {
     this.image,
     this.sound,
     this.quoteMessage,
+    this.replyEmojis,
   });
 
   Message.fromJson(Map<String, dynamic> json)
@@ -58,9 +60,14 @@ class Message {
         content = json['content'] ?? "",
         messageSenderName = json['messageSenderName'] ?? "",
         messageSenderFaceUrl = json['messageSenderFaceUrl'] ?? "",
-        image = json['image'] != null ? ImageElement.fromJson(json['image']) : null,
-        sound = json['sound'] != null ? SoundElement.fromJson(json['sound']) : null,
-        quoteMessage = json['quoteMessage'] != null ? Message.fromJson(json['quoteMessage']) : null;
+        image =
+            json['image'] != null ? ImageElement.fromJson(json['image']) : null,
+        sound =
+            json['sound'] != null ? SoundElement.fromJson(json['sound']) : null,
+        quoteMessage = json['quoteMessage'] != null
+            ? Message.fromJson(json['quoteMessage'])
+            : null,
+        replyEmojis = json["replyEmojis"] != null ? List<String>.from(json["replyEmojis"]) : <String>[];
 
   factory Message.fromHeartbeat() {
     return Message(
@@ -90,6 +97,7 @@ class Message {
       "image": image,
       "sound": sound,
       "quoteMessage": quoteMessage,
+      "replyEmojis": replyEmojis,
     };
   }
 
@@ -113,6 +121,7 @@ class Message {
         'image:${image.toString()},'
         'sound:${sound.toString()},'
         'quoteMessage:${quoteMessage.toString()},'
+        'replyEmoji:${replyEmojis.toString()},'
         '}';
   }
 
@@ -131,6 +140,7 @@ class Message {
     image = message.image;
     sound = message.sound;
     quoteMessage = message.quoteMessage;
+    replyEmojis = message.replyEmojis;
   }
 }
 
@@ -234,6 +244,8 @@ class MessageType {
   static const location = 106;
 
   static const quote = 107;
+
+  static const replyEmoji = 108;
 
   static const typing = 1000;
 }

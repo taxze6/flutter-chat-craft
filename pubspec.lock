@@ -241,6 +241,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "7.0.0"
+  fluentui_emoji_icon:
+    dependency: "direct main"
+    description:
+      name: fluentui_emoji_icon
+      sha256: "50d8f19547a8e2dad3084b124478c56dac3d1c44f1802ca4c9098187276318cc"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -341,6 +349,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.6.6"
+  git:
+    dependency: transitive
+    description:
+      name: git
+      sha256: "1982737427ef1ef2bb69027ea0234469774495e86afe202de81ee46d37364e55"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.2.1"
   html:
     dependency: transitive
     description:
@@ -677,6 +693,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.0"
+  recase:
+    dependency: transitive
+    description:
+      name: recase
+      sha256: e4eb4ec2dcdee52dcf99cb4ceabaffc631d7424ee55e56f280bc039737f89213
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.1.0"
   record:
     dependency: "direct main"
     description:
@@ -725,6 +749,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.7.1"
+  rw_git:
+    dependency: transitive
+    description:
+      name: rw_git
+      sha256: "5c6321f336b42369fd46a44353d142c430e3a9173cecedb017faecf92168c1fc"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.3"
   rxdart:
     dependency: transitive
     description:
