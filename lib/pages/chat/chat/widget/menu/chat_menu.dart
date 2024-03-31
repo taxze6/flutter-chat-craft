@@ -112,9 +112,11 @@ class _ItemView extends StatelessWidget {
 }
 
 class ChatPopupPartEmoji extends StatelessWidget {
-  const ChatPopupPartEmoji({super.key, required this.controller});
+  const ChatPopupPartEmoji(
+      {super.key, required this.controller, required this.replyEmoji});
 
   final MessageCustomPopupMenuController controller;
+  final Function(String value) replyEmoji;
 
   @override
   Widget build(BuildContext context) {
@@ -160,11 +162,17 @@ class ChatPopupPartEmoji extends StatelessWidget {
             itemCount: 6,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return FluentUiEmojiIcon(
-                w: 28.w,
-                h: 28.w,
-                fl: FluentEmojiIconData.stringGetFluentsData(
-                  FluentEmojiIconData.emojiNames[index],
+              return GestureDetector(
+                onTap: () {
+                  controller.hideMenu();
+                  replyEmoji(FluentEmojiIconData.emojiNames[index]);
+                },
+                child: FluentUiEmojiIcon(
+                  w: 28.w,
+                  h: 28.w,
+                  fl: FluentEmojiIconData.stringGetFluentsData(
+                    FluentEmojiIconData.emojiNames[index],
+                  ),
                 ),
               );
             },
@@ -176,9 +184,12 @@ class ChatPopupPartEmoji extends StatelessWidget {
 }
 
 class ChatPopupAllEmoji extends StatelessWidget {
-  const ChatPopupAllEmoji({super.key, required this.controller});
+  const ChatPopupAllEmoji(
+      {super.key, required this.controller, required this.replyEmoji});
 
   final MessageCustomPopupMenuController controller;
+
+  final Function(String value) replyEmoji;
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +198,7 @@ class ChatPopupAllEmoji extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 172.w,
+          width: 1.sw * 0.64,
           padding: EdgeInsets.symmetric(vertical: 8.w, horizontal: 10.w),
           // height: 32.w,
           decoration: BoxDecoration(
@@ -211,12 +222,17 @@ class ChatPopupAllEmoji extends StatelessWidget {
             itemCount: FluentEmojiIconData.emojiNames.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
-              print("${index +1}");
-              return FluentUiEmojiIcon(
-                w: 28.w,
-                h: 28.w,
-                fl: FluentEmojiIconData.stringGetFluentsData(
-                  FluentEmojiIconData.emojiNames[index],
+              return GestureDetector(
+                onTap: () {
+                  controller.hideMenu();
+                  replyEmoji(FluentEmojiIconData.emojiNames[index]);
+                },
+                child: FluentUiEmojiIcon(
+                  w: 28.w,
+                  h: 28.w,
+                  fl: FluentEmojiIconData.stringGetFluentsData(
+                    FluentEmojiIconData.emojiNames[index],
+                  ),
                 ),
               );
             },
@@ -227,9 +243,9 @@ class ChatPopupAllEmoji extends StatelessWidget {
             controller.closeMoreEmoji();
           },
           child: Container(
-            width: 32.w,
+            width: 42.w,
             margin: const EdgeInsets.symmetric(horizontal: 10),
-            height: 32.w,
+            height: 42.w,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20.w),

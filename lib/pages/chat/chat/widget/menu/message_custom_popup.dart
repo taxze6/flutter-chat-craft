@@ -41,12 +41,14 @@ class MessageCustomPopupMenu extends StatefulWidget {
     this.controller,
     required this.menuWidgets,
     required this.isFromMsg,
+    required this.replyEmoji,
   }) : super(key: key);
 
   final Widget child;
   final bool isFromMsg;
   final MessageCustomPopupMenuController? controller;
   final List<MenuInfo> menuWidgets;
+  final Function(String value) replyEmoji;
 
   @override
   State<MessageCustomPopupMenu> createState() => _MessageCustomPopupMenuState();
@@ -231,6 +233,7 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
                                 opacity: value,
                                 child: ChatPopupPartEmoji(
                                   controller: _controller!,
+                                  replyEmoji: widget.replyEmoji,
                                 ),
                               ),
                             );
@@ -248,6 +251,7 @@ class _MessageCustomPopupMenuState extends State<MessageCustomPopupMenu> {
                                 opacity: value,
                                 child: ChatPopupAllEmoji(
                                   controller: _controller!,
+                                  replyEmoji: widget.replyEmoji,
                                 ),
                               ),
                             );
