@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_craft/common/global_data.dart';
 import 'package:flutter_chat_craft/models/message.dart';
+import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_reply_emoji.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_single_layout.dart';
 import 'package:flutter_chat_craft/pages/chat/chat/widget/chat_typing_view.dart';
 import 'package:flutter_chat_craft/res/images.dart';
@@ -34,6 +35,7 @@ class ChatItemView extends StatefulWidget {
     required this.onFailedResend,
     required this.onTapCopyMenu,
     required this.onTapReplyMenu,
+    required this.replyEmoji,
   }) : super(key: key);
   final int index;
   final Message message;
@@ -50,6 +52,8 @@ class ChatItemView extends StatefulWidget {
 
   /// Click the reply button event on the menu
   final Function() onTapReplyMenu;
+
+  final Function(String value) replyEmoji;
 
   @override
   State<ChatItemView> createState() => _ChatItemViewState();
@@ -72,7 +76,7 @@ class _ChatItemViewState extends State<ChatItemView> {
   }
 
   Widget buildItemView() {
-    Widget child = Container();
+    Widget child = const SizedBox();
     switch (widget.message.contentType) {
       case MessageType.text:
         {
@@ -130,6 +134,20 @@ class _ChatItemViewState extends State<ChatItemView> {
         break;
     }
 
+    if (widget.message.replyEmojis!.isNotEmpty) {
+      child = Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment:
+            isFromMsg ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        children: [
+          child,
+          ChatReplyEmoji(
+            replyEmoji: widget.message.replyEmojis,
+            isFromMsg: isFromMsg,
+          ),
+        ],
+      );
+    }
     return child;
   }
 
@@ -157,6 +175,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         isSendFailed: widget.message.status == MessageStatus.failed,
         popupCtrl: _popupCtrl,
         menuBuilder: _menusItem(),
+        replyEmoji: widget.replyEmoji,
         child: child,
       );
 

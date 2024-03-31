@@ -25,6 +25,7 @@ class ChatSingleLayout extends StatelessWidget {
     required this.isSending,
     required this.isSendFailed,
     required this.menuBuilder,
+    required this.replyEmoji,
   }) : super(key: key);
 
   final MessageCustomPopupMenuController popupCtrl;
@@ -49,6 +50,7 @@ class ChatSingleLayout extends StatelessWidget {
 
   /// Retry on failure.
   final Function()? onFailedResend;
+  final Function(String value) replyEmoji;
 
   MainAxisAlignment get layoutAlignment =>
       isFromMsg ? MainAxisAlignment.start : MainAxisAlignment.end;
@@ -96,13 +98,14 @@ class ChatSingleLayout extends StatelessWidget {
           isSendFailed: isSendFailed,
           onFailedResend: onFailedResend,
         ),
-        const SizedBox(
-          width: 4,
-        ),
+        // const SizedBox(
+        //   width: 4,
+        // ),
         MessageCustomPopupMenu(
           menuWidgets: menuBuilder,
           controller: popupCtrl,
           isFromMsg: isFromMsg,
+          replyEmoji: replyEmoji,
           child: child,
         )
       ],
