@@ -30,13 +30,13 @@ class ChatLogic extends GetxController {
   /// The status of message sending,
   /// there are two kinds of success or failure, true success, false failure
   StreamController<MsgStreamEv<bool>> msgSendStatusSubject =
-  StreamController<MsgStreamEv<bool>>.broadcast();
+      StreamController<MsgStreamEv<bool>>.broadcast();
   StreamController<MsgStreamEv<double>> msgProgressController =
-  StreamController<MsgStreamEv<double>>.broadcast();
+      StreamController<MsgStreamEv<double>>.broadcast();
 
   ///Click on the message to process voice playback, video playback, picture preview, etc.
   StreamController<int> clickSubjectController =
-  StreamController<int>.broadcast();
+      StreamController<int>.broadcast();
   int chatStart = 0;
   int chatEnd = 30;
   int chatListSize = 30;
@@ -135,7 +135,7 @@ class ChatLogic extends GetxController {
   void _addOrRemoveTypingMessageWidget(Message message, bool focus) {
     if (focus) {
       Iterable<Message> hasMessage =
-      messageList.where((message) => message.msgId == typingId);
+          messageList.where((message) => message.msgId == typingId);
       if (hasMessage.isEmpty) {
         messageList.add(message);
       }
@@ -160,7 +160,8 @@ class ChatLogic extends GetxController {
     _sendMessage(message, addToUI: false);
   }
 
-  void _sendMessage(Message message, {
+  void _sendMessage(
+    Message message, {
     int? userId,
     int? groupId,
     bool addToUI = true,
@@ -185,7 +186,8 @@ class ChatLogic extends GetxController {
   void _sendCompleted(Message message) {
     print("has completed");
     if (message.contentType == MessageType.typing ||
-        message.type == ConversationType.heart) {} else {
+        message.type == ConversationType.heart) {
+    } else {
       messageList.refresh();
     }
   }
@@ -308,7 +310,7 @@ class ChatLogic extends GetxController {
       print('--------assets path-----$path');
       switch (assetEntity.type) {
         case AssetType.image:
-        //upload image
+          //upload image
           sendPicture(imageFile: file, imageName: name);
           break;
         default:
@@ -457,9 +459,7 @@ class ChatLogic extends GetxController {
     print("voicePath:$path");
     var data = await Apis.uploadFile(
       filePath: path,
-      fileName: path
-          .split('/')
-          .last,
+      fileName: path.split('/').last,
       fileType: MessageType.voice,
       onSendProgress: (int sent, int total) {
         msgProgressController.sink.add(MsgStreamEv(
@@ -507,13 +507,29 @@ class ChatLogic extends GetxController {
     }
   }
 
-  Message indexOfMessage(int index,) =>
+  void onReplyEmoji(String value, Message message) {
+    message.replyEmojis?.add(value);
+    Message msg = Message(
+      msgId: generateMessageId(userInfo.userID),
+      targetId: userInfo.userID,
+      type: ConversationType.single,
+      formId: GlobalData.userInfo.userID,
+      contentType: MessageType.replyEmoji,
+      content: value,
+      quoteMessage: message,
+      messageSenderName: GlobalData.userInfo.userName,
+      messageSenderFaceUrl: GlobalData.userInfo.avatar,
+    );
+    _sendMessage(msg, addToUI: false);
+  }
+
+  Message indexOfMessage(
+    int index,
+  ) =>
       messageList.reversed.elementAt(index);
 
   String generateMessageId(int targetUserId) {
-    final currentTime = DateTime
-        .now()
-        .millisecondsSinceEpoch;
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
     return '$currentTime-${GlobalData.userInfo.userID}-$targetUserId';
   }
 }

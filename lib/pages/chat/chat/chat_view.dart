@@ -157,6 +157,7 @@ class _ChatPageState extends State<ChatPage> {
         onFailedResend: () {},
         onTapReplyMenu: () => chatLogic.onTapReplyMenu(message),
         onTapCopyMenu: () {},
+        replyEmoji: (String value) => chatLogic.onReplyEmoji(value, message),
       );
 
   Widget onBuildTime(index) {
