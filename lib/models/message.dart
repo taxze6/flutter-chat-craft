@@ -247,6 +247,8 @@ class MessageType {
 
   static const replyEmoji = 108;
 
+  // static const updateEmoji = 108;
+
   static const typing = 1000;
 }
 

@@ -106,7 +106,15 @@ class ChatLogic extends GetxController {
         } else {
           // messageList.insert(0, message);
           messageList.removeWhere((element) => element.msgId == typingId);
-          messageList.add(message);
+          // if (message.contentType == MessageType.replyEmoji) {
+          //   for (var element in messageList) {
+          //     if (element.msgId == message.quoteMessage?.msgId) {
+          //       element.replyEmojis?.add(message.content);
+          //     }
+          //   }
+          // } else {
+            messageList.add(message);
+          // }
         }
       }
     }, onError: (error) {
@@ -540,18 +548,20 @@ class ChatLogic extends GetxController {
 
   void onReplyEmoji(String value, Message message) {
     message.replyEmojis?.add(value);
-    Message msg = Message(
-      msgId: generateMessageId(userInfo.userID),
-      targetId: userInfo.userID,
-      type: ConversationType.single,
-      formId: GlobalData.userInfo.userID,
-      contentType: MessageType.replyEmoji,
-      content: value,
-      quoteMessage: message,
-      messageSenderName: GlobalData.userInfo.userName,
-      messageSenderFaceUrl: GlobalData.userInfo.avatar,
-    );
-    _sendMessage(msg, addToUI: false);
+    // message.contentType = MessageType.updateEmoji;
+    // Message msg = Message(
+    //   msgId: generateMessageId(userInfo.userID),
+    //   targetId: userInfo.userID,
+    //   type: ConversationType.single,
+    //   formId: GlobalData.userInfo.userID,
+    //   contentType: MessageType.replyEmoji,
+    //   // contentType: MessageType.updateEmoji,
+    //   content: value,
+    //   quoteMessage: message,
+    //   messageSenderName: GlobalData.userInfo.userName,
+    //   messageSenderFaceUrl: GlobalData.userInfo.avatar,
+    // );
+    _sendMessage(message, addToUI: false);
   }
 
   Message indexOfMessage(
