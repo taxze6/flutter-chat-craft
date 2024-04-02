@@ -106,6 +106,7 @@ class ChatLogic extends GetxController {
         } else {
           // messageList.insert(0, message);
           messageList.removeWhere((element) => element.msgId == typingId);
+          messageList.add(message);
           // if (message.contentType == MessageType.replyEmoji) {
           //   for (var element in messageList) {
           //     if (element.msgId == message.quoteMessage?.msgId) {
@@ -113,7 +114,6 @@ class ChatLogic extends GetxController {
           //     }
           //   }
           // } else {
-            messageList.add(message);
           // }
         }
       }
