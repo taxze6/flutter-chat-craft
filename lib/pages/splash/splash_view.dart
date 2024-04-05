@@ -189,7 +189,8 @@ class _SplashPageState extends State<SplashPage> {
               GestureDetector(
                 onTap: () {
                   _launchUrl(
-                      Uri.parse("https://juejin.cn/user/598591926699358"));
+                      Uri.parse("https://juejin.cn/user/598591926699358"),
+                  );
                 },
                 child: Image.asset(
                   "assets/images/share/juejin.png",
