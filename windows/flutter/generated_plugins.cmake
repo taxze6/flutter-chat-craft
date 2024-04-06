@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   flutter_localization
+  flutter_webrtc
   permission_handler_windows
   record_windows
   url_launcher_windows
