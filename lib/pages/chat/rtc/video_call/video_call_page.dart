@@ -11,7 +11,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      body: Container(),
     );
   }
 }
