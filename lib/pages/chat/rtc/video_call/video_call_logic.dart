@@ -1,5 +1,10 @@
 import 'package:get/get.dart';
 
-class VideoCallLogic extends GetxController{
+enum VideoAction {
+  cancel,
+  connect,
+}
+
+class VideoCallLogic extends GetxController {
 
 }
